@@ -999,15 +999,17 @@ function createScene()
     restitution: .8} );
     scene.meshes.pop(backboard);
 
-
     //CREATE COLLIDERS FOR NET
-    var sphereAmount = 10;
-    var radius = 3.4;
-    var sphereDiameter = .1;
-    var centerPos = torus.position;
-    var registered = false;
+    var sphereAmount      = 10;
+    var radius            = 3.3;
+    //var radius            = 3.4;
+    var sphereDiameter    = .6;
+    // var sphereDiameter    = .1;
+    var centerPos         = torus.position;
+    var registered        = false;
     centerPos.y -= 4;
-    var height = 4;
+    var height            = 4;
+
     for(var j = 0; j < height; j++)
     {
         for (var i = 0; i < sphereAmount; i++)
@@ -1022,6 +1024,8 @@ function createScene()
             var currentMass;
             var currentRestitution;
 
+            //console.log("useCannon = " + useCannon + " / lowEndDevice = " + lowEndDevice);
+
             if(useCannon)
             {
                 if(lowEndDevice)
@@ -1029,7 +1033,8 @@ function createScene()
                     //currentMass = .4 - j*.1;
                     currentMass = .15;
 
-                    if(j == 0){
+                    if(j == 0)
+                    {
                         currentRestitution = 15;
                     }
                     else if(j ==1)
@@ -1050,26 +1055,29 @@ function createScene()
                     //currentMass = .4 - j*.1;
                     currentMass = .15;
 
-                    if(j == 0){
-                        currentRestitution = 8;
-                    }
-                    else if(j ==1)
+                    if(j == 0)
                     {
-                        currentRestitution = 8;
+                        currentRestitution = 10;
+                        //currentRestitution = 8;
                     }
-                    else if(j ==2)
+                    else if(j == 1)
                     {
-                        currentRestitution = 1;
+                        currentRestitution = 9;
+                        // currentRestitution = 8;
+                    }
+                    else if(j == 2)
+                    {
+                        currentRestitution = 6;
                     }
                     else
                     {
-                        currentRestitution = 0.5;
+                        currentRestitution = 3;
                     }
                 }
             }
             else
             {
-                currentMass = 15000 - j*4000;
+                currentMass = 15000 - j * 4000;
             }
 
             if(j == 0)//top row
@@ -1078,17 +1086,19 @@ function createScene()
             }
 
             var sphere2 = BABYLON.Mesh.CreateSphere("sphere1", 10, sphereDiameter, scene);
+
             sphere2.position = new BABYLON.Vector3(
                 centerPos.x + Math.sin(i * Math.PI * 2 / sphereAmount) * radius * (1- (j/2/height)),
                 centerPos.y + height - j,
                 centerPos.z + Math.cos(i * Math.PI * 2 / sphereAmount) * radius * (1- (j/2/height))
             );
+
             netVisiblePositions.push(sphere2);
             scene.meshes.pop(sphere2);
+
             sphere1.physicsImpostor = new BABYLON.PhysicsImpostor(sphere1, BABYLON.PhysicsImpostor.SphereImpostor, {
                 mass: currentMass,
                 restitution: currentRestitution
-
             });
 
             //sphere1.physicsImpostor.
@@ -1102,11 +1112,12 @@ function createScene()
                     {
                         for(var k = 0; k < netSpheres.length; k++)
                         {
-                            if(netSpheres[k].physicsImpostor) {
+                            if(netSpheres[k].physicsImpostor)
+                            {
                                 currentSphereVel = netSpheres[k].physicsImpostor.getLinearVelocity();
-                                currentSphereVel.x *= .997;
-                                currentSphereVel.y *= .997;
-                                currentSphereVel.z *= .997;
+                                currentSphereVel.x *= .999;//.997;
+                                currentSphereVel.y *= .999;//.997;
+                                currentSphereVel.z *= .999;//.997;
                                 netSpheres[k].physicsImpostor.setLinearVelocity(currentSphereVel);
                             }
                         }
@@ -1117,17 +1128,18 @@ function createScene()
         }
     }
 
-    netSpheres.forEach(function(point, idx) {
+    netSpheres.forEach(function(point, idx)
+    {
         if (idx >= sphereAmount)
         {
-            var vertDistance = 1.75 - .1* Math.floor(idx/sphereAmount);
+            var vertDistance  = 1.75 - .1 * Math.floor(idx/sphereAmount);
 
-            var row = Math.floor(idx/sphereAmount);
-            var horiDistance = .65*3 - .4* row;
+            var row           = Math.floor(idx/sphereAmount);
+            var horiDistance  = .65 * 3 - .4 * row;
 
             if(row == 0)
             {
-                horiDistance = 1.85
+                horiDistance = 1.85;
             }
             else if(row == 1)
             {
@@ -1159,6 +1171,7 @@ function createScene()
                 createJoint(point.physicsImpostor, netSpheres[idx + sphereAmount - 1].physicsImpostor, horiDistance);
             }
         }
+
         scene.meshes.pop(netSpheres[i]);
     });
 
@@ -1522,7 +1535,8 @@ function createScene()
                         //currentMass = .4 - j*.1;
                         currentMass = .15;
 
-                        if(j == 0){
+                        if(j == 0)
+                        {
                             currentRestitution = 8;
                         }
                         else if(j ==1)
@@ -1541,7 +1555,7 @@ function createScene()
                 }
                 else
                 {
-                    currentMass = 15000 - j*4000;
+                    currentMass = 15000 - j * 4000;
                 }
 
                 if(j == 0)//top row
@@ -1549,9 +1563,11 @@ function createScene()
                     currentMass = 0;
                 }
 
+                //
+
                 //currentRestitution = 0;
-                netSpheres[j*10 + i].physicsImpostor.mass         = currentMass;
-                netSpheres[j*10 + i].physicsImpostor.restitution  = currentRestitution;
+                netSpheres[j * 10 + i].physicsImpostor.mass         = currentMass;
+                netSpheres[j * 10 + i].physicsImpostor.restitution  = currentRestitution;
             }
         }
     }
