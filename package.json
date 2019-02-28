@@ -1,0 +1,24 @@
+{
+  "name": "heroku-basketball-game",
+  "version": "1.0.0",
+  "description": "Basketball Game for multiple screens",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "airtable": "^0.5.9",
+    "babylonjs": "^3.3.0",
+    "babylonjs-materials": "^3.3.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "promise": "^8.0.2",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0"
+  }
+}

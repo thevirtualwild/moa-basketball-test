@@ -1,0 +1,43 @@
+*Server Initialization *
+
+
+* Court Started *
+- socket.on('connect') calls 'getMyIP' [court]
+  - runs a function that gets computer IP address, and then calls 'showCourt'
+- showCourt immediately calls getDeviceInfo [court]
+  - this sets up device data and sends socket.emit('court connected')
+- socket.on('courtconnected') [server]
+  - Store DeviceIP to socket
+  - set socket.devicetype to 'court'
+  - calls 'checkForKnownDevice'
+-
+  - calls 'getCourtToShow'
+- on getCourtToShow
+  - if device is known, calls 'unknownDevice,
+
+
+
+
+
+
+
+*Starting a game*
+- socket.on(player wants to join court)
+  - joinCourt() is called
+  - courtojoin.hasplayer = true
+  - socket.emit(player joined court)
+- [COURT] socket.on(player joined court)
+  - if player joined court
+    - Sets playerdata
+    - Sets hasplayer for the court
+    - triggers "change game state waiting" event (changeGameState('Waiting'))
+  - if player joined adjacent "sister" court
+    - sets lobby started to true, and should trigger a change game state to  "countdown to game started" for other courts
+- [COURT] changeGameState('Waiting')
+  - If is master animateCamera
+  - Update UI
+  - Starts a countdown
+- [COURT] when court is in waiting state and countdown is started    ***** This should probably emit a more descriptive thing ****
+  - when countdown is 4 or less and game is not ready, socket.emit('game almost ready') and set gameready to true
+- socket.on(game almost ready)
+  - if !gamerunning: startGame() called

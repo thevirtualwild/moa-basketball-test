@@ -1,0 +1,42 @@
+index.js needs:
+- Remove excess console logs from testing
+- Add more comments to explain each function for the server
+- Fix randomCode for "default" rooms to demo single player games
+
+public/index.html needs:
+- Update Title for Mobile input
+- Transition to .ejs?
+
+customize.js:
+- to change animations
+- to change name handling
+
+Animations can be changed through "public/scripts/UI"
+
+remove from project:
+- 2dgame
+- newgamehtml
+
+
+Config -easier to edit
+- Set Room based on URL?
+
+fixes:
+- mobile browser "enter/return & done"
+- redirect
+
+
+Syncing? (turn off for single device)
+
+Tech Doc for what each login needed
+
+
+Do we need to figure out a better way to create/sync with a court? Can new devices connect to an existing court, or should it always be a new court with a new device?
+
+UI
+- results screens
+
+
+
+
+sarah somehow got into the game at the wrong time, and then started another game without telling the other players

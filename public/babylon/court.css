@@ -1,0 +1,1029 @@
+@import url("https://fonts.googleapis.com/css?family=Overpass:400,700");
+@font-face {
+  font-family: 'Interstate';
+  font-weight: 500;
+  src: url("../../fonts/interstate-regular.ttf");
+}
+@font-face {
+  font-family: 'Interstate';
+  font-weight: 700;
+  src: url("../../fonts/interstate-boldcompressed.otf");
+}
+@font-face {
+  font-family: 'Fresh Marker';
+  src: url("assets/fonts/freshmarker-webfont.woff2") format("woff2"), url("assets/fonts/freshmarker-webfont.woff") format("woff");
+}
+* {
+  box-sizing: border-box;
+  font-family: "Overpass";
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+}
+
+html {
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, input {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+ul {
+  list-style: none;
+  word-wrap: break-word;
+  padding: 0;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -5;
+}
+
+.colors {
+  position: fixed;
+}
+
+.color {
+  display: inline-block;
+  height: 48px;
+  width: 48px;
+}
+
+.color.black {
+  background-color: black;
+}
+
+.color.red {
+  background-color: red;
+}
+
+.color.green {
+  background-color: green;
+}
+
+.color.blue {
+  background-color: blue;
+}
+
+.color.yellow {
+  background-color: yellow;
+}
+
+#template {
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: none;
+}
+#template img {
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0.5;
+}
+
+#fpsLabel, #list-top {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  color: #999;
+  cursor: default;
+}
+
+#attractLabel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+  overflow: visible;
+  font-size: 64px;
+  margin: auto;
+  padding: 50px;
+  border-radius: 3px;
+  text-align: center;
+  /*background:rgba(0,0,0, 0.2);*/
+  color: #999;
+  cursor: default;
+}
+
+#list-top, #list-bot {
+  left: 20px;
+  right: initial;
+}
+
+#fpsLabel-bot, #list-bot {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  color: #999;
+  cursor: default;
+}
+
+#scoreLabel {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: #999;
+  cursor: default;
+}
+
+#titleTopLeft {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 40%;
+  height: 100%;
+  margin: auto;
+  padding: 0px;
+  border-radius: 3px;
+  cursor: default;
+  overflow: visible;
+  z-index: 999;
+}
+
+#titleTopLeft img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left;
+  position: relative;
+}
+
+#titleTopLeft img#titleLights {
+  width: 200%;
+  height: 200%;
+  object-fit: contain;
+  object-position: top left;
+  position: absolute;
+  top: -20px;
+  left: -100px;
+}
+
+#permanentGameBranding header {
+  height: 200px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  /*background: rgba(1,1,1,.5);*/
+}
+#permanentGameBranding footer {
+  height: 170px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: url("assets/UI/D1/BtmBarGround(clean).png");
+  background-size: auto 200px;
+  background-position: top;
+  background-repeat: repeat-x;
+}
+
+#inner {
+  max-width: 1920px;
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+  height: 100%;
+  top: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+}
+#inner #container {
+  max-height: 800px;
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 1080px;
+  padding: 0;
+}
+#inner #container #comboBadge {
+  width: 350px;
+  height: 350px;
+  position: absolute;
+  top: -300px;
+  right: 0px;
+  background-size: contain;
+  transform: rotate(6deg);
+  padding: 40px;
+}
+#inner #container #comboBadge img {
+  width: 100%;
+  transform-origin: center;
+  transform: scale(0, 0);
+}
+#inner #container #comboBadge h2 {
+  margin-bottom: 0;
+  line-height: 1em;
+  top: 50%;
+  transform: translateY(50%);
+}
+#inner #container #comboBadge h2#comboNum {
+  font-size: 180px;
+  color: yellow;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  width: 96%;
+  max-width: 100%;
+  top: -20%;
+  left: 0;
+  font-family: "XScale";
+}
+#inner #container #comboBadge h2#streak {
+  font-size: 60px;
+  color: yellow;
+  font-style: italic;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 18px;
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 90%;
+  max-width: 100%;
+}
+#inner #container #results {
+  display: block;
+  z-index: 100;
+  padding: 0 50px;
+  font-size: 80px;
+  color: yellow;
+    /*
+          #leftLight{
+            background-image: url("assets/UI/D4/LightsOverlay.png");
+          }
+
+          #rightLight{
+            background-image: url("assets/UI/D4/LightsOverlay.png");
+          }
+    */
+}
+#inner #container #results #playerScores .score {
+  height: 220px;
+}
+#inner #container #results #playerScores .score .scoreContainer {
+  width: auto;
+  margin-top: 50px;
+}
+#inner #container #results #playerScores .score .scoreContainer .scoreNum, #inner #container #results #playerScores .score .scoreContainer .playerName {
+  width: auto;
+  font-size: 140px;
+  float: left;
+  text-align: right;
+  line-height: 160px;
+  padding-right: 10px;
+}
+#inner #container #results #playerScores .score .scoreContainer .scoreNum {
+  font-weight: bold;
+}
+#inner #container #results #playerScores .score .scoreContainer .playerName {
+  text-align: left;
+  font-style: italic;
+  line-height: 70px;
+  padding-right: 0;
+}
+#inner #container #results #playerScores .score .scoreContainer .playerName .firstName {
+  font-size: 50px;
+  color: white;
+}
+#inner #container #results #playerScores .score .scoreContainer .playerName .lastName {
+  font-size: 80px;
+  color: cyan;
+  padding-left: 20px;
+  font-weight: bold;
+}
+#inner #container #results #playerScores .score#topScore {
+  background: url("assets/UI/D4/TopScoreGround.png") no-repeat;
+  background-size: contain;
+  background-position: left center;
+}
+#inner #container #results #playerScores .score#topScore:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+#inner #container #results #playerScores .score#topScore .scoreContainer {
+  float: left;
+  padding-left: 100px;
+  text-align: left;
+}
+#inner #container #results #playerScores .score#yourScore {
+  background: url("assets/UI/D4/YourScoreGround.png") no-repeat;
+  background-size: contain;
+  background-position: right center;
+}
+#inner #container #results #playerScores .score#yourScore:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+#inner #container #results #playerScores .score#yourScore .scoreContainer {
+  float: right;
+  padding-right: 100px;
+  text-align: right;
+}
+#inner #container #results #teamScores {
+  width: auto;
+  margin-top: 60px;
+  height: 250px;
+  padding: 0 50px;
+  text-align: center;
+}
+#inner #container #results #teamScores:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+#inner #container #results #teamScores h2 {
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  font-size: 60px;
+  color: white;
+  text-shadow: 0px 0px 10px cyan;
+  font-family: "Xscale";
+  margin-bottom: -10px;
+}
+#inner #container #results #teamScores .score {
+  width: auto;
+  float: none;
+  text-align: center;
+  display: inline-block;
+}
+#inner #container #results #teamScores .score .scoreNum {
+  background: url("assets/UI/D4/TeamScoreGround.png") no-repeat top center;
+  background-size: contain;
+  font-size: 80px;
+  padding: 30px 20px 50px;
+  font-weight: bold;
+}
+#inner #container #results #teamScores .score .teamName {
+  font-size: 40px;
+  transform: rotate(-12deg);
+  margin-top: -10px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+#preFooter {
+  position: absolute;
+  bottom: 250px;
+  right: 0;
+  width: 100%;
+}
+#preFooter #playNow {
+  background: url("assets/UI/D1/PlayNowGradient(crop).png") no-repeat right;
+  width: 50%;
+  margin-right: 0;
+  margin-left: auto;
+  padding: 30px 0;
+}
+#preFooter #playNow h2 {
+  font-size: 70px;
+  color: yellow;
+  font-style: italic;
+  text-align: right;
+  padding-right: 40px;
+  margin-bottom: 0;
+}
+#preFooter #playNow h2 span.emphasize {
+  font-weight: bold;
+  color: white;
+}
+
+footer #timeLabel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20px;
+  text-align: center;
+  background: red;
+  border: 2px solid #333;
+  border-radius: 3px;
+  color: #fff;
+  cursor: default;
+}
+footer #footerLeft, footer #footerCenter {
+  height: 100%;
+  /*background-color: cyan;*/
+  background-color: rgba(33, 134, 191, 0.5);
+  display: inline-block;
+  position: relative;
+  float: left;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+footer #footerLeft .waitingLeft, footer #footerCenter .waitingLeft {
+  width: 50%;
+  float: none;
+}
+footer #footerLeft .waitingLeft h2, footer #footerCenter .waitingLeft h2 {
+  font-size: 90px;
+  text-transform: uppercase;
+  text-align: center;
+  color: yellow;
+  position: relative;
+  margin-bottom: 0px;
+  font-weight: normal;
+  font-weight: bold;
+  bottom: 10px;
+  left: 0%;
+}
+footer #footerLeft .gameplayLeft, footer #footerCenter .gameplayLeft {
+  width: 100%;
+  float: none;
+}
+footer #footerLeft .gameplayLeft h2, footer #footerCenter .gameplayLeft h2 {
+  font-size: 80px;
+  text-transform: uppercase;
+  text-align: center;
+  color: yellow;
+  position: relative;
+  margin-bottom: 2px;
+  font-weight: normal;
+  font-weight: bold;
+  bottom: 30px;
+  left: 0;
+}
+footer #footerLeft .gameplayLeft h2.textScoreLabel, footer #footerCenter .gameplayLeft h2.textScoreLabel {
+  font-size: 50px;
+  bottom: 0;
+  line-height: 1.1em;
+  font-weight: bold;
+  color: darkblue;
+  background-color: white;
+  font-family: XScale;
+  position: absolute;
+  width: 100%;
+}
+footer #footerLeft .waitingRight, footer #footerCenter .waitingRight {
+  width: 225%;
+  float: left;
+}
+footer #footerLeft .waitingRight h2, footer #footerCenter .waitingRight h2 {
+  left: 9%;
+  margin-top: -4px;
+  font-style: italic;
+  line-height: 50px;
+  font-size: 42px;
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+  position: relative;
+  font-weight: normal;
+  font-weight: bold;
+}
+footer #footerLeft .gameplayRight, footer #footerCenter .gameplayRight {
+  width: 225%;
+  float: left;
+}
+footer #footerLeft .gameplayRight h2, footer #footerCenter .gameplayRight h2 {
+  left: 9%;
+  font-style: italic;
+  line-height: 50px;
+  text-transform: uppercase;
+  text-align: left;
+  position: relative;
+}
+footer #footerLeft .gameplayRight h2.textGameplayFirst, footer #footerCenter .gameplayRight h2.textGameplayFirst {
+  font-weight: normal;
+  color: white;
+  margin-top: -16px;
+  font-size: 40px;
+}
+footer #footerLeft .gameplayRight h2.textGameplayLast, footer #footerCenter .gameplayRight h2.textGameplayLast {
+  color: cyan;
+  font-weight: bold;
+  font-size: 56px;
+  margin-top: 16px;
+  margin-left: 10px;
+}
+footer #footerLeft .gameplayLeft, footer #footerCenter .gameplayLeft, footer #footerLeft .gameplayRight, footer #footerCenter .gameplayRight {
+  display: none;
+}
+footer #footerLeft .attractLeft, footer #footerCenter .attractLeft {
+  width: auto;
+  padding: 0 60px;
+  float: left;
+}
+footer #footerLeft .attractLeft h2, footer #footerCenter .attractLeft h2 {
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
+  color: cyan;
+  position: relative;
+  margin-bottom: 2px;
+  font-weight: normal;
+}
+footer #footerLeft .attractLeft h2.stepNum, footer #footerCenter .attractLeft h2.stepNum {
+  font-size: 52px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+footer #footerLeft .attractRight, footer #footerCenter .attractRight {
+  width: auto;
+  padding-right: 60px;
+  float: left;
+}
+footer #footerLeft .attractRight h2, footer #footerCenter .attractRight h2 {
+  margin-left: -5px;
+  margin-top: 2px;
+  font-style: italic;
+  line-height: 1em;
+  font-size: 38px;
+  text-transform: uppercase;
+  text-align: left;
+  color: yellow;
+  position: relative;
+  font-weight: normal;
+}
+footer #footerLeft .attractRight h2 span#courtCode, footer #footerCenter .attractRight h2 span#courtCode, footer #footerLeft .attractRight h2 span#textCode, footer #footerCenter .attractRight h2 span#textCode, footer #footerLeft .attractRight h2 span#textNum, footer #footerCenter .attractRight h2 span#textNum {
+  font-weight: bold;
+  color: white;
+}
+footer #footerCenter {
+  background: none;
+}
+footer #footerRight {
+  height: 100%;
+  margin: auto;
+  padding: 0px;
+  border-radius: 3px;
+  cursor: default;
+  overflow: visible;
+  display: inline-block;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
+  float: right;
+  width: auto;
+  text-align: center;
+}
+footer #footerRight img#sponsorLogo {
+  height: 100%;
+  object-fit: contain;
+  object-position: right;
+  position: relative;
+  bottom: 0px;
+  right: 0;
+  z-index: 20;
+  padding: 20px 20px;
+}
+footer #footerRight img#sponsorGround {
+  width: 140%;
+  height: 125%;
+  z-index: 5;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* Pages */
+.pages {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+}
+
+.page {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+/* Login & Roomcange Pages*/
+.login.page, .passcode.page {
+  background-color: #000;
+}
+
+.login.page .form, .passcode.page .form {
+  height: 100px;
+  margin-top: -100px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+  max-width: 100%;
+}
+
+.login.page .form .usernameInput, .passcode.page .form .passcodeInput {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  outline: none;
+  padding-bottom: 15px;
+  text-align: center;
+  width: 400px;
+  max-width: 100%;
+}
+
+.login.page .title, .passcode.page .title {
+  font-size: 200%;
+}
+
+.login.page .usernameInput, .passcode.page .passcodeInput {
+  font-size: 200%;
+  letter-spacing: 3px;
+}
+
+.login.page .title, .passcode.page .title, .login.page .usernameInput, .passcode.page .passcodeInput {
+  color: #fff;
+  font-weight: 100;
+}
+
+#template {
+  display: none !important;
+}
+
+#scoreLabel, #attractLabel, #fpsLabel, #fpsLabel-bot {
+  display: none;
+}
+
+#permanentGameBranding {
+  display: none;
+}
+
+#screen-overlay {
+  background: white;
+  padding: 60px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+#screen-overlay img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#screen-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.attract-state, .waiting-state, .gameplay-state, .results-state {
+  visibility: hidden;
+  display: none;
+}
+
+#infobar {
+  width: 29%;
+  padding: 0 50px;
+  z-index: 100;
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  float: left;
+}
+#infobar:before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: linear-gradient(90deg, #dbdbdb 15%, #fff 40%);
+  left: 0px;
+  z-index: -1;
+  opacity: 1;
+}
+#infobar #infobar-header {
+  text-align: center;
+}
+#infobar .general-text, #infobar .emphasis-text {
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 500;
+  color: #333;
+  text-transform: uppercase;
+}
+#infobar .general-text.small-height, #infobar .small-height.emphasis-text {
+  line-height: 0.55;
+  margin-bottom: 10px;
+}
+#infobar .emphasis-text {
+  font-size: 120px;
+  line-height: 1.05;
+  font-weight: 700;
+  color: #010101;
+}
+#infobar #info-container #texting-instructions, #infobar #info-container #gamecode-instructions {
+  text-align: center;
+}
+#infobar #info-container #infobar-content hr {
+  height: 6px;
+  background: #333;
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+#infobar #info-container #infobar-content .waiting-state {
+  margin-top: 100px;
+}
+#infobar #info-container #infobar-content .waiting-state .general-text, #infobar #info-container #infobar-content .waiting-state .emphasis-text {
+  font-size: 64px;
+  text-align: center;
+}
+#infobar #info-container #infobar-content .results-state .playername-container {
+  margin-top: 70px;
+}
+#infobar #info-container #infobar-content .results-state .winner-label {
+  text-align: center;
+  color: #333;
+  font-size: 38px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+#infobar #info-container #infobar-content .playername-container {
+  margin-top: 100px;
+}
+#infobar #info-container #infobar-content .firstname, #infobar #info-container #infobar-content .lastname {
+  font-size: 80px;
+  font-family: 'Fresh Marker';
+  transform: rotate(-10deg);
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+}
+#infobar #info-container #ribbon #ribbon-container {
+  position: absolute;
+  width: 115%;
+  z-index: 999;
+  bottom: 40px;
+  margin-left: -50px;
+  margin-right: -50px;
+}
+#infobar #info-container #ribbon #ribbon-container .dropshadow-container {
+  filter: drop-shadow(-25px 10px 5px rgba(0, 0, 0, 0.5));
+}
+#infobar #info-container #ribbon #ribbon-container .ribbon-label {
+  font-size: 30px;
+  padding: 0 10px 5px;
+}
+#infobar #info-container #ribbon #ribbon-container #ribbon-background {
+  background: linear-gradient(-90deg, #a5ce37, #38ab25);
+  /* background-size: 400% 400%; */
+  /* -webkit-animation: Gradient 8s ease infinite;
+  -moz-animation: Gradient 8s ease infinite;
+  animation: Gradient 8s ease infinite; */
+  padding-right: 13%;
+  clip-path: polygon(0% 0, 100% 0%, 89.5% 100%, 0% 100%);
+  -webkit-clip-path: polygon(0% 0, 100% 0%, 89.5% 100%, 0% 100%);
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#infobar #info-container #ribbon #ribbon-container #ribbon-background .ribbon-text {
+  text-align: center;
+  font-size: 143px;
+  color: white;
+  line-height: 1.4;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state {
+  width: 100%;
+}
+#infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #winner-stats, #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #game-container #game-overlay #player-stats, #game-container #game-overlay #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #player-stats {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #winner-stats .stat-text, #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #game-container #game-overlay #player-stats .stat-text, #game-container #game-overlay #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #player-stats .stat-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 60px !important;
+  padding: 0 30px;
+  font-weight: normal;
+  line-height: 1.3 !important;
+  color: white;
+}
+#infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #winner-stats .stat-number, #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #game-container #game-overlay #player-stats .stat-number, #game-container #game-overlay #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #player-stats .stat-number {
+  font-weight: bold;
+  font-size: 75px;
+  line-height: 1;
+  margin-top: -10px;
+}
+
+#game-container {
+  width: 71%;
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  float: right;
+  clear: none;
+}
+#game-container #game-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+#game-container #game-overlay #animation-container .large-rectangle, #game-container #game-overlay #animation-container .small-rectangle {
+  background: linear-gradient(-90deg, #a5ce37, #38ab25);
+  transform: rotate(-72deg);
+  opacity: .5;
+}
+#game-container #game-overlay #animation-container .light-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#game-container #game-overlay #animation-container .light-container .large-rectangle {
+  height: 288px;
+  width: 1500px;
+}
+#game-container #game-overlay #animation-container .light-container .small-rectangle {
+  height: 35px;
+  width: 1000px;
+}
+#game-container #game-overlay #animation-container #right-lights .large-rectangle, #game-container #game-overlay #animation-container #left-lights .small-rectangle {
+  background: linear-gradient(90deg, #a5ce37, #38ab25);
+}
+#game-container #game-overlay #animation-container #left-lights {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 300px;
+  position: absolute;
+  z-index: -1;
+}
+#game-container #game-overlay #animation-container #left-lights .large-rectangle {
+  transform: rotate(-72deg) translateY(-763px);
+}
+#game-container #game-overlay #animation-container #left-lights .small-rectangle {
+  transform: rotate(-72deg) translateY(-384px) translateX(-580px);
+}
+#game-container #game-overlay #animation-container #right-lights {
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 300px;
+  position: absolute;
+  z-index: -1;
+}
+#game-container #game-overlay #animation-container #right-lights .large-rectangle {
+  transform: rotate(-72deg) translateY(-292px) translateX(-400px);
+}
+#game-container #game-overlay #animation-container #right-lights .small-rectangle {
+  transform: rotate(-72deg) translateY(-199px) translateX(-220px);
+}
+#game-container #game-overlay #score-bonus {
+  position: absolute;
+  color: white;
+  right: 160px;
+  top: 240px;
+  font-size: 80px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  line-height: .8;
+}
+#game-container #game-overlay #score-bonus #bonus-amount {
+  font-weight: normal;
+}
+#game-container #game-overlay #score-bonus #bonus-amount #bonus-num {
+  font-size: 110px;
+}
+#game-container #game-overlay .results-state {
+  margin-top: 200px;
+}
+#game-container #game-overlay .flavortext {
+  color: white;
+  font-family: 'Fresh Marker' !important;
+  font-size: 200px;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(-14deg);
+}
+#game-container #game-overlay #player-stats {
+  width: 558px;
+  float: right;
+  margin-right: 60px;
+}
+#game-container #game-overlay #player-stats .stat-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 60px !important;
+  padding: 0 30px;
+  font-weight: normal;
+  line-height: 1.3 !important;
+  color: white;
+}
+#game-container #game-overlay #player-stats .stat-number {
+  font-weight: bold;
+  font-size: 75px;
+  line-height: 1;
+  margin-top: -10px;
+}
+#game-container #game-overlay #gameplay-flavortext {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+#game-container #game-overlay #gameplay-flavortext * {
+  font-family: inherit;
+  text-transform: uppercase;
+  line-height: 1;
+}
+#game-container #game-overlay #gameplay-flavortext .top {
+  transform: rotate(-14deg) translate(-130px, -15px);
+}
+#game-container #game-overlay #gameplay-flavortext .bottom {
+  transform: rotate(-14deg) translate(130px, 0px);
+}
+#game-container #game-overlay #sponsorArea {
+  position: absolute;
+  bottom: 40px;
+  right: 0;
+  height: 200px;
+  width: 255px;
+  filter: drop-shadow(-25px 10px 5px rgba(0, 0, 0, 0.5));
+}
+#game-container #game-overlay #sponsorArea #sponsorGround {
+  height: 100%;
+  width: 100%;
+  background: white;
+  clip-path: polygon(26% 0%, 100% 0%, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(26% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+#game-container #game-overlay #sponsorArea #sponsorLogo {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 23px 20px;
+}
+
+/* .gamecode-text {
+} */
+/*
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 50% 50%
+	}
+	100% {
+		background-position: 100% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 50% 50%
+	}
+	100% {
+		background-position: 100% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 50% 50%
+	}
+	100% {
+		background-position: 100% 50%
+	}
+} */
+
+/*# sourceMappingURL=court.css.map */
