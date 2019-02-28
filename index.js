@@ -424,7 +424,7 @@ function onConnection(socket) {
             court: socket.court
           }
 
-          courtojoin.player = data;
+          courttojoin.player = data;
 
           console.log(courtojoin);
 
