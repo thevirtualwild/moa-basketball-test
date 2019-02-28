@@ -951,18 +951,18 @@ function createScene()
     particleSystem.emitter = fountain; // the starting object, the emitter
     particleSystem.minEmitBox = new BABYLON.Vector3(-1, -1, 0); // Starting all from
     particleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0); // To...
-    particleSystem.minSize = 2;
-    particleSystem.maxSize = 4;
+    particleSystem.minSize = 6;
+    particleSystem.maxSize = 8;
     particleSystem.minLifeTime = 0.1;
     particleSystem.maxLifeTime = 0.3;
-    particleSystem.emitRate = 3000;
+    particleSystem.emitRate = 1000;
     particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
     particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0);
-    particleSystem.minAngularSpeed = 0;
+    particleSystem.minAngularSpeed = Math.PI * -1;
     particleSystem.maxAngularSpeed = Math.PI;
     particleSystem.minEmitPower = 0;
     particleSystem.maxEmitPower = 0;
-    particleSystem.updateSpeed = 0.005;
+    particleSystem.updateSpeed = 0.003;
     scene.meshes.pop(fountain);
     particleSystem.start();
 
