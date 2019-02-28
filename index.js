@@ -426,7 +426,6 @@ function onConnection(socket) {
 
           courttojoin.player = data;
 
-          console.log(courtojoin);
 
           // // // console.log("IS GAME IN PROGRESS? " + socket.gamenamesrunning);
           console.log('Player joining court:');
