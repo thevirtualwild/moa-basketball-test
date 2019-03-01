@@ -1,17 +1,17 @@
 @font-face {
   font-family: 'Interstate';
   font-weight: 500;
-  src: url("../../fonts/interstate-regular.ttf"); // was "assets/Fonts/interstate-regular.ttf");
+  src: url("babylon/assets/Fonts/interstate-regular.ttf"); // was "assets/Fonts/interstate-regular.ttf");
 }
 @font-face {
   font-family: 'Interstate';
   font-weight: 700;
-  src: url("../../fonts/interstate-boldcompressed.otf"); // was "assets/Fonts/interstate-boldcompressed.otf"
+  src: url("babylon/assets/Fonts/interstate-boldcompressed.otf"); // was "assets/Fonts/interstate-boldcompressed.otf"
 }
 @font-face {
   font-family: 'Fresh Marker';
-  src: url('assets/fonts/freshmarker-webfont.woff2') format('woff2'),
-       url('assets/fonts/freshmarker-webfont.woff') format('woff'); // was "assets/Fonts/freshmarker.ttf"
+  src: url('babylon/assets/Fonts/freshmarker-webfont.woff2') format('woff2'),
+       url('babylon/assets/Fonts/freshmarker-webfont.woff') format('woff'); // was "assets/Fonts/freshmarker.ttf"
 }
 
 @import url('https://fonts.googleapis.com/css?family=Overpass:400,700');
@@ -19,7 +19,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: "Overpass";
+  font-family: "Interstate";
 }
 
 html, body {
