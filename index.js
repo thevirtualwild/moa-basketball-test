@@ -300,7 +300,7 @@ function onConnection(socket) {
 
       var index = courtnum - 1;
       if (myzone.courts) {
-        mycourt = allcourts[myzone.courts[index]];
+        // mycourt = allcourts[myzone.courts[index]];
       }
       if (mycourt) {
         console.log('FINDACOURT: adding court to device [' + mydevice.ipaddress + ']');
@@ -904,8 +904,19 @@ function onConnection(socket) {
     if (deviceIP in alldevices) {
       //if we know the device already, check its court and zone,
       mydevice = alldevices[deviceIP];
+      // console.log("GETCOURTTOSHOW: device");
+      // console.dir(mydevice);
       mycourt = allcourts[mydevice.court];
+      // console.log("GETCOURTTOSHOW: court ");
+      // console.dir(mycourt);
       myzone = allzones[mydevice.zone];
+
+      if (mydevice.court) {
+        mycourt = mydevice.court;
+        console.log('mydevice.court - ' + mycourt);
+
+        mycourt = allcourts[mydevice.court];
+      }
 
       if (!myzone) {
         // if we don't have a zone set in config, set zone to the default
