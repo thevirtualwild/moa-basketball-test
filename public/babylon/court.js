@@ -1795,7 +1795,6 @@ function updateScoreModifier()
       checkCurrentLevel(4, 14);
     } else if (combopts >= 8) {
       checkCurrentLevel(3, 8);
-      }
     } else if (combopts >= 4) {
       checkCurrentLevel(2, 4);
       }
