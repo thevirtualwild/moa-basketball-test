@@ -459,6 +459,7 @@ socket.on('end all games', function() {
     scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger,  ae);
     //$passcodeInput.text = "";
     //scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger, {additionalData: "t"});
+
     UIGameplayAnimateOut();
     console.log("GAMES ENDED");
 });
@@ -466,4 +467,5 @@ socket.on('end all games', function() {
 socket.on('show results', function(resultsdata) {
   console.log('Results:');
   console.dir(resultsdata);
+  redirectNormal(resultsdata);
 });

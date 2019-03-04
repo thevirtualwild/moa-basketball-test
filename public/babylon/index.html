@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <meta name="viewport" content="width=1920, initial-scale=1.0">
   <title>Basketball Court</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
   <link rel="stylesheet" href="court.css">
 
@@ -20,75 +23,91 @@
 
 </head>
 <body>
-  <div id="screen-overlay">
-    <img src="assets/UI/Common/moa-ribbons.png">
+  <div id="screen-overlay" class="loading-state">
+    <img src="assets/UI/Common/MoALogoDiag.png">
   </div>
-  <div id="screen-wrapper">
-    <div id="infobar">
-      <header id="infobar-header">
-        <img src="assets/UI/Common/ShotClockLogoGreyShad.png" id="titleLogo">
-      </header>
-      <div id="info-container">
-        <div id="infobar-content">
-          <div class="attract-state">
-            <div id="texting-instructions">
-              <div class="general-text">Text the word</div>
-              <div class="emphasis-text" id="texting-code">BBALL</div>
-              <div class="general-text small-height">to</div>
-              <div class="emphasis-text" id="texting-number">12345</div>
+  <div id="resizeable-wrapper" class="scaleable-wrapper">
+    <div id="screen-wrapper" class="very-specific-design">
+      <div id="infobar">
+        <header id="infobar-header">
+          <img src="assets/UI/Common/ShotClockLogoGreyShad.png" id="titleLogo">
+        </header>
+        <div id="info-container">
+          <div id="infobar-content">
+            <div class="attract-state">
+              <div class="text-container">
+                <div id="texting-instructions">
+                  <div class="general-text">Text the word</div>
+                  <div class="emphasis-text" id="texting-code">BBALL</div>
+                  <div class="general-text small-height">to</div>
+                  <div class="emphasis-text" id="texting-number">12345</div>
+                </div>
+                <hr />
+                <div id="gamecode-instructions">
+                  <div class="general-text">Then Enter</div>
+                  <div class="general-text">Game Code</div>
+                </div>
+              </div>
             </div>
-            <hr />
-            <div id="gamecode-instructions">
-              <div class="general-text">Then Enter</div>
-              <div class="general-text">Game Code</div>
+            <div class="waiting-state">
+              <div class="text-container">
+                <div class="general-text">Waiting</div>
+                <div class="general-text">For</div>
+                <div class="general-text">Other</div>
+                <div class="general-text">Players</div>
+              </div>
             </div>
-          </div>
-          <div class="waiting-state">
-            <div class="general-text">Waiting</div>
-            <div class="general-text">For</div>
-            <div class="general-text">Other</div>
-            <div class="general-text">Players</div>
-          </div>
-          <div class="gameplay-state">
-            <div class="playername-container">
-              <div class="firstname">First</div>
-              <div class="lastname">Last</div>
-            </div>
-          </div>
-          <div class="results-state">
-            <div class="playername-container">
-              <div class="winner-label">Game Winner</div>
-              <div class="firstname">First</div>
-              <div class="lastname">Last</div>
-            </div>
-          </div>
-        </div>
-
-        <div id="ribbon">
-          <div id="ribbon-container">
             <div class="gameplay-state">
-              <div id="score-label" class="ribbon-label general-text small-height">Score</div>
+              <div class="text-container">
+                <div class="playername-container">
+                  <div class="firstname">First</div>
+                  <div class="lastname">Last</div>
+                </div>
+              </div>
             </div>
-            <div class="dropshadow-container">
-              <div id="ribbon-background" class="emphasis-text">
-                <div class="attract-state">
-                  <div id="gamecode-text" class="ribbon-text">COURT</div>
+            <div class="results-state">
+              <div class="text-container">
+                <div class="playername-container">
+                  <div id="winner-label" class="general-text">Game Winner</div>
+                  <div class="firstname">First</div>
+                  <div class="lastname">Last</div>
                 </div>
-                <div class="waiting-state">
-                  <div id="waiting-timer" class="ribbon-text">30</div>
+                <div id="winner-trophy">
+                  <img src="assets/UI/D4/WinnersTrophy.png" class="trophy-image">
                 </div>
-                <div class="gameplay-state">
-                  <div id="current-score" class="ribbon-text">0</div>
-                </div>
-                <div class="results-state">
-                  <div id="winner-stats">
-                    <div class="playerscore stat-text">
-                      <div class="stat-label">Score</div>
-                      <div class="stat-number">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="ribbon">
+            <div id="ribbon-container">
+              <div class="gameplay-state">
+                <div id="score-label" class="general-text">Score</div>
+              </div>
+              <div class="dropshadow-container">
+                <div id="ribbon-background" class="emphasis-text">
+                  <div class="attract-state">
+                    <div id="gamecode-text" class="ribbon-text">COURT</div>
+                  </div>
+                  <div class="waiting-state">
+                    <div id="waiting-timer" class="ribbon-text"><i class="fas fa-stopwatch"></i><div class="countdown-num">30</div></div>
+                  </div>
+                  <div class="gameplay-state">
+                    <div id="current-score" class="ribbon-text">0</div>
+                  </div>
+                  <div class="results-state">
+                    <div id="winner-stats">
+                      <div class="playerscore stat-text">
+                        <div class="stat-label">Points</div>
+                        <div class="stat-number">0</div>
+                      </div>
+                      <div class="playerstreak stat-text">
+                        <div class="stat-label">Best Streak</div>
+                        <div class="stat-number">5</div>
+                      </div>
                     </div>
-                    <div class="playerstreak stat-text">
-                      <div class="stat-label">Streak</div>
-                      <div class="stat-number">5</div>
+                    <div id="winner-ribbon">
+                      <div class="ribbon-text">WINNER!</div>
                     </div>
                   </div>
                 </div>
@@ -96,276 +115,85 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="labels">
-        <div id="scoreLabel"></div>
-        <div id="attractLabel"></div>
-        <div id="fpsLabel"></div>
-        <div id="fpsLabel-bot"></div>
-      </div>
-      <div id="permanentGameBranding">
-
-        <div id="inner">
-          <div id="container">
-
-
-            <div id="comboBadge">
-              <img class = "sparkle" src="assets/UI/D3/ComboFlareGround.png">
-              <h2 id="comboNum">
-                3
-              </h2>
-              <h2 id="streak">
-                Streak!
-              </h2>
-            </div>
-
-
-            <div id="results">
-              <div id="leftLight">
-
-              </div>
-              <div id="rightLight">
-
-              </div>
-              <div id="playerScores">
-                <div id="topScore" class="score">
-                  <div class="scoreContainer">
-                    <div class="scoreNum">50 </div>
-                    <div class="playerName">
-                      <div class="firstName">SHOT</div>
-                      <div class="lastName">MASTER</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="yourScore" class="score">
-                  <div class="scoreContainer">
-                    <div class="scoreNum">23</div>
-                    <div class="playerName">
-                      <div class="firstName">SHOOTER</div>
-                      <div class="lastName">MCGEE</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="teamScores">
-                <h2>Team Score Totals</h2>
-                <div id="team1" class="score">
-                  <div class="scoreNum">100</div>
-                  <div class="teamName"><i>RED</i></div>
-                </div>
-                <div id="team2" class="score">
-                  <div class="scoreNum">30</div>
-                  <div class="teamName"><i>WHITE</i></div>
-                </div>
-                <div id="team3" class="score">
-                  <div class="scoreNum">80</div>
-                  <div class="teamName"><i>BLUE</i></div>
-                </div>
-              </div>
-
-              <!-- end of results -->
-            </div>
-            <!-- end of container -->
-          </div>
+        <div class="labels">
+          <div id="scoreLabel"></div>
+          <div id="attractLabel"></div>
+          <div id="fpsLabel"></div>
+          <div id="fpsLabel-bot"></div>
         </div>
-
-        <div id="preFooter">
-          <div id="playNow">
-            <h2>
-              PLAY <span class="emphasize">NOW!</span>
-            </h2>
-          </div>
-        </div>
-        <footer>
-          <div id="footerLeft">
-
-            <div class="attractLeft">
-              <h2>step</h2>
-              <h2 class="stepNum">1</h2>
-            </div>
-
-            <div class="attractRight">
-              <h2>TEXT '<span id="textCode">BBALL</span>'</h2>
-              <h2>TO <span id="textNum">12345</span></h2>
-            </div>
-
-            <div class="waitingLeft">
-              <h2 class="textCountdown">30</h2>
-            </div>
-
-            <div class="gameplayLeft">
-              <h2 class="textScore">7</h2>
-              <h2 class="textScoreLabel">SCORE</h2>
-            </div>
-
-          </div>
-
-          <div id="footerCenter">
-
-              <div class="attractLeft">
-                <h2>
-                  step
-                </h2>
-                <h2 class="stepNum">
-                  2
-                </h2>
-              </div>
-
-            <div class="waitingRight">
-              <h2 class="textWaiting">WAITING FOR OTHER</br> PLAYERS TO JOIN...</h2>
-            </div>
-
-            <div class="gameplayRight">
-              <h2 class="textGameplayFirst">SHOOTER</h2>
-              <h2 class="textGameplayLast">MCGEE</h2>
-            </div>
-
-              <div class="attractRight">
-                <h2>THEN ENTER</h2>
-                <h2>CODE '<span id="courtCode">12345</span>'</h2>
-              </div>
-          </div>
-
-          <div id="footerRight">
-            <img src="assets/UI/Common/SponsorGround.png" id="sponsorGround">
-            <img src="assets/UI/Common/ab-logo.gif" id="sponsorLogo">
-          </div>
-        </footer>
-
       </div>
-    </div>
-    <div id="game-container">
-      <div id="game-overlay">
-        <div id="animation-container">
+      <div id="game-container">
+        <div id="game-overlay">
+          <div id="animation-container">
+            <div class="overlay-background"></div>
             <div id="left-lights">
-                <div class="light-container">
+              <div class="light-container">
+                <div class="large-light">
                   <div class="large-rectangle" id="light1"></div>
+                </div>
+                <div class="small-light">
                   <div class="small-rectangle" id="light2"></div>
                 </div>
+              </div>
             </div>
             <div id="right-lights">
               <div class="light-container">
-                <div class="small-rectangle" id="light3"></div>
-                <div class="large-rectangle" id="light4"></div>
-              </div>
-          </div>
-        </div>
-        <div class="info-layer">
-          <div class="attract-state">
-            <div id="gameplay-flavortext" class="flavortext">
-              <div class="top">Play</div>
-              <div class="bottom">Now!</div>
-            </div>
-          </div>
-          <div class="gameplay-state">
-            <div id="score-bonus">
-              <div id="bonus-amount"><span id="bonus-num">8</span>X</div>
-              <div id="bonus-text">Bonus</div>
-            </div>
-          </div>
-          <div class="results-state">
-              <div id="results-flavortext" class="flavortext">You SUCK!</div>
-              <div id="player-stats">
-                <div class="playerscore stat-text">
-                  <div class="stat-label">Score</div>
-                  <div class="stat-number">0</div>
+                <div class="small-light">
+                  <div class="small-rectangle" id="light3"></div>
                 </div>
-                <div class="playerstreak stat-text">
-                  <div class="stat-label">Streak</div>
-                  <div class="stat-number">5</div>
+                <div class="large-light">
+                  <div class="large-rectangle" id="light4"></div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="info-layer">
+            <div class="attract-state">
+              <div id="gameplay-flavortext" class="flavortext">
+                <div class="top">Play</div>
+                <div class="bottom">Now!</div>
+              </div>
+            </div>
+            <div class="gameplay-state">
+              <div id="score-bonus">
+                <div id="bonus-amount"><span id="bonus-num">8</span>X</div>
+                <div id="bonus-text">Bonus</div>
+              </div>
+            </div>
+            <div class="results-state">
+                <div id="results-flavortext" class="flavortext">You SUCK!</div>
+                <div id="player-stats">
+                  <div class="playerscore stat-text">
+                    <div class="stat-label">Points</div>
+                    <div class="stat-number">0</div>
+                  </div>
+                  <div class="playerstreak stat-text">
+                    <div class="stat-label">Best Streak</div>
+                    <div class="stat-number">5</div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div id="sponsorArea">
+            <div id="sponsorGround"></div>
+            <img src="assets/UI/Common/MoALogoDiag.png" id="sponsorLogo">
           </div>
         </div>
-        <div id="sponsorArea">
-          <div id="sponsorGround"></div>
-          <img src="assets/UI/Common/MoALogoDiag.png" id="sponsorLogo">
-        </div>
+        <canvas id="canvas"></canvas>
       </div>
-      <canvas id="canvas"></canvas>
     </div>
   </div>
-  <!-- <ul class="pages">
-    <li class="passcode page">
-      <div class="form">
-        <h3 class="title">Please Enter the Room Code</h3>
-        <input class="passcodeInput" type="text" maxlength="14" style="text-transform:uppercase" />
-      </div>
-    </li>
-  </ul> -->
 
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 
-  <!--<table id="list-top"></table>-->
-  <!--<table id="list-bot"></table>-->
-
-  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/babylon/babylon.custom.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
-
-
-  <!--<script>-->
-
-
-    <!--// NOTE: window.RTCPeerConnection is "not a constructor" in FF22/23-->
-    <!--var RTCPeerConnection = /*window.RTCPeerConnection ||*/ window.webkitRTCPeerConnection || window.mozRTCPeerConnection;-->
-
-    <!--if (RTCPeerConnection) (function () {-->
-      <!--var rtc = new RTCPeerConnection({iceServers:[]});-->
-      <!--if (1 || window.mozRTCPeerConnection) {      // FF [and now Chrome!] needs a channel/stream to proceed-->
-          <!--rtc.createDataChannel('', {reliable:false});-->
-      <!--};-->
-
-      <!--rtc.onicecandidate = function (evt) {-->
-          <!--// convert the candidate to SDP so we can run it through our general parser-->
-          <!--// see https://twitter.com/lancestout/status/525796175425720320 for details-->
-          <!--if (evt.candidate) grepSDP("a="+evt.candidate.candidate);-->
-      <!--};-->
-      <!--rtc.createOffer(function (offerDesc) {-->
-          <!--grepSDP(offerDesc.sdp);-->
-          <!--rtc.setLocalDescription(offerDesc);-->
-      <!--}, function (e) { console.warn("offer failed", e); });-->
-
-
-      <!--var addrs = Object.create(null);-->
-      <!--addrs["0.0.0.0"] = false;-->
-      <!--function updateDisplay(newAddr) {-->
-          <!--if (newAddr in addrs) return;-->
-          <!--else addrs[newAddr] = true;-->
-          <!--var displayAddrs = Object.keys(addrs).filter(function (k) { return addrs[k]; });-->
-          <!--document.getElementById('list-top').textContent = displayAddrs.join(" or perhaps ") || "n/a";-->
-          <!--document.getElementById('list-bot').textContent = displayAddrs.join(" or perhaps ") || "n/a";-->
-      <!--}-->
-
-      <!--function grepSDP(sdp) {-->
-          <!--var hosts = [];-->
-          <!--sdp.split('\r\n').forEach(function (line) { // c.f. http://tools.ietf.org/html/rfc4566#page-39-->
-              <!--if (~line.indexOf("a=candidate")) {     // http://tools.ietf.org/html/rfc4566#section-5.13-->
-                  <!--var parts = line.split(' '),        // http://tools.ietf.org/html/rfc5245#section-15.1-->
-                      <!--addr = parts[4],-->
-                      <!--type = parts[7];-->
-                  <!--if (type === 'host') updateDisplay(addr);-->
-              <!--} else if (~line.indexOf("c=")) {       // http://tools.ietf.org/html/rfc4566#section-5.7-->
-                  <!--var parts = line.split(' '),-->
-                      <!--addr = parts[2];-->
-                  <!--updateDisplay(addr);-->
-              <!--}-->
-          <!--});-->
-      <!--}-->
-    <!--})(); else {-->
-      <!--document.getElementById('list').innerHTML = "<code>ifconfig | grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1</code>";-->
-      <!--document.getElementById('list').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";-->
-      <!--document.getElementById('list-top').innerHTML = "<code>ifconfig | grep inet | grep -v inet6 | cut -d\" \" -f2 | tail -n1</code>";-->
-      <!--document.getElementById('list-bot').nextSibling.textContent = "In Chrome and Firefox your IP should display automatically, by the power of WebRTCskull.";-->
-    <!--}-->
-
-
-  <!--</script>-->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/babylon/scripts/UI/resizer.js"></script>
 
   <script src="/babylon/babylon.objFileLoader.min.js"></script>
   <script src="/babylon/shaders/Shaders/babylonjs.materials.js"></script>
@@ -373,6 +201,7 @@
   <script src="/babylon/assets/babylon.simpleMaterial.js"></script>
   <script src="/babylon/scripts/playerInfo.js"></script>
   <script src="/babylon/scripts/UI/state_manager.js"></script>
+  <script src="/babylon/scripts/UI/animation_manager.js"></script>
   <script src="/babylon/scripts/UI/attract.js"></script>
   <script src="/babylon/scripts/UI/waiting.js"></script>
   <script src="/babylon/scripts/UI/gameplay.js"></script>
@@ -380,7 +209,6 @@
   <script src="/babylon/scripts/UI/loading.js"></script>
   <script src="/config.js"></script>
   <script src="/babylon/court.js"></script>
-
 
 </body>
 </html>

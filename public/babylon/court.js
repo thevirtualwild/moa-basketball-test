@@ -1356,7 +1356,7 @@ function createScene()
             secondDigit = parseInt((currentGameTime+ 1).toFixed(2).substr(0, 1));
         }
 
-        console.log("UPDATECLOCK: current combopts - " + combopts + ' - ' + scoremodifier);
+        // console.log("UPDATECLOCK: current combopts - " + combopts + ' - ' + scoremodifier);
 
         if(currentGameTime == 30)
         {
@@ -1766,43 +1766,43 @@ function randomRange (min, max)
 
 ///////////////////////////////////////////////////////////////////////
 
+function checkCurrentLevel(newModifier, pointsNeeded) {
+  if (scoremodifier == newModifier) {
+    console.log('Too long to score');
+  } else {
+    combopts = pointsNeeded + 1;
+    scoremodifier = newModifier;
+    UIGameplayAnimateBadgeOn(scoremodifier);
+    UIComboLevelChange(scoremodifier);
+  }
+}
+
 function updateScoreModifier()
 {
     if (combopts >= 92) {
-      if (scoremodifier == 10) {
-        console.log('Too long to score');
-      } else {
-        combopts = 93;
-        scoremodifier = 10;
-      }
+      checkCurrentLevel(10, 92);
     } else if (combopts >= 74) {
-      scoremodifier = 9;
+      checkCurrentLevel(9, 74);
     } else if (combopts >= 58) {
-      scoremodifier = 8;
+      checkCurrentLevel(8, 58);
     } else if (combopts >= 44) {
-      scoremodifier = 7;
+      checkCurrentLevel(7, 44);
     } else if (combopts >= 32) {
-      scoremodifier = 6;
+      checkCurrentLevel(6, 32);
     } else if (combopts >= 22) {
-      scoremodifier = 5;
+      checkCurrentLevel(5, 22);
     } else if (combopts >= 14) {
-      scoremodifier = 4;
+      checkCurrentLevel(4, 14);
     } else if (combopts >= 8) {
-      if (scoremodifier == 3) {
-        console.log('Too long to score');
-      } else {
-        combopts = 9;
-        scoremodifier = 3;
+      checkCurrentLevel(3, 8);
       }
     } else if (combopts >= 4) {
-      if (scoremodifier == 2) {
-        console.log('Too long to score');
-      } else {
-        combopts = 5;
-        scoremodifier = 2;
+      checkCurrentLevel(2, 4);
       }
     } else {
       scoremodifier = 1;
+
+      UIGameplayAnimateBadgeOff();
     }
 }
 
@@ -1818,8 +1818,7 @@ function madeAShot()
 
     combopts = combopts + 1 + (scoreToAdd);
     console.log("MADEASHOT: combopts - " + combopts);
-    updateScoreModifier();
-    UIGameplayAnimateBadgeOn(scoremodifier); //was combo
+    updateScoreModifier(); //was combo
     // changeBallFX(true);
 }
 
@@ -2189,12 +2188,18 @@ socket.on('end all games', function(courtthatfinished)
 
 socket.on('show results', function(resultsdata)
 {
-  console.log('Results!');
+  console.log('-Court.js- Show Results!');
   console.dir(resultsdata);
 
   if(hasplayer)
   {
-      UIResultsSetData(resultsdata);
+    var playerScoreData = {
+      score: score,
+      combo: combo,
+      highestStreak: highestStreak,
+      shotsMade: shotsMade
+    }
+    UIResultsSetData(resultsdata, playerScoreData);
   }
 });
 

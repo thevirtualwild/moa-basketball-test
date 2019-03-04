@@ -1,13 +1,12 @@
-var firstNames = ["Runny", "Buttercup", "Dinky", "Stinky", "Crusty",
-    "Greasy","Gidget", "Cheesypoof", "Lumpy", "Wacky", "Tiny", "Flunky",
-    "Fluffy", "Zippy", "Doofus", "Gobsmacked", "Slimy", "Grimy", "Salamander",
-    "Oily", "Burrito", "Bumpy", "Loopy", "Snotty", "Irving", "Egbert"];
+var firstNames = ["Runny", "Happy", "Dinky", "Stinky", "Crusty",
+  "Greasy", "Playful", "Smooth", "Lumpy", "Wacky", "Tiny", "Flunky",
+  "Fluffy", "Zippy", "Gassy", "Slimy", "Grimy",
+  "Oily", "Gross", "Bumpy", "Loopy", "Snotty"];
 
-
-var lastNames = ["Snicker", "Buffalo", "Gross", "Bubble", "Sheep",
-    "Corset", "Toilet", "Lizard", "Waffle", "Kumquat", "Burger", "Chimp", "Liver",
-    "Gorilla", "Rhino", "Emu", "Pizza", "Toad", "Gerbil", "Pickle", "Tofu",
-    "Chicken", "Potato", "Hamster", "Lemur", "Vermin"];
+var lastNames = ["Snicker", "Buffalo", "Burrito", "Bubble", "Sheep",
+  "Corset", "Toilet", "Lizard", "Waffle", "Kumquat", "Burger", "Chimp", "Liver",
+  "Gorilla", "Rhino", "Emu", "Pizza", "Toad", "Gerbil", "Pickle", "Tofu",
+  "Chicken", "Potato", "Hamster", "Lemur", "Vermin"];
 
 function generateName()
 {

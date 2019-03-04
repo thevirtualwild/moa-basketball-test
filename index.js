@@ -570,6 +570,7 @@ function onConnection(socket) {
     courtgamedata.gamename = socket.game.name;
 
     pushScoreToDatabase(courtgamedata);
+    redirectPlayer(courtgamedata);
 
 
 
@@ -617,6 +618,18 @@ function onConnection(socket) {
       // // console.log('counted,courtcount: ' + thisgamesroom.scorescounted + ',' + thisgamesroom.courtcount);
     }
 
+  }
+
+  function redirectPlayer(courtGameData) {
+    // var playername = data.player.username;
+    // var playerscore = data.player.score;
+    // var playerdata = {
+    //   playername: playername,
+    //   playerscore: playerscore
+    // }
+    console.log('redirectPlayer: socket - ' + courtGameData);
+    debugSocket(socket);
+    // socket.emit('show results', playerdata);
   }
 
   function pushScoreToDatabase(data) {
@@ -1233,59 +1246,6 @@ function onConnection(socket) {
     // console.dir(thisgame);
 
     allgames[socket.game.name] = gamedata;
-
-
-    //
-    // console.log('add score to database socket.gamename - ' + socket.gamename);
-    // console.dir(courtgamedata);
-    // courtgamedata.gamename = gamename;
-    //
-    // var agame = gamesplayed[thissocketgamename];
-    // // add score to list of scores
-    // if (agame) {
-    //   // // console.log('thisgame already in gamesplayed: ');
-    //   // // console.dir(courtgamedata);
-    //   // // // console.log('pushing new score to agame array');
-    //   agame.scores.push(courtgamedata);
-    //   // // console.log('agame full data:');
-    //   // // console.dir(agame);
-    //   // updateHighScorer(agame, courtgamedata);
-    //   gamesplayed[thissocketgamename] = agame;
-    // } else {
-    //   // // console.log('creating a new game in gamesplayed:')
-    //   agame = {
-    //       gamename: thissocketgamename,
-    //       scores: [courtgamedata],
-    //       highscorer: courtgamedata
-    //   };
-    //   // // // console.log('agame init:');
-    //   // // console.dir(agame);
-    //   // // // // console.dir(agame);
-    //   // // // // // console.log('gamedata');
-    //   // // // // console.dir(courtgamedata);
-    //   gamesplayed[thissocketgamename] = agame;
-    // }
-    //
-    //
-    // // // console.log('addcourtgamescore(scorescounted): ' + thisgamesroom.scorescounted);
-    //
-    // thisgamesroom.scorescounted += 1;
-    // // // // console.log('scores counted:' + thisgamesroom.scorescounted);
-    // roomnames[socket.roomname] = thisgamesroom;
-    //
-    // // if all games scores added, get high score
-    // if (thisgamesroom.scorescounted == thisgamesroom.courtcount) {
-    //   // // console.log('all scores added, getting highscore: ');
-    //   // // console.dir(thisgamesroom);
-    //   // // console.log('get high score for gamename - ' + thissocketgamename);
-    //   getHighScore(thissocketgamename);
-    // } else {
-    //   // // console.log('not all scores added, waiting for all scores: ');
-    //   // // console.log('counted,courtcount: ' + thisgamesroom.scorescounted + ',' + thisgamesroom.courtcount);
-    // }
-
-
-
 
     // if all scores have been added for this game call push to database function
     pushScoreForGameToDatabase(gamedata);

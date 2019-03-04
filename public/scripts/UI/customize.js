@@ -12,9 +12,6 @@ var gameoverPage = document.getElementsByClassName("gameover page")[0];
 
 var firstName = customizeForm.getElementsByClassName("firstName")[0];
 var lastName = customizeForm.getElementsByClassName("lastName")[0];
-var dashImage = customizeForm.getElementsByClassName("playerDash")[0];
-var teamName = customizeForm.getElementsByClassName("teamColor")[0];
-var teamLabel = customizeForm.getElementsByClassName("teamLabel")[0];
 
 //UIInputAnimateOut();
 var name;
@@ -31,6 +28,7 @@ var height = Math.max( body.scrollHeight, body.offsetHeight,
 
 function UICustomizeAnimateIn()
 {
+  turnOnCustomize();
     inputPage.style.display = "none";
     customizePage.style.display = "block";
     gameoverPage.style.display = "none";
@@ -39,27 +37,17 @@ function UICustomizeAnimateIn()
     customizeForm.style.opacity =1;
     firstName.style.opacity = 0;
     lastName.style.opacity = 0;
-    dashImage.style.opacity = 0;
-    dashImage.style.width = 0;
-    teamName.style.opacity = 0;
-    teamLabel.style.opacity = 0;
     refreshLogo.style.opacity = 0;
 
     name = userdata.username;
     firstName.innerHTML = name.substr(0, name.indexOf(' '));
     lastName.innerHTML = name.substr(name.indexOf(' ') + 1);
 
-    teamName.innerHTML = userdata.team.name;
-    teamName.style.color = userdata.team.colorHex;
-
     firstName.style.marginLeft=  "-300px";
     lastName.style.marginRight=  "-300px";
 
     TweenMax.to(firstName, customizeFadeTime, {delay:customizeFadeTime, opacity:1, marginLeft:0});
     TweenMax.to(lastName, customizeFadeTime, {delay:customizeFadeTime*2, opacity:1, marginRight:0});
-    TweenMax.to(dashImage, customizeFadeTime, {delay:customizeFadeTime*3, opacity:1, width:400, ease:Back.easeOut});
-    TweenMax.to(teamName, customizeFadeTime, {delay:customizeFadeTime*4, opacity:1});
-    TweenMax.to(teamLabel, customizeFadeTime, {delay:customizeFadeTime*4, opacity:1});
 
     TweenMax.to(refreshLogo, customizeFadeTime, {delay:customizeFadeTime*6, opacity:1});
 }
@@ -69,6 +57,7 @@ function UICustomizeAnimateOut()
     TweenMax.to(customizeForm, customizeFadeTime*1.5, {opacity:0, onComplete:UIGameplayAnimateIn});
     TweenMax.to(refreshLogo, customizeFadeTime*1.5, {opacity:0});
     TweenMax.to(customizeForm, customizeFadeTime*1, {top:0, ease:Back.easeIn});
+    turnOffCustomize();
 }
 
 function changeName()
@@ -100,6 +89,23 @@ function getName()
 
     socket.emit("change player name", userdata);
 
+}
+
+function turnOnCustomize()
+{
+    // changeVisibility('waiting-state', 'visible');
+    // changeDisplay('waiting-state', 'block');
+
+    // waitingLeft.style.display = "inline";
+    // waitingRight.style.display = "inline"
+    // countdown.style.opacity = 1;
+    // textWaiting.style.opacity = 1;
+    // textWaiting.style.left = "9%";
+}
+function turnOffCustomize()
+{
+  // changeVisibility('waiting-state','hidden');
+  // changeDisplay('waiting-state', 'none');
 }
 
 function stopAnimating()

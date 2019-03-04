@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Basketball Input</title>
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <link rel="stylesheet" href="player.css">
 
@@ -21,20 +21,30 @@
 </head>
 <body>
   <div id="background">
-    <img src="/babylon/assets/UI/Mobile/MobileGround.png">
+    <div class="gameplay-state">
+      <img src="/babylon/assets/UI/Mobile/MobileBGHole.png">
+    </div>
   </div>
   <div id="headerInstructions">
-    <img id="triangle" src="/babylon/assets/UI/Mobile/MobileArrowIcon.png">
-    <h2 class="instructions"><i>SWIPE UP TO SHOOT</i></h2>
+    <img id="triangle" src="/babylon/assets/UI/Mobile/Arrow.png">
+    <h2 class="instructions">SWIPE UP TO SHOOT</h2>
   </div>
   <ul class="pages ">
     <li class="passcode page">
-
-      <div class="form">
-        <h3 class="title"><i>ENTER CODE ON SCREEN</i></h3>
-        <input class="passcodeInput" type="text" maxlength="14" style="text-transform:uppercase" />
-        <img src="/babylon/assets/UI/Mobile/MobileDash.png">
-        <h2 class="errorMessage"></h2>
+      <div class="input-state">
+        <div class="form">
+          <h3 class="title">ENTER<br/>GAME CODE</h3>
+          <div id="ribbon">
+            <div id="ribbon-container">
+              <div class="dropshadow-container">
+                <div id="ribbon-background" class="emphasis-text">
+                  <input class="passcodeInput ribbon-text" type="text" maxlength="14" style="text-transform:uppercase" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 class="errorMessage"></h2>
+        </div>
       </div>
     </li>
     <li class="player page">
@@ -42,12 +52,8 @@
         <img id ="refresh" src="/babylon/assets/UI/Mobile/MobileRefreshBtnIcon.png">
       </div>
       <div class="form">
-        <h2 class="firstName"><i>SHOOTER</i></h2>
-        <h2 class="lastName"><i>MCGEE</i></h2>
-        <img class = "playerDash" src="/babylon/assets/UI/Mobile/MobileDash.png">
-        <!--<input class="passcodeInput" type="text" maxlength="14" style="text-transform:uppercase" />-->
-        <h2 class="teamColor"><i>RED</i></h2>
-        <h2 class="teamLabel">TEAM</h2>
+        <h2 class="firstName">SHOOTER</h2>
+        <h2 class="lastName">MCGEE</h2>
       </div>
     </li>
     <!-- <li class="gameplay page">
@@ -66,10 +72,9 @@
   </ul>
 
   <div id="footerLogo">
-    <img class="gameLogo" src="/babylon/assets/UI/Common/ShotClockLogo.png">
+    <img class="gameLogo" src="/babylon/assets/UI/Common/ShotClockLogoGreyShad.png">
     <div id="brought-by">
-      <h2>Brought To You By</h2>
-      <img class="sponsorLogo" src="/babylon/assets/UI/Common/ab-logo.gif">
+      <img class="sponsorLogo" src="/babylon/assets/UI/Mobile/MobileMoALogo.jpg">
     </div>
   </div>
 
@@ -83,6 +88,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
   <script src="/babylon/babylon.custom.js"></script>
   <script src="/babylon/scripts/playerInfo.js"></script>
+  <script src="/babylon/scripts/UI/state_manager.js"></script>
   <script src="/scripts/UI/gameover.js"></script>
   <script src="/scripts/UI/gameplay.js"></script>
   <script src="/scripts/UI/customize.js"></script>

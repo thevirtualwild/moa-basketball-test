@@ -157,7 +157,7 @@ canvas{
   border-radius:3px;
   cursor: default;
   overflow: visible;
-  z-index: 999;
+  z-index: 500;
 }
 
 #titleTopLeft img{
@@ -798,7 +798,13 @@ $green2: rgb(56, 171, 37);
 $blue2: rgb(0, 107, 138);
 $pink2: rgb(158, 2, 91);
 $orange2: rgb(241, 99, 34);
-
+@mixin fillbackground {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
 #template {
   display: none !important;
@@ -817,7 +823,7 @@ $orange2: rgb(241, 99, 34);
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 999 !important;
 
   img {
     width:100%;
@@ -836,12 +842,24 @@ $orange2: rgb(241, 99, 34);
 .attract-state, .waiting-state, .gameplay-state, .results-state {
   visibility: hidden;
   display:none;
+
+  .text-container {
+    padding-bottom:20px;
+  }
 }
+
+.gameplay-state .text-container {
+  padding-bottom: 160px;
+}
+.results-state .text-container {
+  padding-bottom:30px;
+}
+
 
 
 #infobar {
   width: 29%;
-  padding: 0 50px;
+  // padding: 0 50px;
   z-index: 100;
   display: inline-block;
   position: relative;
@@ -862,6 +880,7 @@ $orange2: rgb(241, 99, 34);
 
   #infobar-header {
     text-align: center;
+    margin:0 50px;
   }
 
   .general-text {
@@ -885,45 +904,43 @@ $orange2: rgb(241, 99, 34);
   }
 
   #info-container {
+    // margin-top:80px;
     #texting-instructions, #gamecode-instructions {
       text-align: center;
     }
 
     #infobar-content {
+      position: absolute;
+      width: 100%;
+      // padding: 0 50px;
+      bottom: 250px;
 
       hr {
         height: 6px;
         background: #333;
-        margin-bottom: 25px;
-        margin-top:10px;
+        margin: 10px 50px 25px;
       }
 
       .waiting-state {
         margin-top:100px;
 
         .general-text {
-          font-size: 64px;
+          font-size: 80px;
           text-align: center;
         }
       }
 
       .results-state {
-        .playername-container {
-          margin-top: 70px;
-        }
-        .winner-label {
+
+        #winner-label {
           text-align: center;
-          color: #333;
-          font-size: 38px;
           text-transform: uppercase;
-          margin-bottom: 30px;
+          margin-bottom: 40px;
         }
       }
-      .playername-container {
-        margin-top:100px;
-      }
+
       .firstname,.lastname {
-        font-size: 80px;
+        font-size: 120px;
         font-family: 'Fresh Marker';
         transform: rotate(-10deg);
         line-height:1.1;
@@ -938,22 +955,37 @@ $orange2: rgb(241, 99, 34);
       #ribbon-container {
         position: absolute;
         width: 115%;
-        z-index: 999;
+        z-index: 500;
         bottom: 40px;
-        margin-left: -50px;
-        margin-right: -50px;
 
         .dropshadow-container {
           filter: drop-shadow(-25px 10px 5px rgba(0,0,0,0.5));
         }
 
-        .ribbon-label {
-          font-size: 30px;
-          padding: 0 10px 5px;
+        #score-label {
+          padding: 0 20px 20px;
         }
 
         #ribbon-background {
           background: linear-gradient(-90deg, $green1, $green2);
+
+          &:before,
+          &:after {
+            content: '';
+            @include fillbackground;
+            animation: opacity 6s infinite;
+            opacity: 0;
+            }
+          &:before {
+            background: linear-gradient(-90deg,
+              $orange2, $orange1);
+            animation-delay: 2s;
+          }
+          &:after {
+            background: linear-gradient(-90deg,
+              $pink1, $pink2);
+            animation-delay: 4s;
+          }
         	/* background-size: 400% 400%; */
         	/* -webkit-animation: Gradient 8s ease infinite;
         	-moz-animation: Gradient 8s ease infinite;
@@ -968,16 +1000,31 @@ $orange2: rgb(241, 99, 34);
           align-items: center;
           justify-content: center;
 
+          .attract-state, .waiting-state, .gameplay-state, .results-state {
+            z-index:500;
+          }
+
+          #waiting-timer {
+            .fa-stopwatch {
+              position: absolute;
+              left: 120px;
+              font-size: .5em;
+              top: 40px;
+            }
+          }
           .ribbon-text {
             text-align: center;
-            font-size: 143px;
+            font-size: 183px;
             color: white;
 
-            line-height: 1.4;
+            line-height: 0 !important;
+            padding-top:22px;
+
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 500;
           }
 
           .results-state {
@@ -991,16 +1038,17 @@ $orange2: rgb(241, 99, 34);
               .stat-text {
                 display: flex;
                 justify-content: space-between;
-                font-size: 60px !important;
+                font-size: 50px;
                 padding: 0 30px;
                 font-weight: normal;
-                line-height: 1.3 !important;
+                line-height: 1.4 !important;
                 color: white;
+                text-transform: uppercase;
               }
 
               .stat-number {
                 font-weight: bold;
-                font-size: 75px;
+                font-size: 150%;
                 line-height: 1;
                 margin-top: -10px;
               }
@@ -1012,6 +1060,13 @@ $orange2: rgb(241, 99, 34);
   }
 }
 
+
+#left-lights .small-light, #right-lights .large-light {
+    transform: translate(-512px, 1600px);
+}
+#left-lights .large-light, #right-lights .small-light {
+    transform: translate(512px, -1600px);
+}
 #game-container {
   width:71%;
   position: relative;
@@ -1025,10 +1080,42 @@ $orange2: rgb(241, 99, 34);
     height: 100%;
     width: 100%;
 
+
     #animation-container {
 
+      .overlay-background {
+        content: '';
+        display: none;
+        background: rgba(0,0,0,.8);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index:1;
+      }
+
       .large-rectangle, .small-rectangle {
-          background: linear-gradient(-90deg, #a5ce37, rgb(56, 171, 37));
+          background: linear-gradient(-90deg, $green1, $green2);
+
+          &:before,
+          &:after {
+            content: '';
+            @include fillbackground;
+            animation: opacity 6s infinite;
+            opacity: 0;
+            }
+          &:before {
+            background: linear-gradient(-90deg,
+              $orange2, $orange1);
+            animation-delay: 3s;
+          }
+          &:after {
+            background: linear-gradient(-90deg,
+              $pink1, $pink2);
+            animation-delay: 3s;
+          }
+
           transform:rotate(-72deg);
           opacity:.5;
       }
@@ -1037,6 +1124,7 @@ $orange2: rgb(241, 99, 34);
           width: 100%;
           height: 100%;
           position: relative;
+          z-index: 100;
 
           .large-rectangle {
               height: 288px;
@@ -1049,7 +1137,25 @@ $orange2: rgb(241, 99, 34);
       }
 
       #right-lights .large-rectangle, #left-lights .small-rectangle {
-        background: linear-gradient(90deg, #a5ce37, rgb(56, 171, 37));
+        background: linear-gradient(90deg, $green1, $green2);
+
+        &:before,
+        &:after {
+          content: '';
+          @include fillbackground;
+          animation: opacity 6s infinite;
+          opacity: 0;
+          }
+        &:before {
+          background: linear-gradient(90deg,
+            $orange2, $orange1);
+          animation-delay: 2s;
+        }
+        &:after {
+          background: linear-gradient(90deg,
+            $pink1, $pink2);
+          animation-delay: 4s;
+        }
       }
 
       #left-lights {
@@ -1059,7 +1165,7 @@ $orange2: rgb(241, 99, 34);
         height: 100%;
         width: 300px;
         position: absolute;
-        z-index:-1;
+        z-index:1;
 
         .large-rectangle {
             transform: rotate(-72deg) translateY(-763px);
@@ -1075,7 +1181,7 @@ $orange2: rgb(241, 99, 34);
         height: 100%;
         width: 300px;
         position: absolute;
-        z-index:-1;
+        z-index:1;
 
         .large-rectangle {
             transform: rotate(-72deg) translateY(-292px) translateX(-400px);
@@ -1089,9 +1195,9 @@ $orange2: rgb(241, 99, 34);
     #score-bonus {
       position: absolute;
       color: white;
-      right: 160px;
-      top: 240px;
-      font-size: 80px;
+      right: 80px;
+      top: 400px;
+      font-size: 115px;
       text-transform: uppercase;
       font-weight: bold;
       text-align: center;
@@ -1099,31 +1205,42 @@ $orange2: rgb(241, 99, 34);
 
       #bonus-amount {
         font-weight: normal;
+        font-size: 140px;
 
         #bonus-num {
-          font-size: 110px;
+          font-size: 180px;
         }
       }
     }
 
-    .results-state {
-      margin-top: 200px;
+    .info-layer {
+
+      .results-state {
+        margin-top: 200px;
+
+        * {
+          z-index: 100 !important;
+        }
+      }
     }
 
     .flavortext {
       color: white;
       font-family: 'Fresh Marker' !important;
-      font-size: 200px;
+      font-size: 140px;
       text-align: center;
       text-transform: uppercase;
+      line-height:140px;
+      z-index: 100;
 
       transform: rotate(-14deg);
     }
     #player-stats {
       @extend #winner-stats;
-      width: 558px;
-      float: right;
-      margin-right: 60px;
+      right: 40px;
+      width: 628px;
+      position: absolute;
+      bottom: 300px;
 
       .stat-text {
         display: flex;
@@ -1133,20 +1250,34 @@ $orange2: rgb(241, 99, 34);
         font-weight: normal;
         line-height: 1.3 !important;
         color: white;
+        text-transform:uppercase;
+        padding-right:0;
+
+        .stat-label {
+          padding-top:12px;
+        }
+        .stat-number {
+          font-weight: bold;
+          font-size: 150%;
+          line-height: 1;
+          // margin-top: -10px;
+          width:120px;
+          text-align:center;
+        }
       }
 
-      .stat-number {
-        font-weight: bold;
-        font-size: 75px;
-        line-height: 1;
-        margin-top: -10px;
-      }
+    }
+    #results-flavortext {
+      font-size: 170px;
+      z-index: 500;
+      position:relative;
     }
     #gameplay-flavortext {
       position: absolute;
       bottom: 0;
       width: 100%;
       text-align: center;
+      z-index: 500;
 
       * {
         font-family: inherit;
@@ -1154,10 +1285,10 @@ $orange2: rgb(241, 99, 34);
         line-height: 1;
       }
       .top {
-        transform: rotate(-14deg) translate(-130px, -15px);
+        transform: translate(-100px, -15px);
       }
       .bottom {
-        transform: rotate(-14deg) translate(130px, 0px);
+        transform: translate(80px, -5px);
       }
     }
 
@@ -1168,6 +1299,7 @@ $orange2: rgb(241, 99, 34);
       height: 200px;
       width: 255px;
       filter: drop-shadow(-25px 10px 5px rgba(0,0,0,0.5));
+      z-index:500;
 
       #sponsorGround {
         height: 100%;
@@ -1233,3 +1365,95 @@ $orange2: rgb(241, 99, 34);
 		background-position: 100% 50%
 	}
 } */
+
+
+
+
+
+
+$shadow: 0 0 20px rgba(0,0,0,.7) inset;
+$bg: #121212;
+
+// BODY {
+//   background: $bg;
+//   font-style: 10px;
+//   }
+// // .wrapper {
+// //   @include common;
+// //   height: 300px;
+// //   margin: auto;
+// //   text-align: center;
+// //   }
+
+// .box {
+//   position: relative;
+//   width: 300px;
+//   height: 300px;
+//   margin: 0 auto;
+//   border-radius: 50px;
+//   background: linear-gradient(90deg,crimson, orangered, gold);
+//   &:before,
+//   &:after {
+//     content: '';
+//     @include common;
+//     box-shadow: $shadow;
+//     animation: opacity 6s infinite;
+//     opacity: 0;
+//     }
+//   &:before {
+//     background: linear-gradient(90deg,
+//       yellow, yellowgreen, steelblue);
+//     animation-delay: 2s;
+//   }
+//   &:after {
+//     background: linear-gradient(90deg,
+//       skyblue, violet, purple);
+//     animation-delay: 4s;
+//   }
+// }
+
+@keyframes opacity {
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+}
+
+
+
+
+
+
+
+//resizeable stuff
+.very-specific-design {
+  width: 1920px;
+  height: 1080px;
+  // padding: 50px;
+  text-align: center;
+  // background: white;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  // transform: translate(-50%, -50%);
+  transform-origin: top left;
+}
+
+.scaleable-wrapper {
+  // padding: 20px;
+  resize: both;
+  position: relative;
+  // background: #666;
+  height: 1080px; //was 400px;
+}
+
+.ui-resizable-se {
+  width: 10px;
+  height: 10px;
+  background: orange;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
