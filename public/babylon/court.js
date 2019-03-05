@@ -645,7 +645,7 @@ function createScene()
                         //UIGameplayAnimateBadgeOff();
                         //changeBallFX(false);
                         basketballStates[i] = 0;
-                        ComboIsBroken       = true;
+                        // ComboIsBroken       = true;
                         StreakIsBroken      = true;
                     }
                 }
@@ -1799,6 +1799,7 @@ function updateScoreModifier()
       checkCurrentLevel(2, 4);
     } else {
       scoremodifier = 1;
+      comboIsBroken = true;
 
       UIGameplayAnimateBadgeOff();
     }

@@ -58,6 +58,8 @@ function UIGameplayAnimateBadgeOn(comboNum)
     TweenMax.to(comboNumText, 0.1, {opacity: 1});
     TweenMax.to(comboBadge, 0.1, {opacity: 1});
   }
+  TweenMax.to(comboNumText, 0.1, {opacity: 1});
+  TweenMax.to(comboBadge, 0.1, {opacity: 1});
   comboNumText.text(comboNum.toString());
   turnOnAnimations();
   TweenMax.to(comboNumText, 0.1, {scaleX:1.2, scaleY:1.2, repeat: 1, yoyo:true});
