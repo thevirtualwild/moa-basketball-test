@@ -395,7 +395,8 @@ function createScene()
           currentGameTime -= (engine.getDeltaTime() / 1000);
           if(combopts > 1)
           {
-            combopts -= (scoremodifier * (engine.getDeltaTime() / 2000) ); //change for combo dropoff
+            combopts -= (scoremodifier * (engine.getDeltaTime() / 6000) ); //change for combo dropoff
+            updateScoreModifier();
           }
 
           var time                = currentGameTime.toFixed(2); // do we need this?
@@ -1768,7 +1769,8 @@ function randomRange (min, max)
 
 function checkCurrentLevel(newModifier, pointsNeeded) {
   if (scoremodifier == newModifier) {
-    console.log('Too long to score');
+    console.log('Too long to score.');
+
   } else {
     combopts = pointsNeeded + 1;
     scoremodifier = newModifier;
@@ -1779,6 +1781,7 @@ function checkCurrentLevel(newModifier, pointsNeeded) {
 
 function updateScoreModifier()
 {
+  // console.log('updateScoreMod - ' + combopts);
     if (combopts >= 92) {
       checkCurrentLevel(10, 92);
     } else if (combopts >= 74) {

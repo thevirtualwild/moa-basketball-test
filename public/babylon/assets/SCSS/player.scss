@@ -420,7 +420,7 @@ $orange2: rgb(241, 99, 34);
     .firstName, .lastName {
       font-family: 'Fresh Marker' !important;
       color: black;
-      font-size: 100px;
+      font-size: 80px;
       transform: rotate(-10deg) translate(-10px,0px);
     }
   }
@@ -465,7 +465,8 @@ $orange2: rgb(241, 99, 34);
 
         font-family: 'Interstate';
 
-        line-height: 1.2;
+        line-height: 1;
+        margin-bottom: -10px;
         width: 100%;
         display: flex;
         align-items: center;

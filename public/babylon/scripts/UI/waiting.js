@@ -26,8 +26,8 @@ function UIWaitingAnimateIn()
     turnOnWaiting();
 
     //textWaiting.style.left = footerWidth + "px";
-    TweenMax.from(countdown, textFadeTime, {opacity:0});
-    TweenMax.from(textWaiting, textFadeTime, {opacity:0});
+    TweenMax.from(countdown, textFadeTime, {opacity:1});
+    TweenMax.from(textWaiting, textFadeTime, {opacity:1});
 }
 
 function turnOnWaiting()

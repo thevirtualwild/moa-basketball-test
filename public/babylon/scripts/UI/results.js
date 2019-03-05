@@ -10,14 +10,14 @@ var winner_ribbon = $('#winner-ribbon');
 var winner_trophy = $('#winner-trophy');
 var winner_score = $('#winner-stats .playerscore');
 var winner_streak = $('#winner-stats .playerstreak');
-var winner_score_num = $('#winner-stats .stat-number');
-var winner_streak_num = $('#winner-stats .stat-number');
+var winner_score_num = $('#winner-stats .playerscore .stat-number');
+var winner_streak_num = $('#winner-stats .playerstreak .stat-number');
 
 var player_stats = $('#player-stats');
 var player_score = $('#player-stats .playerscore');
 var player_streak = $('#player-stats .playerstreak');
-var player_score_num = $('#player-stats .stat-number');
-var player_streak_num = $('#player-stats .stat-number');
+var player_score_num = $('#player-stats .playerscore .stat-number');
+var player_streak_num = $('#player-stats .playerstreak .stat-number');
 
 var winner_name = $('#infobar-content .results-state .playername-container');
 var winner_name_first = $('#infobar-content .results-state .playername-container .firstname');
@@ -139,7 +139,7 @@ function UIResultsSetData(topScoreData,playerScoreData) {
 
         resultsdata = {
           playerscore: playerscore,
-          playersreak: playerstreak,
+          playerstreak: playerstreak,
           winnername: winnername,
           winnerscore: winnerscore,
           winnerstreak: winnerstreak
