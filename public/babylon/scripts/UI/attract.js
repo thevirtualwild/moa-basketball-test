@@ -12,10 +12,10 @@ var initAttractLoad = true;
 var attractIsAnimating = false;
 function UIAttractAnimateIn()
 {
-    AnimateLights($('#right-lights .small-light'), .5, 'left');
-    AnimateLights($('#right-lights .large-light'), .5, 'right');
-    AnimateLights($('#left-lights .large-light'), .5, 'left');
-    AnimateLights($('#left-lights .small-light'), .5, 'right');
+    AnimateLights($('#right-lights .small-light'), .5, 'down', 1);
+    AnimateLights($('#right-lights .large-light'), .5, 'up',2);
+    AnimateLights($('#left-lights .large-light'), .5, 'down',1.5);
+    AnimateLights($('#left-lights .small-light'), .5, 'up', .75);
     PulseScaling($('#gameplay-flavortext'), 1, 1.1);
 
     if(!attractIsAnimating)

@@ -54,7 +54,7 @@ html {
   -webkit-font-smoothing: antialiased; }
 
 html, input {
-  font-family: "Gobold", sans-serif; }
+  font-family: "Interstate", sans-serif; }
 
 ul {
   list-style: none;
@@ -136,7 +136,7 @@ canvas {
     max-width: 100%;
     padding: 0;
     width: 100%;
-    height: 100px;
+    height: 80px;
     object-fit: cover;
     object-position: bottom right; }
     #footerLogo img.gameLogo {
@@ -145,8 +145,9 @@ canvas {
       left: 20px;
       max-width: 150px;
       width: 150px;
-      height: 100px;
-      object-fit: contain; }
+      height: 80px;
+      object-fit: contain;
+      object-position: top left; }
 
 #headerInstructions {
   text-align: center;
@@ -262,7 +263,29 @@ canvas {
   .passcode.page .form .passcodeInput, .input-state .form .passcodeInput {
     background-color: transparent;
     border: none;
-    pointer-events: initial; }
+    pointer-events: initial;
+    opacity: 1; }
+    .passcode.page .form .passcodeInput.blinking, .input-state .form .passcodeInput.blinking {
+      animation: pulse 2.5s infinite; }
+    .passcode.page .form .passcodeInput:focus, .input-state .form .passcodeInput:focus {
+      outline: none;
+      -webkit-animation-play-state: paused;
+      -moz-animation-play-state: paused;
+      -o-animation-play-state: paused;
+      animation-play-state: paused;
+      opacity: 1 !important;
+      animation: alwayson 1s infinite; }
+    .passcode.page .form .passcodeInput::placeholder, .input-state .form .passcodeInput::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: white !important;
+      opacity: 1;
+      /* Firefox */ }
+    .passcode.page .form .passcodeInput:-ms-input-placeholder, .input-state .form .passcodeInput:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: white !important; }
+    .passcode.page .form .passcodeInput::-ms-input-placeholder, .input-state .form .passcodeInput::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: white !important; }
 
 .player.page .form .firstName, .player.page .form .lastName {
   font-family: 'Fresh Marker' !important;
@@ -292,7 +315,7 @@ canvas {
     justify-content: center; }
     #ribbon #ribbon-container #ribbon-background .ribbon-text {
       text-align: center;
-      font-size: 140px;
+      font-size: 90px;
       color: white;
       font-weight: bold;
       font-family: 'Interstate';
@@ -301,5 +324,20 @@ canvas {
       display: flex;
       align-items: center;
       justify-content: center; }
+
+@keyframes pulse {
+  0% {
+    opacity: 1; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+@keyframes alwayson {
+  0% {
+    opacity: 1; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
 
 /*# sourceMappingURL=player.css.map */

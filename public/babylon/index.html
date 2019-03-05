@@ -126,25 +126,36 @@
         <div id="game-overlay">
           <div id="animation-container">
             <div class="overlay-background"></div>
-            <div id="left-lights">
-              <div class="light-container">
-                <div class="large-light">
-                  <div class="large-rectangle" id="light1"></div>
+            <div id="lighting-container">
+              <div id="left-lights">
+                <div class="light-container direction-down">
+                  <div class="large-light">
+                    <div class="large-rectangle light" id="light1"></div>
+                  </div>
                 </div>
+                <div class="light-container direction-up">
+                  <div class="small-light">
+                    <div class="small-rectangle light" id="light2"></div>
+                  </div>
+                </div>
+                <!-- <div class="light-container">
+                  <div class="small-light" id="light5">
+                    <div class="small-rectangle light"></div>
+                  </div>
+                </div> -->
+              </div>
+              <div id="right-lights">
+              <div class="light-container direction-down">
                 <div class="small-light">
-                  <div class="small-rectangle" id="light2"></div>
+                  <div class="small-rectangle light" id="light3"></div>
+                </div>
+              </div>
+              <div class="light-container direction-up">
+                <div class="large-light">
+                  <div class="large-rectangle light" id="light4"></div>
                 </div>
               </div>
             </div>
-            <div id="right-lights">
-              <div class="light-container">
-                <div class="small-light">
-                  <div class="small-rectangle" id="light3"></div>
-                </div>
-                <div class="large-light">
-                  <div class="large-rectangle" id="light4"></div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="info-layer">

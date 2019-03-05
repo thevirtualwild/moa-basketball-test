@@ -60,7 +60,7 @@ html {
 
 html, input {
   font-family:
-    "Gobold",
+    "Interstate",
     sans-serif;
 }
 
@@ -196,7 +196,7 @@ canvas{
     max-width: 100%;
     padding: 0;
     width: 100%;
-    height: 100px;
+    height: 80px;
     object-fit: cover;
     object-position: bottom right;
 
@@ -206,8 +206,9 @@ canvas{
       left:20px;
       max-width: 150px;
       width:150px;
-      height:100px;
+      height:80px;
       object-fit: contain;
+      object-position: top left;
     }
   }
 }
@@ -382,6 +383,34 @@ $orange2: rgb(241, 99, 34);
       background-color: transparent;
       border: none;
       pointer-events: initial;
+      opacity:1;
+
+      &.blinking {
+        animation: pulse 2.5s infinite;
+      }
+
+      &:focus {
+        outline: none;
+        -webkit-animation-play-state: paused;
+        -moz-animation-play-state: paused;
+        -o-animation-play-state: paused;
+         animation-play-state: paused;
+         opacity:1 !important;
+         animation: alwayson 1s infinite;
+      }
+
+      &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: white !important;
+        opacity: 1; /* Firefox */
+      }
+
+      &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: white !important;
+      }
+
+      &::-ms-input-placeholder { /* Microsoft Edge */
+        color: white !important;
+      }
     }
   }
 }
@@ -430,7 +459,7 @@ $orange2: rgb(241, 99, 34);
 
       .ribbon-text {
         text-align: center;
-        font-size: 140px;
+        font-size: 90px; //was 140px;
         color: white;
         font-weight:bold;
 
@@ -456,5 +485,65 @@ $orange2: rgb(241, 99, 34);
         // -o-transform: scale(1, 1.5);
       }
     }
+  }
+}
+
+
+
+
+
+
+// //resizeable stuff
+// .very-specific-design {
+//   width: 1125px;
+//   height: 2436px;
+//   // padding: 50px;
+//   text-align: center;
+//   // background: white;
+//   position: relative;
+//   left: 50%;
+//   top: 50%;
+//   // transform: translate(-50%, -50%);
+//   transform-origin: top left;
+// }
+//
+// .scaleable-wrapper {
+//   // padding: 20px;
+//   resize: both;
+//   position: relative;
+//   // background: #666;
+//   width: 1125px; //was 400px;
+// }
+//
+// .ui-resizable-se {
+//   width: 10px;
+//   height: 10px;
+//   background: orange;
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+// }
+
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes alwayson {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
   }
 }

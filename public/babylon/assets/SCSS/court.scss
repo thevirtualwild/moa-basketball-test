@@ -22,19 +22,16 @@
   box-sizing: border-box;
   font-family: "Interstate";
 }
-
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden !important;
 }
-
 html {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }
-
 html, input {
   font-family:
           "HelveticaNeue-Light",
@@ -45,7 +42,6 @@ html, input {
           "Lucida Grande",
           sans-serif;
 }
-
 ul {
   list-style: none;
   word-wrap: break-word;
@@ -63,18 +59,14 @@ canvas{
   z-index: -5;
 }
 
-
-
 .colors {
   position: fixed;
 }
-
 .color {
   display: inline-block;
   height: 48px;
   width: 48px;
 }
-
 .color.black { background-color: black; }
 .color.red { background-color: red; }
 .color.green { background-color: green; }
@@ -82,7 +74,7 @@ canvas{
 .color.yellow { background-color: yellow; }
 
 
-
+// old scss to be cleaned up
 #template{
   margin:0;
   position:absolute;
@@ -97,7 +89,6 @@ canvas{
     opacity: 0.5;
   }
 }
-
 #fpsLabel, #list-top {
   position: fixed;
   right: 20px;
@@ -105,7 +96,6 @@ canvas{
   color: #999;
   cursor: default;
 }
-
 #attractLabel {
   position: absolute;
   left:0;
@@ -125,7 +115,6 @@ canvas{
   color: #999;
   cursor: default;
 }
-
 #list-top, #list-bot {
   left: 20px;
   right: initial;
@@ -137,7 +126,6 @@ canvas{
   color: #999;
   cursor: default;
 }
-
 #scoreLabel {
   position: absolute;
   left: 20px;
@@ -145,7 +133,6 @@ canvas{
   color: #999;
   cursor: default;
 }
-
 #titleTopLeft{
   position: absolute;
   left:0px;
@@ -159,7 +146,6 @@ canvas{
   overflow: visible;
   z-index: 500;
 }
-
 #titleTopLeft img{
   width: 100%;
   height: 100%;
@@ -167,7 +153,6 @@ canvas{
   object-position: left;
   position: relative;
 }
-
 #titleTopLeft img#titleLights{
   width: 200%;
   height: 200%;
@@ -177,8 +162,6 @@ canvas{
   top:-20px;
   left:-100px;
 }
-
-
 #permanentGameBranding{
   header{
     height: 200px;
@@ -199,7 +182,6 @@ canvas{
     background-repeat: repeat-x;
   }
 }
-
 #inner{
   max-width: 1920px;
   width: 100%;
@@ -418,7 +400,6 @@ canvas{
     }
   }
 }
-
 #preFooter{
   position: absolute;
   bottom: 250px;
@@ -446,7 +427,6 @@ canvas{
     }
   }
 }
-
 footer{
 
 
@@ -720,12 +700,7 @@ footer{
 
   }
 }
-
-
-
-
 /* Pages */
-
 .pages {
   height: 100%;
   margin: 0;
@@ -733,19 +708,15 @@ footer{
   width: 100%;
   position: absolute;
 }
-
 .page {
   height: 100%;
   position: absolute;
   width: 100%;
 }
-
 /* Login & Roomcange Pages*/
-
 .login.page, .passcode.page {
   background-color: #000;
 }
-
 .login.page .form, .passcode.page .form {
   height: 100px;
   margin-top: -100px;
@@ -756,7 +727,6 @@ footer{
   width: 100%;
   max-width: 100%;
 }
-
 .login.page .form .usernameInput, .passcode.page .form .passcodeInput {
   background-color: transparent;
   border: none;
@@ -767,25 +737,27 @@ footer{
   width: 400px;
   max-width: 100%;
 }
-
 .login.page .title, .passcode.page .title {
   font-size: 200%;
 }
-
 .login.page .usernameInput, .passcode.page .passcodeInput {
   font-size: 200%;
   letter-spacing: 3px;
 }
-
 .login.page .title, .passcode.page .title, .login.page .usernameInput, .passcode.page .passcodeInput {
   color: #fff;
   font-weight: 100;
 }
 
 
+//reset
+#scoreLabel, #attractLabel, #fpsLabel, #fpsLabel-bot, #permanentGameBranding {
+  display:none;
+}
 
 
 
+// new scss
 
 $yellow1: #f8d133;
 $green1: #a5ce37;
@@ -806,15 +778,6 @@ $orange2: rgb(241, 99, 34);
   left: 0;
 }
 
-#template {
-  display: none !important;
-}
-#scoreLabel, #attractLabel, #fpsLabel, #fpsLabel-bot {
-  display:none;
-}
-#permanentGameBranding {
-  display:none;
-}
 #screen-overlay {
   background:white;
   padding:60px;
@@ -860,7 +823,7 @@ $orange2: rgb(241, 99, 34);
 #infobar {
   width: 29%;
   // padding: 0 50px;
-  z-index: 100;
+  z-index: 200;
   display: inline-block;
   position: relative;
   height: 100%;
@@ -1061,12 +1024,181 @@ $orange2: rgb(241, 99, 34);
 }
 
 
-#left-lights .small-light, #right-lights .large-light {
-    transform: translate(-512px, 1600px);
+
+//lights
+// #left-lights .small-light, #right-lights .large-light, .light-direction-down {
+//     // transform: translate(-512px, 1600px);
+//     transform: translateY(-1000px);
+// }
+// #left-lights .large-light, #right-lights .small-light, .light-direction-up {
+//     // transform: translate(512px, -1600px);
+// }
+#animation-container {
+
+  .overlay-background {
+    content: '';
+    display: none;
+    background: rgba(0,0,0,.8);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index:1;
+  }
+
+  #lighting-container {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    height:100%;
+    transform-origin: top left;
+    position:absolute;
+    overflow: hidden;
+
+    #left-lights, #right-lights {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    #left-lights {
+      transform-origin: top left;
+      transform: rotate(18deg) translateY(-40%) scaleY(1.35);
+
+      .small-light {
+        left:320px;
+      }
+    }
+    #right-lights {
+      transform-origin: bottom right;
+      transform: rotate(18deg) translateY(40%) scaleY(1.35);
+
+      .small-light {
+        left: 1000px;
+      }
+      .large-light {
+        left: -700px;
+      }
+    }
+
+    .large-rectangle, .small-rectangle, .light {
+        background: linear-gradient($green1, $green2);
+        position:relative;
+        opacity:.5;
+
+        &:before,
+        &:after {
+          content: '';
+          @include fillbackground;
+          animation: opacity 6s infinite;
+          opacity: 0;
+          }
+        &:before {
+          background: linear-gradient($orange2, $orange1);
+          animation-delay: 3s;
+        }
+        &:after {
+          background: linear-gradient($pink1, $pink2);
+          animation-delay: 3s;
+        }
+    }
+
+    .large-rectangle {
+      height: 1000px;
+      width: 288px;
+    }
+    .small-rectangle {
+      height: 1000px;
+      width: 35px;
+    }
+
+
+    .light-container {
+      position: absolute;
+      z-index: 100;
+      // transform:rotate(-72deg);
+
+      &.direction-up {
+        transform: rotate(180deg);
+        top: 1080px;
+        left: 50%;
+
+        .small-light {
+          transform: translateX(-35px);
+        }
+      }
+
+
+      .large-light, .small-light {
+        position:absolute;
+        top: -1000px;
+      }
+  }
 }
-#left-lights .large-light, #right-lights .small-light {
-    transform: translate(512px, -1600px);
+
+
+
+  //
+  // #right-lights .large-rectangle, #left-lights .small-rectangle {
+  //   background: linear-gradient(90deg, $green1, $green2);
+  //
+  //   &:before,
+  //   &:after {
+  //     content: '';
+  //     @include fillbackground;
+  //     animation: opacity 6s infinite;
+  //     opacity: 0;
+  //     }
+  //   &:before {
+  //     background: linear-gradient(90deg,
+  //       $orange2, $orange1);
+  //     animation-delay: 2s;
+  //   }
+  //   &:after {
+  //     background: linear-gradient(90deg,
+  //       $pink1, $pink2);
+  //     animation-delay: 4s;
+  //   }
+  // }
+
+  // #left-lights {
+  //   left: 0;
+  //   top: 0;
+  //   bottom: 0;
+  //   height: 100%;
+  //   width: 300px;
+  //   position: absolute;
+  //   z-index:1;
+  //
+  //   .large-rectangle {
+  //       transform: rotate(-72deg) translateY(-763px);
+  //   }
+  //   .small-rectangle {
+  //       transform: rotate(-72deg) translateY(-384px) translateX(-580px);
+  //   }
+  // }
+  // #right-lights {
+  //   right: 0;
+  //   top: 0;
+  //   bottom: 0;
+  //   height: 100%;
+  //   width: 300px;
+  //   position: absolute;
+  //   z-index:1;
+  //
+  //   .large-rectangle {
+  //       transform: rotate(-72deg) translateY(-292px) translateX(-400px);
+  //   }
+  //   .small-rectangle {
+  //       transform: rotate(-72deg) translateY(-199px) translateX(-220px);
+  //   }
+  // }
 }
+
+
+
+
 #game-container {
   width:71%;
   position: relative;
@@ -1079,118 +1211,6 @@ $orange2: rgb(241, 99, 34);
     position: absolute;
     height: 100%;
     width: 100%;
-
-
-    #animation-container {
-
-      .overlay-background {
-        content: '';
-        display: none;
-        background: rgba(0,0,0,.8);
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index:1;
-      }
-
-      .large-rectangle, .small-rectangle {
-          background: linear-gradient(-90deg, $green1, $green2);
-
-          &:before,
-          &:after {
-            content: '';
-            @include fillbackground;
-            animation: opacity 6s infinite;
-            opacity: 0;
-            }
-          &:before {
-            background: linear-gradient(-90deg,
-              $orange2, $orange1);
-            animation-delay: 3s;
-          }
-          &:after {
-            background: linear-gradient(-90deg,
-              $pink1, $pink2);
-            animation-delay: 3s;
-          }
-
-          transform:rotate(-72deg);
-          opacity:.5;
-      }
-
-      .light-container {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          z-index: 100;
-
-          .large-rectangle {
-              height: 288px;
-              width: 1500px;
-          }
-          .small-rectangle {
-              height: 35px;
-              width: 1000px;
-          }
-      }
-
-      #right-lights .large-rectangle, #left-lights .small-rectangle {
-        background: linear-gradient(90deg, $green1, $green2);
-
-        &:before,
-        &:after {
-          content: '';
-          @include fillbackground;
-          animation: opacity 6s infinite;
-          opacity: 0;
-          }
-        &:before {
-          background: linear-gradient(90deg,
-            $orange2, $orange1);
-          animation-delay: 2s;
-        }
-        &:after {
-          background: linear-gradient(90deg,
-            $pink1, $pink2);
-          animation-delay: 4s;
-        }
-      }
-
-      #left-lights {
-        left: 0;
-        top: 0;
-        bottom: 0;
-        height: 100%;
-        width: 300px;
-        position: absolute;
-        z-index:1;
-
-        .large-rectangle {
-            transform: rotate(-72deg) translateY(-763px);
-        }
-        .small-rectangle {
-            transform: rotate(-72deg) translateY(-384px) translateX(-580px);
-        }
-      }
-      #right-lights {
-        right: 0;
-        top: 0;
-        bottom: 0;
-        height: 100%;
-        width: 300px;
-        position: absolute;
-        z-index:1;
-
-        .large-rectangle {
-            transform: rotate(-72deg) translateY(-292px) translateX(-400px);
-        }
-        .small-rectangle {
-            transform: rotate(-72deg) translateY(-199px) translateX(-220px);
-        }
-      }
-    }
 
     #score-bonus {
       position: absolute;

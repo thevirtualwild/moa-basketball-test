@@ -20,75 +20,83 @@
 
 </head>
 <body>
-  <div id="background">
-    <div class="gameplay-state">
-      <img src="/babylon/assets/UI/Mobile/MobileBGHole.png">
-    </div>
-  </div>
-  <div id="headerInstructions">
-    <img id="triangle" src="/babylon/assets/UI/Mobile/Arrow.png">
-    <h2 class="instructions">SWIPE UP TO SHOOT</h2>
-  </div>
-  <ul class="pages ">
-    <li class="passcode page">
-      <div class="input-state">
-        <div class="form">
-          <h3 class="title">ENTER<br/>GAME CODE</h3>
-          <div id="ribbon">
-            <div id="ribbon-container">
-              <div class="dropshadow-container">
-                <div id="ribbon-background" class="emphasis-text">
-                  <input class="passcodeInput ribbon-text" type="text" maxlength="14" style="text-transform:uppercase" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <h2 class="errorMessage"></h2>
+  <div id="resizeable-wrapper" class="scaleable-wrapper">
+    <div id="screen-wrapper" class="very-specific-design">
+      <div id="background">
+        <div class="gameplay-state">
+          <img src="/babylon/assets/UI/Mobile/MobileBGHole.png">
         </div>
       </div>
-    </li>
-    <li class="player page">
-      <div id="refreshLogo">
-        <img id ="refresh" src="/babylon/assets/UI/Mobile/MobileRefreshBtnIcon.png">
+      <div id="headerInstructions">
+        <img id="triangle" src="/babylon/assets/UI/Mobile/Arrow.png">
+        <h2 class="instructions">SWIPE UP TO SHOOT</h2>
       </div>
-      <div class="form">
-        <h2 class="firstName">SHOOTER</h2>
-        <h2 class="lastName">MCGEE</h2>
-      </div>
-    </li>
-    <!-- <li class="gameplay page">
-      <div class="form">
+      <ul class="pages ">
+        <li class="passcode page">
+          <div class="input-state">
+            <div class="form">
+              <h3 class="title">ENTER<br/>GAME CODE</h3>
+              <div id="ribbon">
+                <div id="ribbon-container">
+                  <div class="dropshadow-container">
+                    <div id="ribbon-background" class="emphasis-text">
+                      <input class="passcodeInput ribbon-text blinking" type="text" maxlength="14" style="text-transform:uppercase" placeholder="_"/><span class="underscore">_</>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="errorMessage"></h2>
+            </div>
+          </div>
+        </li>
+        <li class="player page">
+          <div id="refreshLogo">
+            <img id ="refresh" src="/babylon/assets/UI/Mobile/MobileRefreshBtnIcon.png">
+          </div>
+          <div class="form">
+            <h2 class="firstName">SHOOTER</h2>
+            <h2 class="lastName">MCGEE</h2>
+          </div>
+        </li>
+        <!-- <li class="gameplay page">
+          <div class="form">
 
-      </div>
-    </li> -->
-    <li class="gameover page">
-      <div class="form">
-        <h2 class="thank">THANK</h2>
-        <h2 class="you">YOU!</h2>
-        <img class = "dash" src="/babylon/assets/UI/Mobile/MobileDash.png">
-        <img class = "button" src="/babylon/assets/UI/Mobile/MobilePlayAgainBtn.png">
-      </div>
-    </li>
-  </ul>
+          </div>
+        </li> -->
+        <li class="gameover page">
+          <div class="form">
+            <h2 class="thank">THANK</h2>
+            <h2 class="you">YOU!</h2>
+            <img class = "dash" src="/babylon/assets/UI/Mobile/MobileDash.png">
+            <img class = "button" src="/babylon/assets/UI/Mobile/MobilePlayAgainBtn.png">
+          </div>
+        </li>
+      </ul>
 
-  <div id="footerLogo">
-    <img class="gameLogo" src="/babylon/assets/UI/Common/ShotClockLogoGreyShad.png">
-    <div id="brought-by">
-      <img class="sponsorLogo" src="/babylon/assets/UI/Mobile/MobileMoALogo.jpg">
+      <div id="footerLogo">
+        <img class="gameLogo" src="/babylon/assets/UI/Common/ShotClockLogoGreyShad.png">
+        <div id="brought-by">
+          <img class="sponsorLogo" src="/babylon/assets/UI/Mobile/MobileMoALogo.jpg">
+        </div>
+      </div>
+
+
+      <canvas id = "canvas"></canvas>
     </div>
   </div>
 
-
-  <canvas id = "canvas"></canvas>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
+
   <script src="/config.js"></script>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
   <script src="/babylon/babylon.custom.js"></script>
   <script src="/babylon/scripts/playerInfo.js"></script>
   <script src="/babylon/scripts/UI/state_manager.js"></script>
+  <!-- <script src="/babylon/scripts/UI/resizer.js"></script> -->
   <script src="/scripts/UI/gameover.js"></script>
   <script src="/scripts/UI/gameplay.js"></script>
   <script src="/scripts/UI/customize.js"></script>

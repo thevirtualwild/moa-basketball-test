@@ -562,13 +562,7 @@ footer #footerRight img#sponsorGround {
   color: #fff;
   font-weight: 100; }
 
-#template {
-  display: none !important; }
-
-#scoreLabel, #attractLabel, #fpsLabel, #fpsLabel-bot {
-  display: none; }
-
-#permanentGameBranding {
+#scoreLabel, #attractLabel, #fpsLabel, #fpsLabel-bot, #permanentGameBranding {
   display: none; }
 
 #screen-overlay {
@@ -606,7 +600,7 @@ footer #footerRight img#sponsorGround {
 
 #infobar {
   width: 29%;
-  z-index: 100;
+  z-index: 200;
   display: inline-block;
   position: relative;
   height: 100%;
@@ -741,11 +735,77 @@ footer #footerRight img#sponsorGround {
             line-height: 1;
             margin-top: -10px; }
 
-#left-lights .small-light, #right-lights .large-light {
-  transform: translate(-512px, 1600px); }
-
-#left-lights .large-light, #right-lights .small-light {
-  transform: translate(512px, -1600px); }
+#animation-container .overlay-background {
+  content: '';
+  display: none;
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1; }
+#animation-container #lighting-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  transform-origin: top left;
+  position: absolute;
+  overflow: hidden; }
+  #animation-container #lighting-container #left-lights, #animation-container #lighting-container #right-lights {
+    width: 100%;
+    height: 100%;
+    position: absolute; }
+  #animation-container #lighting-container #left-lights {
+    transform-origin: top left;
+    transform: rotate(18deg) translateY(-40%) scaleY(1.35); }
+    #animation-container #lighting-container #left-lights .small-light {
+      left: 320px; }
+  #animation-container #lighting-container #right-lights {
+    transform-origin: bottom right;
+    transform: rotate(18deg) translateY(40%) scaleY(1.35); }
+    #animation-container #lighting-container #right-lights .small-light {
+      left: 1000px; }
+    #animation-container #lighting-container #right-lights .large-light {
+      left: -700px; }
+  #animation-container #lighting-container .large-rectangle, #animation-container #lighting-container .small-rectangle, #animation-container #lighting-container .light {
+    background: linear-gradient(#a5ce37, #38ab25);
+    position: relative;
+    opacity: .5; }
+    #animation-container #lighting-container .large-rectangle:before, #animation-container #lighting-container .large-rectangle:after, #animation-container #lighting-container .small-rectangle:before, #animation-container #lighting-container .small-rectangle:after, #animation-container #lighting-container .light:before, #animation-container #lighting-container .light:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      animation: opacity 6s infinite;
+      opacity: 0; }
+    #animation-container #lighting-container .large-rectangle:before, #animation-container #lighting-container .small-rectangle:before, #animation-container #lighting-container .light:before {
+      background: linear-gradient(#f16322, #faab18);
+      animation-delay: 3s; }
+    #animation-container #lighting-container .large-rectangle:after, #animation-container #lighting-container .small-rectangle:after, #animation-container #lighting-container .light:after {
+      background: linear-gradient(#f43886, #9e025b);
+      animation-delay: 3s; }
+  #animation-container #lighting-container .large-rectangle {
+    height: 1000px;
+    width: 288px; }
+  #animation-container #lighting-container .small-rectangle {
+    height: 1000px;
+    width: 35px; }
+  #animation-container #lighting-container .light-container {
+    position: absolute;
+    z-index: 100; }
+    #animation-container #lighting-container .light-container.direction-up {
+      transform: rotate(180deg);
+      top: 1080px;
+      left: 50%; }
+      #animation-container #lighting-container .light-container.direction-up .small-light {
+        transform: translateX(-35px); }
+    #animation-container #lighting-container .light-container .large-light, #animation-container #lighting-container .light-container .small-light {
+      position: absolute;
+      top: -1000px; }
 
 #game-container {
   width: 71%;
@@ -758,87 +818,6 @@ footer #footerRight img#sponsorGround {
     position: absolute;
     height: 100%;
     width: 100%; }
-    #game-container #game-overlay #animation-container .overlay-background {
-      content: '';
-      display: none;
-      background: rgba(0, 0, 0, 0.8);
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 1; }
-    #game-container #game-overlay #animation-container .large-rectangle, #game-container #game-overlay #animation-container .small-rectangle {
-      background: linear-gradient(-90deg, #a5ce37, #38ab25);
-      transform: rotate(-72deg);
-      opacity: .5; }
-      #game-container #game-overlay #animation-container .large-rectangle:before, #game-container #game-overlay #animation-container .large-rectangle:after, #game-container #game-overlay #animation-container .small-rectangle:before, #game-container #game-overlay #animation-container .small-rectangle:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        animation: opacity 6s infinite;
-        opacity: 0; }
-      #game-container #game-overlay #animation-container .large-rectangle:before, #game-container #game-overlay #animation-container .small-rectangle:before {
-        background: linear-gradient(-90deg, #f16322, #faab18);
-        animation-delay: 3s; }
-      #game-container #game-overlay #animation-container .large-rectangle:after, #game-container #game-overlay #animation-container .small-rectangle:after {
-        background: linear-gradient(-90deg, #f43886, #9e025b);
-        animation-delay: 3s; }
-    #game-container #game-overlay #animation-container .light-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      z-index: 100; }
-      #game-container #game-overlay #animation-container .light-container .large-rectangle {
-        height: 288px;
-        width: 1500px; }
-      #game-container #game-overlay #animation-container .light-container .small-rectangle {
-        height: 35px;
-        width: 1000px; }
-    #game-container #game-overlay #animation-container #right-lights .large-rectangle, #game-container #game-overlay #animation-container #left-lights .small-rectangle {
-      background: linear-gradient(90deg, #a5ce37, #38ab25); }
-      #game-container #game-overlay #animation-container #right-lights .large-rectangle:before, #game-container #game-overlay #animation-container #right-lights .large-rectangle:after, #game-container #game-overlay #animation-container #left-lights .small-rectangle:before, #game-container #game-overlay #animation-container #left-lights .small-rectangle:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        animation: opacity 6s infinite;
-        opacity: 0; }
-      #game-container #game-overlay #animation-container #right-lights .large-rectangle:before, #game-container #game-overlay #animation-container #left-lights .small-rectangle:before {
-        background: linear-gradient(90deg, #f16322, #faab18);
-        animation-delay: 2s; }
-      #game-container #game-overlay #animation-container #right-lights .large-rectangle:after, #game-container #game-overlay #animation-container #left-lights .small-rectangle:after {
-        background: linear-gradient(90deg, #f43886, #9e025b);
-        animation-delay: 4s; }
-    #game-container #game-overlay #animation-container #left-lights {
-      left: 0;
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      width: 300px;
-      position: absolute;
-      z-index: 1; }
-      #game-container #game-overlay #animation-container #left-lights .large-rectangle {
-        transform: rotate(-72deg) translateY(-763px); }
-      #game-container #game-overlay #animation-container #left-lights .small-rectangle {
-        transform: rotate(-72deg) translateY(-384px) translateX(-580px); }
-    #game-container #game-overlay #animation-container #right-lights {
-      right: 0;
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      width: 300px;
-      position: absolute;
-      z-index: 1; }
-      #game-container #game-overlay #animation-container #right-lights .large-rectangle {
-        transform: rotate(-72deg) translateY(-292px) translateX(-400px); }
-      #game-container #game-overlay #animation-container #right-lights .small-rectangle {
-        transform: rotate(-72deg) translateY(-199px) translateX(-220px); }
     #game-container #game-overlay #score-bonus {
       position: absolute;
       color: white;

@@ -43,3 +43,9 @@ function UIInputErrorMessage(message)
     errorMessage.style.color = "red";
     errorMessage.innerHTML = message;
 }
+// 
+// $( document ).ready( function() {
+//   $('.passportInput').change( function () {
+//     $('.passportInput').removeClass('blinking');
+//   });
+// });

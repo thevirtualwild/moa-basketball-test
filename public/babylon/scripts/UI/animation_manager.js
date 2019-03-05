@@ -7,25 +7,25 @@
 
 
 
-function AnimateLights(element, speed, direction) {
-  var delay = 0;
-  var modX = -10;
-  var modY = 10;
+function AnimateLights(element, speed, direction, delay) {
+  // var delay = 0;
+  // var modX = -10;
 
-  if (direction == 'right') {
-    delay = 1.3;
-    modX = 10;
-    modY = -10;
+  if (direction == 'down') {
+    // delay = 1;
+    // modX = 10;
+    // modY = -10;
   }
 
 
 
-  var toX = (modX * 64);
-  var toY = (modY * 200);
+  // var toX = (modX * 64);
+  // var toY = (modY * 200);
+  var toY = 2200;
 
-  speed = 1 - (.1 * (speed-1));
-
-  TweenMax.to(element, speed, { x:(toX), y:(toY), repeat: -1, delay: delay, ease: Sine.easeInOut});
+  var timeoftransition = 1 - (speed /(speed +1));
+// x:(toX),
+  TweenMax.to(element, timeoftransition, { y:(toY), repeat: -1, delay: delay, repeatDelay:delay/2, ease: Sine.easeInOut});
 }
 
 function PulseScaling(element, speed, scaleamount) {
