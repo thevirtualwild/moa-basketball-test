@@ -395,7 +395,7 @@ function createScene()
           currentGameTime -= (engine.getDeltaTime() / 1000);
           if(combopts > 1)
           {
-            combopts -= (scoremodifier * (engine.getDeltaTime() / 6000) ); //change for combo dropoff
+            combopts -= (scoremodifier * (engine.getDeltaTime() / 10000) ); //change for combo dropoff
             updateScoreModifier();
           }
 
@@ -1184,6 +1184,7 @@ function createScene()
     clearMat.alpha = 0;
     scoreTrigger.material = clearMat;
     score = 0;
+    highestStreak = 0;
 
     var manager = new BABYLON.ActionManager(scene);
     scoreTrigger.actionManager = manager;
@@ -1862,12 +1863,13 @@ function updateUI()
     {
         case gameStates.ATTRACT:
             score = 0;
+            highestStreak = 0;
             currentWaitTime = initWaitTime;
             hasplayer = false;
             scoreLabel.innerHTML = "";
             //attractLabel.innerHTML = "COURT CODE: <br /> " + courtName;
             UIAttractUpdateCourtName(courtName);
-            attractLabel.innerHTML = "";
+            // attractLabel.innerHTML = "";
             resetClock();
             UIGameplayUpdateScore(0);
             if(!initRun){
@@ -1876,8 +1878,8 @@ function updateUI()
             }
             break;
         case gameStates.WAITING:
-            scoreLabel.innerHTML = "COURT CODE: " + courtName;
-            attractLabel.innerHTML = "";
+            // scoreLabel.innerHTML = "COURT CODE: " + courtName;
+            // attractLabel.innerHTML = "";
             UIAttractAnimateOut();
             break;
         case gameStates.GAMEPLAY:

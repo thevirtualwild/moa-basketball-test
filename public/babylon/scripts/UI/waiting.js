@@ -1,4 +1,4 @@
-var textFadeTime = .5;
+var textFadeTime = 2;
 
 var canvas = document.getElementById("canvas");
 var transitioned = false;
@@ -26,8 +26,8 @@ function UIWaitingAnimateIn()
     turnOnWaiting();
 
     //textWaiting.style.left = footerWidth + "px";
-    TweenMax.from(countdown, textFadeTime, {opacity:1});
-    TweenMax.from(textWaiting, textFadeTime, {opacity:1});
+    TweenMax.to(countdown, textFadeTime, {opacity:1, delay: textFadeTime,ease:Sine.easeInOut});
+    TweenMax.to(textWaiting, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 }
 
 function turnOnWaiting()
@@ -50,18 +50,17 @@ function turnOffWaiting()
 function UIWaitingAnimateOut()
 {
     TweenMax.to(countdown, textFadeTime, {opacity:0, delay: textFadeTime, onComplete: UIGameplayAnimateIn});
-    TweenMax.to(textWaiting, textFadeTime/2, {opacity:0, delay: textFadeTime});
+    TweenMax.to(textWaiting, textFadeTime, {opacity:0, delay: textFadeTime, onComplete: turnOffWaiting});
     // TweenMax.to(textWaiting, textFadeTime, {left: initWaitingLeftWidth + 300 , delay: textFadeTime})
-    turnOffWaiting();
 }
 
 function UIWaitingUpdateClock(time)
 {
     countdown_num.text((Math.ceil(time.toFixed(2)) + 1).toString());
 
-    if(time+1  <= 0 && transitioned == false)
+    if(time+1 <= 0 && transitioned == false)
     {
-        transitioned=  true;
+        transitioned = true;
         countdown_num.text("0");
         if(hasplayer)
         UIWaitingAnimateOut();

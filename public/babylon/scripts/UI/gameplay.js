@@ -15,6 +15,8 @@ var scoreText = document.getElementById("current-score");
 var firstName = infobarContent.getElementsByClassName("firstname")[0];
 var lastName = infobarContent.getElementsByClassName("lastname")[0];
 
+var textGameplay = $("#infobar-content .gameplay-state .text-container");
+
 function UIGameplayAnimateIn()
 {
   turnOnGameplay();
@@ -29,11 +31,13 @@ function UIGameplayAnimateIn()
 
   TweenMax.to(firstName, textFadeTime, {opacity:1, delay: textFadeTime});
   TweenMax.to(lastName, textFadeTime, {opacity:1, delay: textFadeTime});
+  TweenMax.to(textGameplay, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 }
 
 function UIGameplayAnimateOut()
 {
-  turnOffGameplay();
+  TweenMax.to(scoreText, textFadeTime, {opacity:0, delay: textFadeTime,ease:Sine.easeInOut, onComplete: UIResultsAnimateIn});
+  TweenMax.to(textGameplay, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut, onComplete:turnOffGameplay});
 }
 
 function UIGameplayUpdateScore(scoreInput)

@@ -61,5 +61,5 @@ function turnOffGameplay()
 function redirectNormal() {
   console.log('trying to redirect');
   // console.dir(resultsdata);
-  // window.location.replace("http://stackoverflow.com");
+  window.location.replace("http://www.ampthink.com/");
 }

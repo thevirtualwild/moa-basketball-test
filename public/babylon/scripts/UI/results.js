@@ -4,6 +4,7 @@ var canvas = $('#canvas');
 
 var infobar_content = $('#infobar-content');
 var game_overlay = $('#game-overlay');
+var textResults = $("#infobar-content .results-state .text-container");
 
 var winner_stats = $('#winner-stats');
 var winner_ribbon = $('#winner-ribbon');
@@ -54,6 +55,11 @@ function UIResultsAnimateIn()
     console.log("ANIMATE RESULTS IN");
     animating = false;
 
+    TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+
+    TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+
     // if(!winner)
     // {
     //     console.log("TWEENING IN YOUR LOSER SCORE");
@@ -67,7 +73,9 @@ function UIResultsAnimateOut()
 {
     if(animating) return;
 
-    turnOffResults();
+    TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:turnOffResults});
+    TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:UIAttractAnimateIn});
+    TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
     animating = true;
 

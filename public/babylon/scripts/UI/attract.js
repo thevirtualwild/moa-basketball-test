@@ -1,10 +1,11 @@
-var textFadeTime = 0.25;
+var textFadeTime = 0.5;
 
 var canvas = document.getElementById("canvas");
 
 var gameCodeText = document.getElementById("gamecode-text");
 var textingCode = document.getElementById("texting-code");
 var textingNumber = document.getElementById("texting-number");
+var attractTextContainer = $('.attract-state .text-container');
 
 // var attractItems = document.getElementsByClassName("attract-state");
 
@@ -27,13 +28,16 @@ function UIAttractAnimateIn()
         animatingOff();
     }
 
+    TweenMax.to(attractTextContainer, textFadeTime, {opacity:1});
+    TweenMax.to(gameCodeText, textFadeTime, {opacity:1});
+
 }
 
 function UIAttractAnimateOut()
 {
     //onComplete: turnOffAttract
-    turnOffAttract();
-    turnOffAnimations();
+    TweenMax.to(attractTextContainer, textFadeTime, {opacity:0, onComplete:turnOffAttract});
+    TweenMax.to(gameCodeText, textFadeTime, {opacity:0});
 }
 
 function turnOnAttract()
@@ -46,6 +50,7 @@ function turnOffAttract()
 {
     changeVisibility('attract-state', 'hidden');
     changeDisplay('attract-state', 'none');
+    turnOffAnimations();
 
     UIWaitingAnimateIn();
 
