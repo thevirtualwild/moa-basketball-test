@@ -689,6 +689,8 @@ footer #footerRight img#sponsorGround {
         bottom: 0;
         left: 0;
         animation: opacity 6s infinite;
+        -webkit-animation: opacity 6s infinite;
+        -moz-animation: opacity 6s infinite;
         opacity: 0; }
       #infobar #info-container #ribbon #ribbon-container #ribbon-background:before {
         background: linear-gradient(-90deg, #f16322, #faab18);
@@ -781,13 +783,15 @@ footer #footerRight img#sponsorGround {
       bottom: 0;
       left: 0;
       animation: opacity 6s infinite;
+      -webkit-animation: opacity 6s infinite;
+      -moz-animation: opacity 6s infinite;
       opacity: 0; }
     #animation-container #lighting-container .large-rectangle:before, #animation-container #lighting-container .small-rectangle:before, #animation-container #lighting-container .light:before {
       background: linear-gradient(#f16322, #faab18);
-      animation-delay: 3s; }
+      animation-delay: 2s; }
     #animation-container #lighting-container .large-rectangle:after, #animation-container #lighting-container .small-rectangle:after, #animation-container #lighting-container .light:after {
       background: linear-gradient(#f43886, #9e025b);
-      animation-delay: 3s; }
+      animation-delay: 4s; }
   #animation-container #lighting-container .large-rectangle {
     height: 1000px;
     width: 288px; }

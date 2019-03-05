@@ -106,8 +106,8 @@ canvas{
     width:100%;
     z-index:-10;
     object-fit: cover;
-    height:calc(100% - 100px);
-    bottom: 100px;
+    height:calc(100% - 80px);
+    bottom: 80px;
   }
 }
 /* Login & Roomcange Pages*/
@@ -369,6 +369,13 @@ $blue2: rgb(0, 107, 138);
 $pink2: rgb(158, 2, 91);
 $orange2: rgb(241, 99, 34);
 
+@mixin fillbackground {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
 
 .passcode.page, .input-state {;
@@ -420,7 +427,7 @@ $orange2: rgb(241, 99, 34);
     .firstName, .lastName {
       font-family: 'Fresh Marker' !important;
       color: black;
-      font-size: 80px;
+      font-size: 70px;
       transform: rotate(-10deg) translate(-10px,0px);
     }
   }
@@ -456,6 +463,24 @@ $orange2: rgb(241, 99, 34);
       display: flex;
       align-items: center;
       justify-content: center;
+
+      &:before,
+      &:after {
+        // content: '';
+        @include fillbackground;
+        animation: opacity 6s infinite;
+        -webkit-animation: opacity 6s infinite;
+        -moz-animation: opacity 6s infinite;
+        opacity: 0;
+        }
+      &:before {
+        background: linear-gradient(-90deg, $orange2, $orange1);
+        animation-delay: 2s;
+      }
+      &:after {
+        background: linear-gradient(-90deg, $pink1, $pink2);
+        animation-delay: 4s;
+      }
 
       .ribbon-text {
         text-align: center;
@@ -524,6 +549,34 @@ $orange2: rgb(241, 99, 34);
 //   bottom: 0;
 //   right: 0;
 // }
+
+
+
+.background-gradient {
+  background: linear-gradient(-90deg, $green1, $green2);
+  position:absolute;
+  width:100%;
+  height:100%;
+  z-index: -15;
+
+  &:before,
+  &:after {
+    content: '';
+    @include fillbackground;
+    animation: opacity 6s infinite;
+    -webkit-animation: opacity 6s infinite;
+    -moz-animation: opacity 6s infinite;
+    opacity: 0;
+    }
+  &:before {
+    background: linear-gradient(-90deg, $orange2, $orange1);
+    animation-delay: 2s;
+  }
+  &:after {
+    background: linear-gradient(-90deg, $pink1, $pink2);
+    animation-delay: 4s;
+  }
+}
 
 
 @keyframes pulse {

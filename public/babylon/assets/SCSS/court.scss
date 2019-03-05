@@ -937,6 +937,8 @@ $orange2: rgb(241, 99, 34);
             content: '';
             @include fillbackground;
             animation: opacity 6s infinite;
+            -webkit-animation: opacity 6s infinite;
+            -moz-animation: opacity 6s infinite;
             opacity: 0;
             }
           &:before {
@@ -1092,15 +1094,17 @@ $orange2: rgb(241, 99, 34);
           content: '';
           @include fillbackground;
           animation: opacity 6s infinite;
+          -webkit-animation: opacity 6s infinite;
+          -moz-animation: opacity 6s infinite;
           opacity: 0;
           }
         &:before {
           background: linear-gradient($orange2, $orange1);
-          animation-delay: 3s;
+          animation-delay: 2s;
         }
         &:after {
           background: linear-gradient($pink1, $pink2);
-          animation-delay: 3s;
+          animation-delay: 4s;
         }
     }
 
