@@ -816,6 +816,10 @@ $orange2: rgb(241, 99, 34);
 }
 .results-state .text-container {
   padding-bottom:30px;
+
+  #winner-trophy {
+    margin-bottom:100px;
+  }
 }
 
 
@@ -1251,11 +1255,12 @@ $orange2: rgb(241, 99, 34);
     .flavortext {
       color: white;
       font-family: 'Fresh Marker' !important;
-      font-size: 140px;
+      font-size: 160px;
       text-align: center;
       text-transform: uppercase;
       line-height:140px;
       z-index: 100;
+      margin-bottom: 60px;
 
       transform: rotate(-14deg);
     }
@@ -1473,11 +1478,11 @@ $bg: #121212;
   height: 1080px; //was 400px;
 }
 
-.ui-resizable-se {
-  width: 10px;
-  height: 10px;
-  background: orange;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
+// .ui-resizable-se {
+//   width: 10px;
+//   height: 10px;
+//   background: orange;
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+// }

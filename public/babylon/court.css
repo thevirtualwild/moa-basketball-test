@@ -597,6 +597,8 @@ footer #footerRight img#sponsorGround {
 
 .results-state .text-container {
   padding-bottom: 30px; }
+  .results-state .text-container #winner-trophy {
+    margin-bottom: 100px; }
 
 #infobar {
   width: 29%;
@@ -844,11 +846,12 @@ footer #footerRight img#sponsorGround {
     #game-container #game-overlay .flavortext {
       color: white;
       font-family: 'Fresh Marker' !important;
-      font-size: 140px;
+      font-size: 160px;
       text-align: center;
       text-transform: uppercase;
       line-height: 140px;
       z-index: 100;
+      margin-bottom: 60px;
       transform: rotate(-14deg); }
     #game-container #game-overlay #player-stats {
       right: 40px;
@@ -968,13 +971,5 @@ footer #footerRight img#sponsorGround {
   resize: both;
   position: relative;
   height: 1080px; }
-
-.ui-resizable-se {
-  width: 10px;
-  height: 10px;
-  background: orange;
-  position: absolute;
-  bottom: 0;
-  right: 0; }
 
 /*# sourceMappingURL=court.css.map */
