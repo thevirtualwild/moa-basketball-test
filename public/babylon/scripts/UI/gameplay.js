@@ -70,6 +70,12 @@ function UIGameplayAnimateBadgeOff()
   turnOffAnimations();
 }
 
+function UIComboLevelChange(newlevel) {
+  console.log('Combo Level Change - ' + newlevel);
+
+  UIGameplayAnimateBadgeOn(newlevel);
+}
+
 function turnOnGameplay()
 {
   changeVisibility('gameplay-state', 'visible');
