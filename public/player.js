@@ -73,8 +73,8 @@ function createScene() {
     overlayMaterial = new BABYLON.StandardMaterial("overlayMaterial", scene);
     var multimat = new BABYLON.MultiMaterial("multi", scene);
 
-    baseMaterial.emissiveTexture = new BABYLON.Texture("babylon/assets/BBall_V2/BBall_V2_Albedo.png", scene);
-    baseMaterial.diffuseTexture = new BABYLON.Texture("babylon/assets/BBall_V2/BBall_V2_Albedo.png", scene);
+    baseMaterial.emissiveTexture = new BABYLON.Texture("babylon/assets/BBall_V2/BBall_noLogo-v2.png", scene);
+    baseMaterial.diffuseTexture = new BABYLON.Texture("babylon/assets/BBall_V2/BBall_noLogo-v2.png", scene);
     baseMaterial.diffuseTexture.hasAlpha = true;
 
     overlayMaterial.ambientColor = new BABYLON.Color3(1,.4,.2);

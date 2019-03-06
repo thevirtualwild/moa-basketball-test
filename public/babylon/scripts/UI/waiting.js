@@ -1,4 +1,4 @@
-var textFadeTime = 2;
+var textFadeTime = 1;
 
 var canvas = document.getElementById("canvas");
 var transitioned = false;
@@ -26,8 +26,10 @@ function UIWaitingAnimateIn()
     turnOnWaiting();
 
     //textWaiting.style.left = footerWidth + "px";
-    TweenMax.to(countdown, textFadeTime, {opacity:1, delay: textFadeTime,ease:Sine.easeInOut});
-    TweenMax.to(textWaiting, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    // TweenMax.to(countdown, textFadeTime, {opacity:1, delay: textFadeTime,ease:Sine.easeInOut});
+    // TweenMax.to(textWaiting, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    animateLeftFromX(countdown, '-500px', textFadeTime, 1);
+    animateLeftFromX(textWaiting, '-500px', textFadeTime, 1);
 }
 
 function turnOnWaiting()
@@ -49,8 +51,10 @@ function turnOffWaiting()
 
 function UIWaitingAnimateOut()
 {
-    TweenMax.to(countdown, textFadeTime, {opacity:0, delay: textFadeTime, onComplete: UIGameplayAnimateIn});
-    TweenMax.to(textWaiting, textFadeTime, {opacity:0, delay: textFadeTime, onComplete: turnOffWaiting});
+    animateLeftToX(countdown, '-500px', textFadeTime/2, .5, UIGameplayAnimateIn);
+    animateLeftToX(textWaiting, '-500px', textFadeTime/2, .5, turnOffWaiting);
+    // TweenMax.to(countdown, textFadeTime, {opacity:0, delay: textFadeTime, onComplete: UIGameplayAnimateIn});
+    // TweenMax.to(textWaiting, textFadeTime, {opacity:0, delay: textFadeTime, onComplete: turnOffWaiting});
     // TweenMax.to(textWaiting, textFadeTime, {left: initWaitingLeftWidth + 300 , delay: textFadeTime})
 }
 

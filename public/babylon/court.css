@@ -599,7 +599,7 @@ footer #footerRight img#sponsorGround {
 .results-state .text-container {
   padding-bottom: 30px; }
   .results-state .text-container #winner-trophy {
-    margin-bottom: 100px; }
+    margin-bottom: -100px; }
 
 #infobar {
   width: 29%;
@@ -753,7 +753,8 @@ footer #footerRight img#sponsorGround {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1; }
+  z-index: -1;
+  opacity: 0; }
 #animation-container #lighting-container {
   display: flex;
   flex-direction: row;
@@ -844,10 +845,12 @@ footer #footerRight img#sponsorGround {
         font-size: 140px; }
         #game-container #game-overlay #score-bonus #bonus-amount #bonus-num {
           font-size: 180px; }
-    #game-container #game-overlay .info-layer .results-state {
-      margin-top: 200px; }
-      #game-container #game-overlay .info-layer .results-state * {
-        z-index: 100 !important; }
+    #game-container #game-overlay .info-layer {
+      opacity: 0; }
+      #game-container #game-overlay .info-layer .results-state {
+        margin-top: 200px; }
+        #game-container #game-overlay .info-layer .results-state * {
+          z-index: 100 !important; }
     #game-container #game-overlay .flavortext {
       color: white;
       font-family: 'Fresh Marker' !important;

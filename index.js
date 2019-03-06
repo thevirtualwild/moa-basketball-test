@@ -388,10 +388,24 @@ function onConnection(socket) {
   function joinCourt(somecourtname) {
 
     var courttojoin = courtnames[somecourtname];
+    console.log('JOINCOURT: courtojoin - ');
+    console.dir(courttojoin);
 
     if (courttojoin) {
 
       var roomcourtisapartof = allrooms[courttojoin.room];
+      console.log('JOINCOURT: roomcourtisapartof - ');
+      console.dir(roomcourtisapartof);
+
+      var gameInRoom = roomcourtisapartof.game;
+      var gamestarted;
+      var canjoingame;
+
+      if (gameInRoom) {
+        //room has a game already
+        gamestarted = gameInRoom.gamerunning;
+        canjoingame = gameInRoom.canjoingame;
+      }
 
       gamestarted = roomcourtisapartof.gamerunning;
       canjoingame = roomcourtisapartof.canjoingame;
@@ -1212,12 +1226,12 @@ function onConnection(socket) {
     socket.broadcast.to(socket.roomname).emit('take shot', emitData);
 
   });
-  socket.on('game over', function(someCourtData) {
-    courtGameHasEnded(someCourtData);
+  socket.on('game over', function(someGameData, someCourtdata) {
+    courtGameHasEnded(someGameData);
 
-    addCourtScoreForGame(someCourtData);
+    addCourtScoreForGame(someGameData);
     // Submit Player Data To Database
-    addCourtGameScore(someCourtData);
+    addCourtGameScore(someGameData);
 
   });
   function courtGameHasEnded(someCourtData) {

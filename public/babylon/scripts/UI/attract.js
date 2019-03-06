@@ -6,6 +6,7 @@ var gameCodeText = document.getElementById("gamecode-text");
 var textingCode = document.getElementById("texting-code");
 var textingNumber = document.getElementById("texting-number");
 var attractTextContainer = $('.attract-state .text-container');
+var info_layer = $('.info-layer');
 
 // var attractItems = document.getElementsByClassName("attract-state");
 
@@ -30,6 +31,7 @@ function UIAttractAnimateIn()
 
     TweenMax.to(attractTextContainer, textFadeTime, {opacity:1});
     TweenMax.to(gameCodeText, textFadeTime, {opacity:1});
+    TweenMax.to(info_layer, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
 }
 
@@ -38,6 +40,7 @@ function UIAttractAnimateOut()
     //onComplete: turnOffAttract
     TweenMax.to(attractTextContainer, textFadeTime, {opacity:0, onComplete:turnOffAttract});
     TweenMax.to(gameCodeText, textFadeTime, {opacity:0});
+    TweenMax.to(info_layer, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
 }
 
 function turnOnAttract()

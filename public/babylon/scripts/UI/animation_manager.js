@@ -1,12 +1,3 @@
-// function AnimateLights(element, speed) {
-//   TweenMax.to(element, speed, {rotation:-72deg, translateX:-500, translateY:-192, delay: speed});
-//
-//       // TweenMax.to(firstName, textFadeTime, {opacity:1, delay: textFadeTime});
-//       // TweenMax.to(lastName, textFadeTime, {opacity:1, delay: textFadeTime});
-// }
-
-
-
 function AnimateLights(element, speed, direction, delay) {
   // var delay = 0;
   // var modX = -10;
@@ -17,14 +8,12 @@ function AnimateLights(element, speed, direction, delay) {
     // modY = -10;
   }
 
-
-
   // var toX = (modX * 64);
   // var toY = (modY * 200);
   var toY = 2200;
 
   var timeoftransition = 1 - (speed /(speed +1));
-// x:(toX),
+  // x:(toX),
   TweenMax.to(element, timeoftransition, { y:(toY), repeat: -1, delay: delay, repeatDelay:delay/2, ease: Sine.easeInOut});
 }
 
@@ -40,4 +29,20 @@ function turnOnAnimations() {
 }
 function turnOffAnimations() {
   $('#animation-container').css({display:'none', visibility:'hidden' });
+}
+
+
+
+function animateLeftFromX(element, xamount, time, delay, _oncomplete) {
+  // var endX = element.position.left;
+
+  element.css({'margin-left': xamount });
+  TweenMax.to(element, time, { opacity:1, delay: delay, ease:Sine.easeInOut});
+  TweenMax.to(element, time, { marginLeft: 0, delay: delay, ease: Sine.easeInOut });
+}
+function animateLeftToX(element, xamount, time, delay, _oncomplete) {
+  // var endX = element.position.left;
+
+  TweenMax.to(element, time, { opacity:0, delay: delay, ease:Sine.easeInOut, onComplete: _oncomplete});
+  TweenMax.to(element, time, { marginLeft: xamount, delay: delay, ease: Sine.easeInOut, onComplete: _oncomplete });
 }

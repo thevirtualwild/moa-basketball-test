@@ -1,4 +1,4 @@
-var textFadeTimeResults = .5;
+var textFadeTimeResults = 1.5;
 
 var canvas = $('#canvas');
 
@@ -26,24 +26,7 @@ var winner_name_last = $('#infobar-content .results-state .playername-container 
 
 var results_flavor_text = $('#results-flavortext');
 
-var body = document.body,
-    html = document.documentElement;
-
-var height = Math.max( body.scrollHeight, body.offsetHeight,
-    html.clientHeight, html.scrollHeight, html.offsetHeight );
-
-var width = Math.max(
-    document.documentElement["clientWidth"],
-    document.body["scrollWidth"],
-    document.documentElement["scrollWidth"],
-    document.body["offsetWidth"],
-    document.documentElement["offsetWidth"]
-);
-
 var winner = false;
-
-var widthTweenDistance;
-var heightTweenDistance;
 
 var animating = false;
 var currentScore;
@@ -55,10 +38,13 @@ function UIResultsAnimateIn()
     console.log("ANIMATE RESULTS IN");
     animating = false;
 
-    TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    // TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
-    TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
-    TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    animateLeftFromX(textResults, '-1000px', textFadeTime, textFadeTime);
+    animateLeftFromX(winner_stats, '-500px', textFadeTime, textFadeTime);
+    animateLeftFromX(winner_name, '-500px', textFadeTime, textFadeTime);
+    // TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    // TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
     // if(!winner)
     // {
@@ -73,9 +59,12 @@ function UIResultsAnimateOut()
 {
     if(animating) return;
 
-    TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:turnOffResults});
-    TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:UIAttractAnimateIn});
-    TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+    animateLeftToX(textResults, '-1000px', textFadeTime/2, textFadeTime, turnOffResults);
+    animateLeftToX(winner_stats, '-500px', textFadeTime/2, textFadeTime, UIAttractAnimateIn);
+    animateLeftToX(winner_name, '-500px', textFadeTime/2, textFadeTime);
+    // TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:turnOffResults});
+    // TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:UIAttractAnimateIn});
+    // TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
     animating = true;
 
@@ -227,9 +216,19 @@ function ShowYouLostResults(resultsdata) {
   console.log("YOU LOST TO HIGH SCORER " + resultsdata.playerscore + " top score " + resultsdata.winnerscore);
 }
 
+var overlay_background = $('#animation-container .overlay-background');
+var info_layer = $('.info-layer');
+
 function turnOnResultsBackground() {
-  $('#animation-container .overlay-background').css({display:'block'});
+  overlay_background.css({display:'block'});
+
+  TweenMax.to(overlay_background, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(info_layer, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(results_flavor_text, textFadeTime, {scale:1.5, delay: textFadeTime + textFadeTime, ease:Back.out});
 }
 function turnOffResultsBackground() {
-  $('#animation-container .overlay-background').css({display:'none'});
+  overlay_background.css({display:'none'});
+
+  TweenMax.to(overlay_background, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(info_layer, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
 }

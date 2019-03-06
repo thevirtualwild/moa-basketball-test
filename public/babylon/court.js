@@ -499,8 +499,8 @@ function createScene()
         //JAY happens 1 time;
 
         var baseMaterial                = new BABYLON.StandardMaterial("baseMaterial", scene);
-        baseMaterial.emissiveTexture    = new BABYLON.Texture("./assets/BBall_V2/BBall_V2_Albedo.png", scene);
-        baseMaterial.diffuseTexture     = new BABYLON.Texture("./assets/BBall_V2/BBall_V2_Albedo.png", scene);
+        baseMaterial.emissiveTexture    = new BABYLON.Texture("./assets/BBall_V2/BBall_noLogo-v2.png", scene);
+        baseMaterial.diffuseTexture     = new BABYLON.Texture("./assets/BBall_V2/BBall_noLogo-v2.png", scene);
         baseMaterial.diffuseTexture.hasAlpha = true;
 
         var overlayMaterial             = new BABYLON.StandardMaterial("overlayMaterial", scene);
@@ -1968,15 +1968,17 @@ function gameOver()
     gamename: gameName
   }
 
-  console.log('GAMEOVER: gamedata - ' + gamedata);
-  console.log('GAMEOVER: courtdata - ' + courtdata);
+  console.log('GAMEOVER: gamedata - ');
+  console.dir(gamedata);
+  console.log('GAMEOVER: courtdata - ');
+  console.log(courtdata);
 
   if(playerData)
   {
       if(ISMASTER)
       {
           //MAYBE CHECK IF HAS PLAYER
-          socket.emit('game over', gamedata);
+          socket.emit('game over', gamedata, courtdata);
       }
   }
 }
