@@ -18,7 +18,7 @@ function UIAttractAnimateIn()
     AnimateLights($('#right-lights .large-light'), .5, 'up',2);
     AnimateLights($('#left-lights .large-light'), .5, 'down',1.5);
     AnimateLights($('#left-lights .small-light'), .5, 'up', .75);
-    PulseScaling($('#gameplay-flavortext'), 1, 1.1);
+    PulseScaling($('#gameplay-flavortext'), 1, 1.2);
 
     if(!attractIsAnimating)
     {
@@ -29,8 +29,8 @@ function UIAttractAnimateIn()
         animatingOff();
     }
 
-    TweenMax.to(attractTextContainer, textFadeTime, {opacity:1});
-    TweenMax.to(gameCodeText, textFadeTime, {opacity:1});
+    animateLeftFromX(attractTextContainer, '-500px', textFadeTime, textFadeTime);
+    animateLeftFromX(gameCodeText, '-500px', textFadeTime, textFadeTime);
     TweenMax.to(info_layer, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
 }
@@ -38,9 +38,9 @@ function UIAttractAnimateIn()
 function UIAttractAnimateOut()
 {
     //onComplete: turnOffAttract
-    TweenMax.to(attractTextContainer, textFadeTime, {opacity:0, onComplete:turnOffAttract});
-    TweenMax.to(gameCodeText, textFadeTime, {opacity:0});
-    TweenMax.to(info_layer, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
+    animateLeftToX(gameCodeText, '-500px', textFadeTime/2, textFadeTime/2);
+    animateLeftToX(attractTextContainer, '-500px', textFadeTime/2, textFadeTime/2, turnOffAttract);
+    TweenMax.to(info_layer, textFadeTime/2, {opacity:0, delay: textFadeTime/2, ease:Sine.easeInOut});
 }
 
 function turnOnAttract()
