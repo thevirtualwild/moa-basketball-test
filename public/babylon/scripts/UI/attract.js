@@ -2,9 +2,9 @@ var textFadeTime = 0.5;
 
 var canvas = document.getElementById("canvas");
 
-var gameCodeText = document.getElementById("gamecode-text");
-var textingCode = document.getElementById("texting-code");
-var textingNumber = document.getElementById("texting-number");
+var gameCodeText = $("#gamecode-text");
+var textingCode = $("#texting-code");
+var textingNumber = $("#texting-number");
 var attractTextContainer = $('.attract-state .text-container');
 var info_layer = $('.info-layer');
 
@@ -62,14 +62,14 @@ function turnOffAttract()
 
 function UIAttractUpdateCourtName(name)
 {
-    gameCodeText.innerHTML = name;
+    gameCodeText.html(name);
 
     UIAttractUpdateTextingInfo(texting_code, texting_number);
 }
 function UIAttractUpdateTextingInfo(text_code, text_num)
 {
-    textingCode.innerHTML = text_code;
-    textingNumber.innerHTML = text_num;
+    textingCode.html(text_code);
+    textingNumber.html(text_num);
 }
 
 function animatingOff()
