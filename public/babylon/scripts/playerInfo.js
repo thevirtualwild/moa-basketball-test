@@ -72,5 +72,8 @@ function generateTeam()
             randTeam = primaryTeam;
     }
 
+    //Only Team is White Team for the Time being - David
+    randTeam = secondaryTeam;
+
     return randTeam;
 }
