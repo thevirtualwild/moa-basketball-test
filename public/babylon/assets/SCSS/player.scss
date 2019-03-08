@@ -201,7 +201,7 @@ canvas{
     object-position: bottom right;
 
     &.gameLogo {
-      position:fixed;
+      position:absolute;
       top:10px;
       left:20px;
       max-width: 150px;
@@ -393,7 +393,7 @@ $orange2: rgb(241, 99, 34);
       opacity:1;
 
       &.blinking {
-        animation: pulse 2.5s infinite;
+        animation: pulse .5s infinite;
       }
 
       &:focus {
@@ -408,15 +408,18 @@ $orange2: rgb(241, 99, 34);
 
       &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: white !important;
+        font-weight: normal !important;
         opacity: 1; /* Firefox */
       }
 
       &:-ms-input-placeholder { /* Internet Explorer 10-11 */
         color: white !important;
+        font-weight: normal !important;
       }
 
       &::-ms-input-placeholder { /* Microsoft Edge */
         color: white !important;
+        font-weight: normal !important;
       }
     }
   }
@@ -484,14 +487,14 @@ $orange2: rgb(241, 99, 34);
 
       .ribbon-text {
         text-align: center;
-        font-size: 90px; //was 140px;
+        font-size: 80px; //was 140px;
         color: white;
         font-weight:bold;
 
         font-family: 'Interstate';
 
-        line-height: 1;
-        margin-bottom: -10px;
+        line-height: 80px;
+        padding-top: 5px;
         width: 100%;
         display: flex;
         align-items: center;
@@ -550,6 +553,38 @@ $orange2: rgb(241, 99, 34);
 //   right: 0;
 // }
 
+.passcode {
+  .title, .button-container {
+    width:95%;
+  }
+}
+
+#player-wrapper {
+  max-width: 800px;
+  height:100%;
+  margin:0 auto;
+  position:relative;
+}
+.errorMessage {
+  margin-bottom: -20px;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+#submit-gamecode {
+  text-transform: uppercase;
+  background: #111111;
+  color: white;
+  font-size: 220%;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 30px;
+  margin-top:35px;
+  cursor: pointer;
+
+  &:hover {
+    background: #3a3a3a;
+  }
+}
 
 
 .background-gradient {

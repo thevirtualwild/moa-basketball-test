@@ -297,7 +297,7 @@ function createScene() {
       new BABYLON.ExecuteCodeAction(
           {
               trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-              additionalData: 'r'
+              additionalData: "r"
           },
 
           function ()
@@ -312,7 +312,7 @@ function createScene() {
       new BABYLON.ExecuteCodeAction(
           {
               trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-              additionalData: 't'
+              additionalData: "t"
           },
 
           function ()
@@ -428,18 +428,19 @@ socket.on('reset game', function(){
 });
 
 socket.on('you joined court', function() {
+    UIInputErrorMessage('Joining Court')
     UIInputAnimateOut(); //from input.js (then customize.js)
 });
 socket.on('court not found', function() {
-    console.log("COURT NOT FOUND");
+    UIInputErrorMessage("Invalid Game Code");
 });
 
 socket.on('someone already playing', function() {
-    console.log("someone already playing");
+    UIInputErrorMessage("someone already playing");
 });
 
 socket.on('game already running', function() {
-    console.log("game already running");
+    UIInputErrorMessage("game already started");
 });
 
 socket.on('game almost ready', function(gamedata) {

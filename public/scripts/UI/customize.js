@@ -49,14 +49,14 @@ function UICustomizeAnimateIn()
     TweenMax.to(firstName, customizeFadeTime, {delay:customizeFadeTime, opacity:1, marginLeft:0});
     TweenMax.to(lastName, customizeFadeTime, {delay:customizeFadeTime*2, opacity:1, marginRight:0});
 
-    TweenMax.to(refreshLogo, customizeFadeTime, {delay:customizeFadeTime*6, opacity:1});
+    TweenMax.to(refreshLogo, customizeFadeTime, {delay:customizeFadeTime*4, opacity:1});
 }
 
 function UICustomizeAnimateOut()
 {
-    TweenMax.to(customizeForm, customizeFadeTime*1.5, {opacity:0, onComplete:UIGameplayAnimateIn});
-    TweenMax.to(refreshLogo, customizeFadeTime*1.5, {opacity:0});
-    TweenMax.to(customizeForm, customizeFadeTime*1, {top:0, ease:Back.easeIn});
+    TweenMax.to(customizeForm, customizeFadeTime*1.5, {opacity:0, delay:0, onComplete:UIGameplayAnimateIn});
+    TweenMax.to(refreshLogo, customizeFadeTime*1.5, {opacity:0, delay:0});
+    TweenMax.to(customizeForm, customizeFadeTime*1, {top:0, delay:0, ease:Back.easeIn});
     turnOffCustomize();
 }
 

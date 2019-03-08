@@ -140,7 +140,7 @@ canvas {
     object-fit: cover;
     object-position: bottom right; }
     #footerLogo img.gameLogo {
-      position: fixed;
+      position: absolute;
       top: 10px;
       left: 20px;
       max-width: 150px;
@@ -266,7 +266,7 @@ canvas {
     pointer-events: initial;
     opacity: 1; }
     .passcode.page .form .passcodeInput.blinking, .input-state .form .passcodeInput.blinking {
-      animation: pulse 2.5s infinite; }
+      animation: pulse .5s infinite; }
     .passcode.page .form .passcodeInput:focus, .input-state .form .passcodeInput:focus {
       outline: none;
       -webkit-animation-play-state: paused;
@@ -278,14 +278,17 @@ canvas {
     .passcode.page .form .passcodeInput::placeholder, .input-state .form .passcodeInput::placeholder {
       /* Chrome, Firefox, Opera, Safari 10.1+ */
       color: white !important;
+      font-weight: normal !important;
       opacity: 1;
       /* Firefox */ }
     .passcode.page .form .passcodeInput:-ms-input-placeholder, .input-state .form .passcodeInput:-ms-input-placeholder {
       /* Internet Explorer 10-11 */
-      color: white !important; }
+      color: white !important;
+      font-weight: normal !important; }
     .passcode.page .form .passcodeInput::-ms-input-placeholder, .input-state .form .passcodeInput::-ms-input-placeholder {
       /* Microsoft Edge */
-      color: white !important; }
+      color: white !important;
+      font-weight: normal !important; }
 
 .player.page .form .firstName, .player.page .form .lastName {
   font-family: 'Fresh Marker' !important;
@@ -331,16 +334,43 @@ canvas {
       animation-delay: 4s; }
     #ribbon #ribbon-container #ribbon-background .ribbon-text {
       text-align: center;
-      font-size: 90px;
+      font-size: 80px;
       color: white;
       font-weight: bold;
       font-family: 'Interstate';
-      line-height: 1;
-      margin-bottom: -10px;
+      line-height: 80px;
+      padding-top: 5px;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center; }
+
+.passcode .title, .passcode .button-container {
+  width: 95%; }
+
+#player-wrapper {
+  max-width: 800px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative; }
+
+.errorMessage {
+  margin-bottom: -20px;
+  margin-top: 20px;
+  text-transform: uppercase; }
+
+#submit-gamecode {
+  text-transform: uppercase;
+  background: #111111;
+  color: white;
+  font-size: 220%;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 30px;
+  margin-top: 35px;
+  cursor: pointer; }
+  #submit-gamecode:hover {
+    background: #3a3a3a; }
 
 .background-gradient {
   background: linear-gradient(-90deg, #a5ce37, #38ab25);

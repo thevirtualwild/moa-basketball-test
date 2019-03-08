@@ -14,6 +14,7 @@ var initAttractLoad = true;
 var attractIsAnimating = false;
 function UIAttractAnimateIn()
 {
+    turnOnAnimations()
     AnimateLights($('#right-lights .small-light'), .5, 'down', 1);
     AnimateLights($('#right-lights .large-light'), .5, 'up',2);
     AnimateLights($('#left-lights .large-light'), .5, 'down',1.5);
