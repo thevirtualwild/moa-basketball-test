@@ -717,9 +717,9 @@ function onConnection(socket) {
       console.log(ascore);
 
       if (thisgame.highscore) {
-        if (ascore.playerscore > thisgame.highscorer.score) {
+        if (ascore.playerscore > thisgame.highscore.score) {
           console.log('new high score');
-          thisgame.highscorer = ascore;
+          thisgame.highscore = ascore;
         }
       } else {
         thisgame.highscore = ascore;
