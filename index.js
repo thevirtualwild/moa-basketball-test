@@ -597,6 +597,8 @@ function onConnection(socket) {
       var playerscore = _courtgamedata.score;
       var playerstreak = _courtgamedata.highestStreak;
 
+      console.log(courtname);
+
       thisgame.players[courtname].score = playerscore;
       thisgame.players[courtname].streak = playerstreak;
 
@@ -1517,6 +1519,7 @@ function onConnection(socket) {
       allgames[updatedGame.name] = updatedGame;
     } else {
       console.log("ADDPLAYERTOGAME: socket doesn't have game");
+      socket.game = allgames[thisgamesroom.gamename];
       debugSocket(socket);
     }
   });
