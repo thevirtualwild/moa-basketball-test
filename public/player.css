@@ -152,17 +152,20 @@ canvas {
 #headerInstructions {
   text-align: center;
   position: absolute;
-  top: 220px !important;
+  bottom: 80px;
   z-index: -10;
   left: 0;
   right: 0;
   opacity: 0;
   pointer-events: none;
-  /* text-shadow: 1px 4px 2px rgba(0, 0, 0, 0.2); */ }
+  /* text-shadow: 1px 4px 2px rgba(0, 0, 0, 0.2); */
+  justify-content: flex-end;
+  align-items: center; }
   #headerInstructions h2 {
     color: white;
     font-weight: bold;
-    font-family: 'Interstate'; }
+    font-family: 'Interstate';
+    margin-bottom: 0; }
   #headerInstructions img#triangle {
     height: 40px;
     width: 40px;

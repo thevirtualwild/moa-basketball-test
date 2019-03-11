@@ -218,18 +218,21 @@ canvas{
 #headerInstructions{
   text-align: center;
   position: absolute;
-  top: 220px !important; //change this when animating
+  bottom: 80px; //change this when animating
   z-index: -10;
   left: 0;
   right: 0;
   opacity: 0;
   pointer-events: none;
   /* text-shadow: 1px 4px 2px rgba(0, 0, 0, 0.2); */
+  justify-content: flex-end;
+  align-items: center;
 
   h2{
     color:white;
     font-weight:bold;
     font-family:'Interstate';
+    margin-bottom:0;
   }
 
   img#triangle {
