@@ -395,7 +395,7 @@ function createScene()
           currentGameTime -= (engine.getDeltaTime() / 1000);
           if(combopts > 1)
           {
-            combopts -= (scoremodifier * (engine.getDeltaTime() / 10000) ); //change for combo dropoff
+            combopts -= (scoremodifier-1 * (engine.getDeltaTime() / 8000) ); //change for combo dropoff
             updateScoreModifier();
           }
 
