@@ -109,14 +109,20 @@ function UIResultsUpdateScore(playerScore)
 
 }
 
-function UIResultsSetData(topScoreData,playerScoreData) {
-  console.log('UIRESULTSSETDATA');
+function UIResultsSetData(gamedata,playerScoreData) {
+  console.log('___UIRESULTSSETDATA___');
     var playerscore = playerScoreData.score;
     var playerstreak = playerScoreData.highestStreak;
+    console.log('topscoredata');
+    console.dir(gamedata);
+    console.log('playerscoredata');
+    console.dir(playerScoreData)
 
-    var winnername = topScoreData.resultsdata.highscorer.player.username;
-    var winnerscore = topScoreData.resultsdata.highscorer.score;
-    var winnerstreak = topScoreData.resultsdata.highscorer.highestStreak;
+    topScoreData = gamedata.game.highscore
+
+    var winnername = topScoreData.playername;
+    var winnerscore = topScoreData.playerscore;
+    var winnerstreak = topScoreData.playerstreak;
 
     if(winnerscore === undefined)
     {

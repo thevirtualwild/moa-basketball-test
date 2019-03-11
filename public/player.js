@@ -441,8 +441,8 @@ socket.on('reset game', function(){
     console.log("reset game EMIT");
 });
 
-socket.on('you joined court', function() {
-    UIInputErrorMessage('Joining Court')
+socket.on('you joined court', function(_courtdata) {
+    UIInputErrorMessage('Joining Court...')
     UIInputAnimateOut(); //from input.js (then customize.js)
 });
 socket.on('court not found', function() {

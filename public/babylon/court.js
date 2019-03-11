@@ -2125,11 +2125,18 @@ socket.on('player joined court', function(userdata)
       playerData  = userdata;
       hasplayer   = true;
 
+      if (!lobbyStarted) {
+        socket.emit('start lobby', userdata);
+      } else {
+        socket.emit('add player to game', userdata);
+      }
+
       scene.actionManager.processTrigger(scene.actionManager.actions[2].trigger, {additionalData: "changeGameStateWaiting"});
     }
     else
     {
       //IS THIS WHERE LOBBY IS STARTED??
+      //DAVID: To Add "Waiting Countdown for attract screen (should be a new state) add it here"
       lobbyStarted = true;
       console.log('Player ' + userdata.username + ' - Joined Sister Court - ' + userdata.court);
     }

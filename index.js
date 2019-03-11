@@ -233,8 +233,6 @@ var randomcourts = 0;
 var courtnum = randomcourts;
 
 
-var gamesplayed = {};
-
 // Web Socket (Socket.io)
 function onConnection(socket) {
   console.log('new connection - ' + socket.id);
@@ -446,10 +444,12 @@ function onConnection(socket) {
           console.dir(playerdata);
           console.log('JOINCOURT: before player joined court emit');
           debugSocket(socket);
+
+          playerConnectedToCourt(playerdata, courttojoin);
           socket.broadcast.to(socket.roomname).emit('player joined court', playerdata);
           // // // // // console.log('socket.roomname - ' + socket.roomname);
 
-          socket.emit('you joined court');
+          socket.emit('you joined court', courttojoin);
         }
       }
     } else {
@@ -573,60 +573,69 @@ function onConnection(socket) {
   }
 
 
-  function addCourtGameScore(courtgamedata) {
+  function addCourtGameScore(_courtgamedata) {
     var thisgamesroom = roomnames[socket.roomname];
     var thissocketgamename = thisgamesroom.gamename;
-    socket.game.name = thissocketgamename;
+    // socket.game.name = thissocketgamename;
 
-    console.log('add courtgamescore to database - ' + socket.game.name);
-    console.dir(courtgamedata);
-    debugSocket(socket);
-    courtgamedata.gamename = socket.game.name;
+    // console.log('add courtgamescore to database - ' + socket.game.name);
+    // console.dir(courtgamedata);
+    // debugSocket(socket);
+    // courtgamedata.gamename = socket.game.name;
 
-    pushScoreToDatabase(courtgamedata);
-    redirectPlayer(courtgamedata);
+    redirectPlayer(_courtgamedata);
 
-
-
-    var agame = gamesplayed[thissocketgamename];
+    thisgame = allgames[thissocketgamename];
     // add score to list of scores
-    if (agame) {
-      // // console.log('thisgame already in gamesplayed: ');
-      // // console.dir(courtgamedata);
-      // // // console.log('pushing new score to agame array');
-      agame.scores.push(courtgamedata);
-      // // console.log('agame full data:');
-      // // console.dir(agame);
-      // updateHighScorer(agame, courtgamedata);
-      gamesplayed[thissocketgamename] = agame;
-    } else {
-      // // console.log('creating a new game in gamesplayed:')
-      agame = {
-          gamename: thissocketgamename,
-          scores: [courtgamedata],
-          highscorer: courtgamedata
+    if (thisgame) {
+      console.log('thisgame already in allgames: ');
+      console.dir(thisgame);
+      console.log('pushing new score to thisgame array');
+
+      var playername = _courtgamedata.player.username;
+      var courtname = _courtgamedata.player.court;
+      var playerscore = _courtgamedata.score;
+      var playerstreak = _courtgamedata.highestStreak;
+
+      thisgame.players[courtname].score = playerscore;
+      thisgame.players[courtname].streak = playerstreak;
+
+      var scoredata = {
+        playername: playername,
+        courtname: courtname,
+        playerscore: playerscore,
+        playerstreak: playerstreak
       };
-      // // // console.log('agame init:');
-      // // console.dir(agame);
-      // // // // console.dir(agame);
-      // // // // // console.log('gamedata');
-      // // // // console.dir(courtgamedata);
-      gamesplayed[thissocketgamename] = agame;
+
+      if (thisgame.scores) {
+        thisgame.scores.push(scoredata);
+      } else {
+        thisgame.scores = [scoredata];
+      }
+      // updateHighScorer(agame, courtgamedata);
+      allgames[thissocketgamename] = thisgame;
+
+      thisgamesroom.scorescounted += 1;
+
+    } else {
+      console.log('ADDCOURTGAMESCORE: How the hell did you get here without a game?');
     }
 
-
-    // // console.log('addcourtgamescore(scorescounted): ' + thisgamesroom.scorescounted);
-
-    thisgamesroom.scorescounted += 1;
-    // // // console.log('scores counted:' + thisgamesroom.scorescounted);
     roomnames[socket.roomname] = thisgamesroom;
+
+    console.log('____ADDCOURTGAMESCORE______')
+    console.log('  - CourtCount = ' + thisgamesroom.courtcount);
+    console.log('  - ScoresCounted = ' + thisgamesroom.scorescounted);
 
     // if all games scores added, get high score
     if (thisgamesroom.scorescounted == thisgamesroom.courtcount) {
       // // console.log('all scores added, getting highscore: ');
       // // console.dir(thisgamesroom);
       // // console.log('get high score for gamename - ' + thissocketgamename);
+
       getHighScore(thissocketgamename);
+
+      // pushScoreToDatabase(thisgame);
     } else {
       // // console.log('not all scores added, waiting for all scores: ');
       // // console.log('counted,courtcount: ' + thisgamesroom.scorescounted + ',' + thisgamesroom.courtcount);
@@ -671,8 +680,12 @@ function onConnection(socket) {
 
     if (playerscore > 0) {
 
+      var gamename = socket.game.name;
+
+
       score_base('Players').create({
         "Name": playername,
+        // "Game": gamename,
         // "Team": [playerteam],
         "Score": playerscore,
         "Longest Streak": playerstreak,
@@ -688,23 +701,29 @@ function onConnection(socket) {
     }
   }
 
-  function getHighScore(gamename) {
-    // console.log('get highscore for: ' + gamename);
+  function getHighScore(_gamename) {
+    console.log('GETHIGHSCORE: ' + _gamename);
 
     var thisgamesroom = roomnames[socket.roomname];
-    var thisgame = gamesplayed[gamename];
+    var thisgame = allgames[_gamename];
+
+    thisgame.highscore;
 
     for (index in thisgame.scores) {
       var ascore = thisgame.scores[index];
-      // // // console.log('ascore in thisgame');
-      // // // console.log(ascore);
+      console.log(' - ascore in thisgame');
+      console.log(ascore);
 
-      if (ascore.score > thisgame.highscorer.score) {
-        // // // console.log('new high score');
-        thisgame.highscorer = ascore;
+      if (thisgame.highscore) {
+        if (ascore.playerscore > thisgame.highscorer.score) {
+          console.log('new high score');
+          thisgame.highscorer = ascore;
+        }
       } else {
-        // // // console.log('Same high score');
+        thisgame.highscore = ascore;
       }
+
+
     }
     // // console.log('setting scorescounted to 0: ' + gamename);
     thisgamesroom.scorescounted = 0;
@@ -712,12 +731,12 @@ function onConnection(socket) {
     roomnames[socket.roomname] = thisgamesroom;
 
     var resultsdata = {
-      highscorer: thisgame.highscorer,
+      highscorer: thisgame.highscore,
       teamscores: teamscores
     };
 
     var emitData = {
-      game: gamename,
+      game: thisgame,
       resultsdata: resultsdata
     };
 
@@ -729,7 +748,7 @@ function onConnection(socket) {
 
 
     // // // // // console.log("socket roomname: " + socket.roomname);
-    gamesplayed[gamename] = thisgame;
+    allgames[_gamename] = thisgame;
 
 
 
@@ -1095,9 +1114,9 @@ function onConnection(socket) {
     console.dir(thisgamesroom);
 
     if (thisgamesroom.gamerunning) {
-      console.log('Game is already running, we need to add our court to the count of courts running game');
+      console.log('WAITING COUNTDOWN LESSTHANFOUR: Game is already running, we need to add our court to the count of courts running game');
       // socket.gamename = thisgamesroom.gamename;
-      thisgamesroom.courtcount += 1;
+      // thisgamesroom.courtcount += 1;
       // // // console.log('courtcount: ' + thisgamesroom.courtcount);
       roomnames[socket.roomname] = thisgamesroom;
       allrooms[thisgamesroom.id] = thisgamesroom;
@@ -1119,7 +1138,7 @@ function onConnection(socket) {
     if (thisgamesroom.gamerunning) {
       console.log('Game is already running, we need to add our court to the count of courts running game');
       // socket.gamename = thisgamesroom.gamename;
-      thisgamesroom.courtcount += 1;
+
       // // // console.log('courtcount: ' + thisgamesroom.courtcount);
       roomnames[socket.roomname] = thisgamesroom;
       allrooms[thisgamesroom.id] = thisgamesroom;
@@ -1145,7 +1164,22 @@ function onConnection(socket) {
     //TODO: WILL NEED TO LISTEN FOR AN EVENT TO TURN GAME PROGRESS OFF AFTER RESULTS ARE SHOWN
 
   });
+  function createNewGame(_someroom, _firstPlayer) {
 
+    var newDate = new Date();
+
+    var gameName = createGameName(_someroom, newDate);
+
+    console.log('CREATENEWGAME: ');
+    console.dir(_firstPlayer);
+    newGameObject = {
+      name: gameName,
+      players: {},
+      gameDateTime: newDate
+    }
+
+    return addPlayerToGame(newGameObject, _firstPlayer);
+  }
   function createGameName(someRoom, someDate) {
     var month = someDate.getMonth();
     var day = someDate.getDate();
@@ -1156,32 +1190,18 @@ function onConnection(socket) {
 
     return newgamename;
   }
+  function addPlayerToGame(_someGame, _somePlayerData) {
+    _someGame.players[_somePlayerData.court] = _somePlayerData;
 
+    return _someGame;
+  }
   function startGame() {
     var thisgamesroom = roomnames[socket.roomname];
 
     var newdate = new Date();
 
-    thisgamesroom.gamename = createGameName(thisgamesroom, newdate);
-
-    console.log('---Step 2---');
-    console.log('start game (current gamename)- ' + thisgamesroom.gamename);
-    newGameObject = {
-      name: thisgamesroom.gamename,
-      players: {},
-      gameDateTime: newdate
-    }
-    console.dir(newGameObject);
     console.log('---Step 3---');
-    console.log('add newGameObject to socket - ');
-    socket.game = newGameObject;
-
-    debugSocket(socket);
-
-    console.log('SOCKETGAMENAME - ' + socket.game.name);
-    // socket.gamename = thisgamesroom.gamename;
-
-    allgames[socket.game.name] = socket.game;
+    console.log('start game (current gamename)- ' + thisgamesroom.gamename);
 
     thisgamesroom.gamerunning = true;
     thisgamesroom.canjoingame = false;
@@ -1189,7 +1209,8 @@ function onConnection(socket) {
 
     // console.log('starting game with new gamename: ' + thisgamesroom.gamename);
     // // // console.log('game started: ' + thisgamesroom.gamename);
-    thisgamesroom.courtcount = 1;
+
+    //TODO: huh? why is courtcount set?
     // // // console.log('courtcount: ' + thisgamesroom.courtcount);
     // socket.gamename = thisgamesroom.gamename;
     // console.log('new socketgame: '+ socket.gamename);
@@ -1201,7 +1222,7 @@ function onConnection(socket) {
 
     var gamedata = {
       // gamename: thisgamesroom.gamename,
-      game: newGameObject
+      game: socket.game
     }
 
     // // console.log('game almost ready');
@@ -1249,7 +1270,7 @@ function onConnection(socket) {
     console.log('SOCKETONGAMEOVER: courtData');
     console.dir(someCourtData);
 
-    addCourtScoreForGame(someGameData);
+    // addCourtScoreForGame(someGameData);
     // Submit Player Data To Database
     addCourtGameScore(someGameData);
 
@@ -1267,27 +1288,27 @@ function onConnection(socket) {
   }
   function addCourtScoreForGame(someCourtData) {
 
-    var thisgamesroom = roomnames[socket.roomname];
-    var thissocketgamename = thisgamesroom.gamename;
-    console.log('--BREAKING--');
-    debugSocket(socket);
-
-    gamedata = socket.game;
-    console.log("Socket.game");
-    console.dir(gamedata);
-
-
-    socket.game.name = thissocketgamename;
-
+    // var thisgamesroom = roomnames[socket.roomname];
+    // var thissocketgamename = thisgamesroom.gamename;
+    // console.log('--BREAKING--');
+    // debugSocket(socket);
     //
-    // thisgame = allgames[socket.gamename];
-    // console.log("Thisgame");
-    // console.dir(thisgame);
-
-    allgames[socket.game.name] = gamedata;
-
-    // if all scores have been added for this game call push to database function
-    pushScoreForGameToDatabase(gamedata);
+    // gamedata = socket.game;
+    // console.log("Socket.game");
+    // console.dir(gamedata);
+    //
+    //
+    // socket.game.name = thissocketgamename;
+    //
+    // //
+    // // thisgame = allgames[socket.gamename];
+    // // console.log("Thisgame");
+    // // console.dir(thisgame);
+    //
+    // allgames[socket.game.name] = gamedata;
+    //
+    // // if all scores have been added for this game call push to database function
+    // // pushScoreForGameToDatabase(gamedata);
   }
 
   function pushScoreForGameToDatabase(gamedata) {
@@ -1325,11 +1346,16 @@ function onConnection(socket) {
   function courtDisconnected(somesocket) {
 
       var thisgamesroom = roomnames[somesocket.roomname];
-      thisgamesroom.gamerunning = false;
+
+      if (thisgamesroom.courtcount <= 0) {
+        thisgamesroom.gamerunning = false;
+        thisgamesroom.courtcount = 0;
+      }
       roomnames[somesocket.roomname] = thisgamesroom;
 
       var thiscourt = courtnames[somesocket.court.name];
       // // // console.log(thiscourt);
+
 
       courtnum -= 1;
 
@@ -1368,7 +1394,19 @@ function onConnection(socket) {
       }
     }
   }
+  function playerConnectedToCourt(_somePlayerData, _someCourtData) {
+    console.log('PLAYERCONNECTEDTOCOURT: - playerdata - ');
+    console.dir(_somePlayerData);
+    console.log(' - courtdata - ');
+    console.dir(_someCourtData);
+    console.log(' - current socket - ');
+    debugSocket(socket);
+  }
   function playerDisconnected(somesocket) {
+    console.log('PLAYERDISCONNECTED: remove them from the players in a game');
+    var thisgamesroom = roomnames[somesocket.roomname];
+
+    thisgamesroom.courtcount -= 1;
   }
 
   //server stuff
@@ -1444,6 +1482,42 @@ function onConnection(socket) {
     //
   });
 
+
+
+  socket.on('start lobby', function(_firstplayer) {
+    console.log('ONSTARTLOBBY: - createNewGame called');
+
+    var thisgamesroom = roomnames[socket.roomname];
+
+    var newGame = createNewGame(thisgamesroom, _firstplayer);
+    thisgamesroom.courtcount = 1;
+
+    thisgamesroom.gamename = newGame.name;
+
+    roomnames[socket.roomname] = thisgamesroom;
+    // console.dir(newGameObject);
+    console.log('---Step 2---');
+    console.log('add newGameObject to socket - ');
+    socket.game = newGameObject;
+
+    debugSocket(socket);
+
+    console.log('SOCKETGAMENAME - ' + socket.game.name);
+    // socket.gamename = thisgamesroom.gamename;
+
+    allgames[socket.game.name] = socket.game;
+  });
+  socket.on('add player to game', function(_newplayer) {
+    var currentGame = socket.game;
+    thisgamesroom.courtcount += 1;
+    if (currentGame) {
+      updatedGame = addPlayerToGame(currentGame, _newplayer)
+      allgames[updatedGame.name] = updatedGame;
+    } else {
+      console.log("ADDPLAYERTOGAME: socket doesn't have game");
+      debugSocket(socket);
+    }
+  });
 }
 
 

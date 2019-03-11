@@ -53,5 +53,5 @@ function turnOffGameplay()
 function redirectNormal() {
   console.log('trying to redirect');
   // console.dir(resultsdata);
-  // window.location.href = ("http://www.ampthink.com/");
+  window.location.href = ("http://www.ampthink.com/");
 }
