@@ -1,35 +1,48 @@
-function AnimateLights(element, initialX, speed, direction, delay) {
-  // var delay = 0;
-  // var modX = -10;
-
-  if (direction == 'down') {
-    // delay = 1;
-    // modX = 10;
-    // modY = -10;
-  }
-
+function createLight(element, initialX, speed, direction, delay)
+{
   // var toX = (modX * 64);
   // var toY = (modY * 200);
-  var toY = 2200;
   element.css({left:initialX});
 
   var timeoftransition = 1 - (speed /(speed +1));
-  // x:(toX),
-  TweenMax.to(element, timeoftransition, { y:(toY), repeat: -1, delay: delay, repeatDelay:delay/2, ease: Circ.easeInOut});
+  var toY = 2200;
+
+  var newLightTween = TweenMax.to(element, timeoftransition, { y:(toY), repeat: -1, delay: delay, repeatDelay:delay/2, ease: Circ.easeInOut});
+  newLightTween.play();
+
+  return newLightTween;
+}
+function pauseAnimations(tweenArray) {
+  for (let animation of tweenArray) {
+    animation.pause();
+  }
+}
+function restartAnimations(tweenArray) {
+  for (let animation of tweenArray) {
+    animation.restart(true);
+  }
 }
 
 function PulseScaling(element, speed, scaleamount) {
   var delay = 0;
 
-  TweenMax.to(element, speed, { scale: scaleamount, repeat: -1, delay: delay, ease: Sine.easeInOut, yoyo:true});
+  var newPulseScaleTween = TweenMax.to(element, speed, { scale: scaleamount, repeat: -1, delay: delay, ease: Sine.easeInOut, yoyo:true});
+
+  newPulseScaleTween.play();
+
+  return newPulseScaleTween;
 }
 
 
 function turnOnAnimations() {
-  $('#animation-container').css({display:'block', visibility:'visible' });
+  $('#animation-container').css({visibility:'visible' });
 }
 function turnOffAnimations() {
-  $('#animation-container').css({display:'none', visibility:'hidden' });
+  $('#animation-container').css({visibility:'hidden' });
+}
+
+function resetAnimation(element) {
+  element.css({'animation-play-state': 'initial'});
 }
 
 

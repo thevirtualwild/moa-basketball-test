@@ -10,15 +10,17 @@ var info_layer = $('.info-layer');
 
 // var attractItems = document.getElementsByClassName("attract-state");
 
+var attractTweens = [];
+
 var initAttractLoad = true;
 var attractIsAnimating = false;
 function UIAttractAnimateIn()
 {
-    attractAnimations();
+    // attractAnimations();
 
     if(!attractIsAnimating)
     {
-      turnOnAnimations()
+      // resetAnimations();
       turnOffResults();
       turnOnAttract();
       attractIsAnimating = true;
@@ -30,7 +32,6 @@ function UIAttractAnimateIn()
     animateLeftFromX(attractTextContainer, '-500px', textFadeTime, textFadeTime, attractAnimations);
     animateLeftFromX(gameCodeText, '-500px', textFadeTime, textFadeTime);
     TweenMax.to(info_layer, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
-
 }
 
 function UIAttractAnimateOut()
@@ -46,7 +47,8 @@ function turnOnAttract()
     changeVisibility('attract-state', 'visible');
     changeDisplay('attract-state', 'block');
     turnOnAnimations();
-    attractAnimations();
+    restartAnimations(attractTweens);
+    // attractAnimations();
 }
 
 function turnOffAttract()
@@ -54,6 +56,7 @@ function turnOffAttract()
     changeVisibility('attract-state', 'hidden');
     changeDisplay('attract-state', 'none');
     turnOffAnimations();
+    // pauseAnimations(attractTweens);
 
     UIWaitingAnimateIn();
 }
@@ -76,11 +79,31 @@ function animatingOff()
 }
 
 
+createLights();
+
+var playnowTween = PulseScaling($('#gameplay-flavortext'), 1, 1.2);
+attractTweens.push(playnowTween);
+
 function attractAnimations() {
   turnOnAnimations();
-  AnimateLights($('#right-lights .small-light'), '1000px', .5, 'down', 1);
-  AnimateLights($('#right-lights .large-light'), '-700px', .5, 'up',2);
-  AnimateLights($('#left-lights .large-light'), '0', .5, 'down',1.5);
-  AnimateLights($('#left-lights .small-light'), '320px' , .5, 'up', .75);
-  PulseScaling($('#gameplay-flavortext'), 1, 1.2);
+  restartAnimations(attractTweens);
+}
+function createLights() {
+  var light1 = createLight($('#right-lights .small-light'), '1000px', .5, 'down', 1);
+  var light2 = createLight($('#right-lights .large-light'), '-700px', .5, 'up',2);
+  var light3 = createLight($('#left-lights .large-light'), '0', .5, 'down',1.5);
+  var light4 = createLight($('#left-lights .small-light'), '320px' , .5, 'up', .75);
+
+  attractTweens.push(light1);
+  attractTweens.push(light2);
+  attractTweens.push(light3);
+  attractTweens.push(light4);
+
+  // resetAnimations();
+}
+
+
+function resetAnimations() {
+  restartAnimations(lightTweens);
+  // resetAnimation($('#gameplay-flavortext'));
 }
