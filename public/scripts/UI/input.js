@@ -46,8 +46,12 @@ function UIInputErrorMessage(message)
 
 
 //
-// $( document ).ready( function() {
-//   $('.passportInput').change( function () {
-//     $('.passportInput').removeClass('blinking');
-//   });
-// });
+$( document ).ready( function() {
+  $('.passcodeInput').blur(function() {
+     if(!$.trim(this.value).length) { // zero-length string AFTER a trim
+       $(this).addClass('blinking');
+     } else {
+       $(this).removeClass('blinking');
+     }
+});
+});

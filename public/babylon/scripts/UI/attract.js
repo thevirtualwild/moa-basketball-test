@@ -14,23 +14,20 @@ var initAttractLoad = true;
 var attractIsAnimating = false;
 function UIAttractAnimateIn()
 {
-    turnOnAnimations()
-    AnimateLights($('#right-lights .small-light'), .5, 'down', 1);
-    AnimateLights($('#right-lights .large-light'), .5, 'up',2);
-    AnimateLights($('#left-lights .large-light'), .5, 'down',1.5);
-    AnimateLights($('#left-lights .small-light'), .5, 'up', .75);
-    PulseScaling($('#gameplay-flavortext'), 1, 1.2);
+    attractAnimations();
 
     if(!attractIsAnimating)
     {
-        turnOnAttract();
-        attractIsAnimating = true;
-        console.log("UIATTRACTANIMATEIN");
-        //onComplete:animatingOff;
-        animatingOff();
+      turnOnAnimations()
+      turnOffResults();
+      turnOnAttract();
+      attractIsAnimating = true;
+      console.log("UIATTRACTANIMATEIN");
+      //onComplete:animatingOff;
+      animatingOff();
     }
 
-    animateLeftFromX(attractTextContainer, '-500px', textFadeTime, textFadeTime);
+    animateLeftFromX(attractTextContainer, '-500px', textFadeTime, textFadeTime, attractAnimations);
     animateLeftFromX(gameCodeText, '-500px', textFadeTime, textFadeTime);
     TweenMax.to(info_layer, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
@@ -48,6 +45,8 @@ function turnOnAttract()
 {
     changeVisibility('attract-state', 'visible');
     changeDisplay('attract-state', 'block');
+    turnOnAnimations();
+    attractAnimations();
 }
 
 function turnOffAttract()
@@ -57,8 +56,6 @@ function turnOffAttract()
     turnOffAnimations();
 
     UIWaitingAnimateIn();
-
-
 }
 
 function UIAttractUpdateCourtName(name)
@@ -76,4 +73,14 @@ function UIAttractUpdateTextingInfo(text_code, text_num)
 function animatingOff()
 {
     attractIsAnimating = false;
+}
+
+
+function attractAnimations() {
+  turnOnAnimations();
+  AnimateLights($('#right-lights .small-light'), '1000px', .5, 'down', 1);
+  AnimateLights($('#right-lights .large-light'), '-700px', .5, 'up',2);
+  AnimateLights($('#left-lights .large-light'), '0', .5, 'down',1.5);
+  AnimateLights($('#left-lights .small-light'), '320px' , .5, 'up', .75);
+  PulseScaling($('#gameplay-flavortext'), 1, 1.2);
 }

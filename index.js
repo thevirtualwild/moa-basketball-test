@@ -1226,15 +1226,21 @@ function onConnection(socket) {
     socket.broadcast.to(socket.roomname).emit('take shot', emitData);
 
   });
-  socket.on('game over', function(someGameData, someCourtdata) {
+  socket.on('game over', function(someGameData, someCourtData) {
     courtGameHasEnded(someGameData);
+
+    console.log('game over: gamedata');
+    console.dir(someGameData);
+
+    console.log('SOCKETONGAMEOVER: courtData');
+    console.dir(someCourtData);
 
     addCourtScoreForGame(someGameData);
     // Submit Player Data To Database
     addCourtGameScore(someGameData);
 
   });
-  function courtGameHasEnded(someCourtData) {
+  function courtGameHasEnded(someGameData) {
     var thisgamesroom = roomnames[socket.roomname];
 
     if (thisgamesroom.gamerunning) {

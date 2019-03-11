@@ -380,9 +380,9 @@ $orange2: rgb(241, 99, 34);
 
 .passcode.page, .input-state {;
   .form {
-    top: 43%;
+    top: 50%;
     .title {
-      font-size: 300%;
+      font-size: 200%;
       margin-bottom:30px;
       color: #3A3A3A;
     }
@@ -393,7 +393,7 @@ $orange2: rgb(241, 99, 34);
       opacity:1;
 
       &.blinking {
-        animation: pulse .5s infinite;
+        animation: pulse .8s infinite;
       }
 
       &:focus {
@@ -408,8 +408,14 @@ $orange2: rgb(241, 99, 34);
 
       &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: white !important;
+        // font-family:serif !important;
         font-weight: normal !important;
         opacity: 1; /* Firefox */
+      }
+      &:placeholder-shown {
+        // font-size:300%;
+        font-weight: normal !important;
+        transform: scale(.2, 1) ;
       }
 
       &:-ms-input-placeholder { /* Internet Explorer 10-11 */
@@ -427,6 +433,14 @@ $orange2: rgb(241, 99, 34);
 
 .player.page {
   .form {
+    .general-text {
+      font-size:200%;
+      margin-bottom:30px;
+      line-height:1;
+      font-weight:500;
+      color: #333;
+      text-transform: uppercase;
+    }
     .firstName, .lastName {
       font-family: 'Fresh Marker' !important;
       color: black;
@@ -566,19 +580,22 @@ $orange2: rgb(241, 99, 34);
   position:relative;
 }
 .errorMessage {
-  margin-bottom: -20px;
+  margin-bottom: 20px;
   margin-top: 20px;
   text-transform: uppercase;
+  height:15px;
+  width:95%;
+  font-size: 16px;
 }
 #submit-gamecode {
   text-transform: uppercase;
   background: #111111;
   color: white;
-  font-size: 220%;
+  font-size: 160%;
   border-radius: 5px;
   border: none;
   padding: 10px 30px;
-  margin-top:35px;
+  // margin-top:35px;
   cursor: pointer;
 
   &:hover {

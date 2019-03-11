@@ -1,4 +1,4 @@
-function AnimateLights(element, speed, direction, delay) {
+function AnimateLights(element, initialX, speed, direction, delay) {
   // var delay = 0;
   // var modX = -10;
 
@@ -11,10 +11,11 @@ function AnimateLights(element, speed, direction, delay) {
   // var toX = (modX * 64);
   // var toY = (modY * 200);
   var toY = 2200;
+  element.css({left:initialX});
 
   var timeoftransition = 1 - (speed /(speed +1));
   // x:(toX),
-  TweenMax.to(element, timeoftransition, { y:(toY), repeat: -1, delay: delay, repeatDelay:delay/2, ease: Sine.easeInOut});
+  TweenMax.to(element, timeoftransition, { y:(toY), repeat: -1, delay: delay, repeatDelay:delay/2, ease: Circ.easeInOut});
 }
 
 function PulseScaling(element, speed, scaleamount) {
@@ -37,12 +38,12 @@ function animateLeftFromX(element, xamount, time, delay, _oncomplete) {
   // var endX = element.position.left;
 
   element.css({'margin-left': xamount });
-  TweenMax.to(element, time, { opacity:1, delay: delay, ease:Sine.easeInOut});
-  TweenMax.to(element, time, { marginLeft: 0, delay: delay, ease: Sine.easeInOut });
+  TweenMax.to(element, time, { opacity:1, delay: delay, ease:Sine.easeOut});
+  TweenMax.to(element, time, { marginLeft: 0, delay: delay, ease: Sine.easeOut });
 }
 function animateLeftToX(element, xamount, time, delay, _oncomplete) {
   // var endX = element.position.left;
 
-  TweenMax.to(element, time, { opacity:0, delay: delay, ease:Sine.easeInOut, onComplete: _oncomplete});
-  TweenMax.to(element, time, { marginLeft: xamount, delay: delay, ease: Sine.easeInOut, onComplete: _oncomplete });
+  TweenMax.to(element, time, { opacity:0, delay: delay, ease:Sine.easeIn, onComplete: _oncomplete});
+  TweenMax.to(element, time, { marginLeft: xamount, delay: delay, ease: Sine.easeIn, onComplete: _oncomplete });
 }

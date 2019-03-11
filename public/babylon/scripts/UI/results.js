@@ -60,7 +60,7 @@ function UIResultsAnimateOut()
     if(animating) return;
 
     animateLeftToX(textResults, '-1000px', textFadeTime/2, textFadeTime, turnOffResults);
-    animateLeftToX(winner_stats, '-500px', textFadeTime/2, textFadeTime, UIAttractAnimateIn);
+    animateLeftToX(winner_stats, '-500px', textFadeTime/2, textFadeTime); //, UIAttractAnimateIn
     animateLeftToX(winner_name, '-500px', textFadeTime/2, textFadeTime);
     // TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:turnOffResults});
     // TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:UIAttractAnimateIn});
@@ -208,9 +208,10 @@ function ShowYouLostResults(resultsdata) {
   winner_name.css({display:"block"});
   winner_trophy.css({display:"none"});
   winner_ribbon.css({display:"none"});
+  winner_fullname = resultsdata.winnername;
 
-  winner_name_first.text(resultsdata.winnername.substr(0, winnername.indexOf(' ')));
-  winner_name_last.text(resultsdata.winnername.substr(winnername.indexOf(' ') + 1));
+  winner_name_first.text(winner_fullname.substr(0, winner_fullname.indexOf(' ')));
+  winner_name_last.text(winner_fullname.substr(winner_fullname.indexOf(' ') + 1));
 
   winner_score_num.text(resultsdata.winnerscore);
   console.log("YOU LOST TO HIGH SCORER " + resultsdata.playerscore + " top score " + resultsdata.winnerscore);

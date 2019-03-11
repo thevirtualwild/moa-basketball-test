@@ -418,6 +418,7 @@ function createScene()
           {
               resetClock();
               updateClock();
+              UIResultsAnimateOut();
 
               if(ISMASTER)
               {
@@ -1873,8 +1874,8 @@ function updateUI()
             resetClock();
             UIGameplayUpdateScore(0);
             if(!initRun){
-                console.log("uianimatein inside of updateui");
-                UIAttractAnimateIn();
+              console.log("uianimatein inside of updateui");
+              UIAttractAnimateIn();
             }
             break;
         case gameStates.WAITING:
@@ -1975,11 +1976,11 @@ function gameOver()
 
   if(playerData)
   {
-      if(ISMASTER)
-      {
-          //MAYBE CHECK IF HAS PLAYER
-          socket.emit('game over', gamedata, courtdata);
-      }
+    if(ISMASTER)
+    {
+      //MAYBE CHECK IF HAS PLAYER
+      socket.emit('game over', gamedata, courtdata);
+    }
   }
 }
 
@@ -2215,6 +2216,7 @@ socket.on('reset game', function()
 {
   scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger, {additionalData: "changeGameStateAttract"});
   console.log('court should be reset here');
+  currentResultsTime = initResultsTime;
   socket.emit('court reset', courtName);
 });
 

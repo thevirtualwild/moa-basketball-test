@@ -346,6 +346,13 @@ $window.keydown(function (event) {
   }
 });
 
+$(document).ready(function(){
+    $("#submit-gamecode").on('click', function () {
+      initializePlayer();
+      $passcodeInput.blur();
+    });
+});
+
 function submitGameCode() {
   var courttojoin;
   courttojoin = cleanInput($passcodeInput.val().trim());

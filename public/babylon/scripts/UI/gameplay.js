@@ -99,5 +99,5 @@ function turnOffGameplay()
 {
   changeVisibility('gameplay-state','hidden');
   changeDisplay('gameplay-state', 'none');
-  UIResultsAnimateIn();
+  // UIResultsAnimateIn();
 }
