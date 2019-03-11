@@ -432,21 +432,21 @@ function onConnection(socket) {
           // player has joined court, and room
           socket.join(socket.roomname);
 
-          var data = {
+          var playerdata = {
             username: socket.username,
             team: socket.team,
             court: socket.court
           }
 
-          courttojoin.player = data;
+          courttojoin.player = playerdata;
 
 
           // // // console.log("IS GAME IN PROGRESS? " + socket.gamenamesrunning);
           console.log('Player joining court:');
-          console.dir(data);
+          console.dir(playerdata);
           console.log('JOINCOURT: before player joined court emit');
           debugSocket(socket);
-          socket.broadcast.to(socket.roomname).emit('player joined court', data);
+          socket.broadcast.to(socket.roomname).emit('player joined court', playerdata);
           // // // // // console.log('socket.roomname - ' + socket.roomname);
 
           socket.emit('you joined court');
