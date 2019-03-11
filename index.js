@@ -285,7 +285,7 @@ function onConnection(socket) {
 
     // current courtnum
     console.log('FINDACOURT: current courtnum - ' + courtnum);
-    courtnum = courtnum + 1;
+    // courtnum = courtnum + 1;
 
     if (myzone.configuration) {
       zoneconfig = allconfigs[myzone.configuration];
@@ -984,6 +984,7 @@ function onConnection(socket) {
 
     // we know this is a court, so tell the Socket
     socket.devicetype = 'court';
+    courtnum += 1;
 
     if (!connectedcourtdevices[deviceIP]) {
       console.log('CONNECTION: court connected for the first time');
@@ -1326,6 +1327,8 @@ function onConnection(socket) {
 
       var thiscourt = courtnames[somesocket.court.name];
       // // // console.log(thiscourt);
+
+      courtnum -= 1;
 
       // // console.log("COURT DISCONNECTED");
       thiscourt.hasplayer = false;
