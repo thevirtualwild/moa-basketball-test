@@ -279,19 +279,26 @@ canvas {
       /* Chrome, Firefox, Opera, Safari 10.1+ */
       color: white !important;
       font-weight: normal !important;
+      line-height: normal !important;
       opacity: 1;
       /* Firefox */ }
     .passcode.page .form .passcodeInput:placeholder-shown, .input-state .form .passcodeInput:placeholder-shown {
       font-weight: normal !important;
-      transform: scale(0.2, 1); }
+      transform: scale(0.2, 1);
+      line-height: normal !important; }
     .passcode.page .form .passcodeInput:-ms-input-placeholder, .input-state .form .passcodeInput:-ms-input-placeholder {
       /* Internet Explorer 10-11 */
       color: white !important;
-      font-weight: normal !important; }
+      font-weight: normal !important;
+      line-height: normal !important; }
+    .passcode.page .form .passcodeInput::-webkit-input-placeholder, .input-state .form .passcodeInput::-webkit-input-placeholder {
+      color: white !important;
+      line-height: normal !important; }
     .passcode.page .form .passcodeInput::-ms-input-placeholder, .input-state .form .passcodeInput::-ms-input-placeholder {
       /* Microsoft Edge */
       color: white !important;
-      font-weight: normal !important; }
+      font-weight: normal !important;
+      line-height: normal !important; }
 
 .player.page .form .general-text {
   font-size: 200%;
@@ -344,12 +351,11 @@ canvas {
       animation-delay: 4s; }
     #ribbon #ribbon-container #ribbon-background .ribbon-text {
       text-align: center;
-      font-size: 80px;
+      font-size: 400%;
       color: white;
       font-weight: bold;
       font-family: 'Interstate';
-      line-height: 80px;
-      padding-top: 5px;
+      line-height: 1;
       width: 100%;
       display: flex;
       align-items: center;

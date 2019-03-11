@@ -410,22 +410,29 @@ $orange2: rgb(241, 99, 34);
         color: white !important;
         // font-family:serif !important;
         font-weight: normal !important;
+        line-height: normal !important;
         opacity: 1; /* Firefox */
       }
       &:placeholder-shown {
         // font-size:300%;
         font-weight: normal !important;
         transform: scale(.2, 1) ;
+        line-height: normal !important;
       }
 
       &:-ms-input-placeholder { /* Internet Explorer 10-11 */
         color: white !important;
         font-weight: normal !important;
+        line-height: normal !important;
       }
-
+      &::-webkit-input-placeholder {
+        color: white !important;
+        line-height: normal !important;
+      }
       &::-ms-input-placeholder { /* Microsoft Edge */
         color: white !important;
         font-weight: normal !important;
+        line-height: normal !important;
       }
     }
   }
@@ -501,14 +508,13 @@ $orange2: rgb(241, 99, 34);
 
       .ribbon-text {
         text-align: center;
-        font-size: 80px; //was 140px;
+        font-size: 400%; //was 140px;
         color: white;
         font-weight:bold;
 
         font-family: 'Interstate';
 
-        line-height: 80px;
-        padding-top: 5px;
+        line-height: 1;
         width: 100%;
         display: flex;
         align-items: center;
