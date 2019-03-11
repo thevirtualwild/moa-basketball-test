@@ -2070,6 +2070,8 @@ function fakeSyncData(_syncData)
 socket.on('game almost ready', function(gamedata)
 {
    gameName = gamedata.game.name;
+
+   socket.emit('update game', gamedata.game);
    console.log('GAMEALMOSTREADY: ' + gameName);
 });
 
@@ -2233,7 +2235,7 @@ socket.on('change player name', function(data)
 
 socket.on('update game name', function(newgamename)
 {
-  socket.emit('update game name', newgamename);
+  gameName = newgamename;
 });
 
 ///////////////////////////////////////////////////////////////////////

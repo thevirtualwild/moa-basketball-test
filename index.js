@@ -1418,17 +1418,21 @@ function onConnection(socket) {
   //   allrooms[thisgamesroom.id] = thisgamesroom;
   //   socket.broadcast.to(socket.roomname).emit('update game name', newgamename);
   // }
-  // socket.on('update game name', function(newgamename) {
-  //   // console.log('update game name from socket - ' + socket.gamename);
-  //
-  //   var thisgamesroom = roomnames[socket.roomname];
-  //
-  //   thisgamesroom.gamename = newgamename;
-  //
-  //   roomnames[socket.roomname] = thisgamesroom;
-  //   allrooms[thisgamesroom.id] = thisgamesroom;
-  //
-  // });
+  socket.on('update game', function(_gamedata) {
+    // console.log('update game name from socket - ' + socket.gamename);
+    //
+    console.log('ON UPDATE GAME');
+    debugSocket(socket);
+
+    socket.game = _gamedata;
+    // var thisgamesroom = roomnames[socket.roomname];
+    //
+    // thisgamesroom.gamename = newgamename;
+    //
+    // roomnames[socket.roomname] = thisgamesroom;
+    // allrooms[thisgamesroom.id] = thisgamesroom;
+    //
+  });
 
 }
 
