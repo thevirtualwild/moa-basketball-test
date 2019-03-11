@@ -664,3 +664,42 @@ $orange2: rgb(241, 99, 34);
     opacity: 1;
   }
 }
+
+#screen-wrapper {
+  height:100%;
+  width:100%;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#screen-overlay {
+  background:white;
+  padding:60px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999 !important;
+
+  img {
+    width:100%;
+    height:100%;
+    object-fit: contain;
+  }
+}
+#screen-overlay h2.general-text {
+    font-size: 400%;
+}
+
+#screen-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

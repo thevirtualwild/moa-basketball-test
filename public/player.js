@@ -331,6 +331,10 @@ function createScene() {
 engine.runRenderLoop(function(){
 
   scene.render();
+
+  $( document ).ready( function() {
+    UILoadingAnimateOut();
+  });
 });
 
 function randomRange (min, max) {

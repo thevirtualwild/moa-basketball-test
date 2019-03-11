@@ -1595,7 +1595,10 @@ var scene = createScene();
 
 engine.runRenderLoop(function()
 {
-    if(!isconnected) return;
+    if(!isconnected) {
+      console.log('tried to run engine but !isconnected');
+      return;
+    }
 
     //
 
@@ -1938,7 +1941,7 @@ function createCameraTypes()
 
 function resetClock()
 {
-  currentGameTime = initGameTime;
+  currentGameTime = initGameTime-1;
 }
 
 ///////////////////////////////////////////////////////////////////////

@@ -20,77 +20,83 @@
 
 </head>
 <body>
-  <div id="player-wrapper">
-    <div id="background">
-      <div class="gameplay-state">
-        <div class="background-gradient"></div>
-        <img src="/babylon/assets/UI/Mobile/MobileBgHoleTest2.png">
+  <div id="screen-wrapper">
+    <div id="screen-overlay" class="loading-state" style="background:white;">
+      <!-- <img src="assets/UI/Common/MoALogoDiag.png"> -->
+      <h2 class="general-text">Loading Game<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span></h2>
+    </div>
+    <div id="player-wrapper">
+
+      <div id="background">
+        <div class="gameplay-state">
+          <div class="background-gradient"></div>
+          <img src="/babylon/assets/UI/Mobile/MobileBgHoleTest2.png">
+        </div>
       </div>
-    </div>
-    <div id="headerInstructions">
-      <img id="triangle" src="/babylon/assets/UI/Mobile/Arrow.png">
-      <h2 class="instructions">SWIPE UP TO SHOOT</h2>
-    </div>
-    <ul class="pages">
-      <li class="passcode page" id="passcodePage">
-        <div class="input-state">
-          <div class="form">
-            <h3 class="title">ENTER<br/>GAME CODE</h3>
-            <div id="ribbon">
-              <div id="ribbon-container">
-                <div class="dropshadow-container">
-                  <div id="ribbon-background" class="emphasis-text">
-                    <input class="passcodeInput ribbon-text" type="text" maxlength="10" style="text-transform:uppercase" placeholder="|"/>
+      <div id="headerInstructions">
+        <img id="triangle" src="/babylon/assets/UI/Mobile/Arrow.png">
+        <h2 class="instructions">SWIPE UP TO SHOOT</h2>
+      </div>
+      <ul class="pages">
+        <li class="passcode page" id="passcodePage">
+          <div class="input-state">
+            <div class="form">
+              <h3 class="title">ENTER<br/>GAME CODE</h3>
+              <div id="ribbon">
+                <div id="ribbon-container">
+                  <div class="dropshadow-container">
+                    <div id="ribbon-background" class="emphasis-text">
+                      <input class="passcodeInput ribbon-text" type="text" maxlength="10" style="text-transform:uppercase" placeholder="|"/>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <h2 class="errorMessage"></h2>
-            <div class="button-container">
-              <button id="submit-gamecode">Submit</button>
+              <h2 class="errorMessage"></h2>
+              <div class="button-container">
+                <button id="submit-gamecode">Submit</button>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      <li class="player page" id="playerPage">
-        <div id="refreshLogo">
-          <img id ="refresh" src="/babylon/assets/UI/Mobile/MobileRefreshBtnIcon.png">
-        </div>
-        <div class="form">
-          <div id="player-name-label" class="general-text">Player Name</div>
-          <h2 class="firstName">SHOOTER</h2>
-          <h2 class="lastName">MCGEE</h2>
-        </div>
-      </li>
-    </ul>
+        </li>
+        <li class="player page" id="playerPage">
+          <div id="refreshLogo">
+            <img id ="refresh" src="/babylon/assets/UI/Mobile/MobileRefreshBtnIcon.png">
+          </div>
+          <div class="form">
+            <div id="player-name-label" class="general-text">Player Name</div>
+            <h2 class="firstName">SHOOTER</h2>
+            <h2 class="lastName">MCGEE</h2>
+          </div>
+        </li>
+      </ul>
 
-    <div id="footerLogo">
-      <img class="gameLogo" src="/babylon/assets/UI/Common/ShotClockLogoGreyShad.png">
-      <div id="brought-by">
-        <img class="sponsorLogo" src="/babylon/assets/UI/Mobile/MobileMoALogo.jpg">
+      <div id="footerLogo">
+        <img class="gameLogo" src="/babylon/assets/UI/Common/ShotClockLogoGreyShad.png">
+        <div id="brought-by">
+          <img class="sponsorLogo" src="/babylon/assets/UI/Mobile/MobileMoALogo.jpg">
+        </div>
       </div>
+
+
+      <canvas id="canvas"></canvas>
+      <div id="scripts" style="visibility:hidden; display:none;">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
+      <script src="/config.js"></script>
+
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/babylon/babylon.custom.js"></script>
+      <script src="/babylon/scripts/playerInfo.js"></script>
+      <script src="/babylon/scripts/UI/state_manager.js"></script>
+      <!-- <script src="/babylon/scripts/UI/resizer.js"></script> -->
+      <!-- <script src="/scripts/UI/gameover.js"></script> -->
+      <script src="/scripts/UI/gameplay.js"></script>
+      <script src="/scripts/UI/customize.js"></script>
+      <script src="/scripts/UI/input.js"></script>
+      <script src="/player.js"></script>
     </div>
-
-
-    <canvas id="canvas"></canvas>
-    <div id="scripts" style="visibility:hidden; display:none;">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-
-    <script src="/config.js"></script>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/babylon/babylon.custom.js"></script>
-    <script src="/babylon/scripts/playerInfo.js"></script>
-    <script src="/babylon/scripts/UI/state_manager.js"></script>
-    <!-- <script src="/babylon/scripts/UI/resizer.js"></script> -->
-    <!-- <script src="/scripts/UI/gameover.js"></script> -->
-    <script src="/scripts/UI/gameplay.js"></script>
-    <script src="/scripts/UI/customize.js"></script>
-    <script src="/scripts/UI/input.js"></script>
-    <script src="/player.js"></script>
-  </div>
   </div>
 </body>
 
