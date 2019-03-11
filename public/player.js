@@ -334,6 +334,7 @@ engine.runRenderLoop(function(){
 
   $( document ).ready( function() {
     UILoadingAnimateOut();
+
   });
 });
 

@@ -442,6 +442,24 @@ canvas {
     opacity: 0; }
   100% {
     opacity: 1; } }
+.dot1, .dot2, .dot3 {
+  animation: loading 4s infinite;
+  -webkit-animation: loading 4s infinite;
+  -moz-animation: loading 4s infinite;
+  opacity: 0; }
+
+.dot2 {
+  animation-delay: 1s;
+  animation: loading 3s infinite;
+  -webkit-animation: loading 3s infinite;
+  -moz-animation: loading 3s infinite; }
+
+.dot3 {
+  animation-delay: 2s;
+  animation: loading 2s infinite;
+  -webkit-animation: loading 2s infinite;
+  -moz-animation: loading 2s infinite; }
+
 #screen-overlay {
   background: white;
   padding: 60px;
