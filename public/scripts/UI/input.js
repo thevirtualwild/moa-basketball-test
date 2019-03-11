@@ -41,12 +41,11 @@ function UIInputAnimateIn()
 function UIInputAnimateOut()
 {
     //console.log()
-    initPosY = parseFloat(inputForm.style.top.substr(0, inputForm.style.top.length-2));
+    // initPosY = parseFloat(inputForm.style.top.substr(0, inputForm.style.top.length-2));
     errorMessage.css({opacity:0});
 
     TweenMax.to(passcodePage, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0});
     TweenMax.to(inputForm, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0});
-    TweenMax.to(inputForm, inputFadeTime*3, {delay:inputFadeTime, top:0, ease:Back.easeIn, onComplete: UICustomizeAnimateIn});
 }
 
 function UIInputErrorMessage(message)
