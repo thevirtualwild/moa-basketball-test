@@ -1166,8 +1166,11 @@ function onConnection(socket) {
     console.dir(newGameObject);
     console.log('---Step 3---');
     console.log('add newGameObject to socket - ');
-    debugSocket(socket);
     socket.game = newGameObject;
+
+    debugSocket(socket);
+
+    console.log('SOCKETGAMENAME - ' + socket.game.name);
     // socket.gamename = thisgamesroom.gamename;
 
     allgames[socket.game.name] = socket.game;
@@ -1258,11 +1261,16 @@ function onConnection(socket) {
 
     var thisgamesroom = roomnames[socket.roomname];
     var thissocketgamename = thisgamesroom.gamename;
-    socket.game.name = thissocketgamename;
+    console.log('--BREAKING--');
+    debugSocket(socket);
 
     gamedata = socket.game;
     console.log("Socket.game");
     console.dir(gamedata);
+
+
+    socket.game.name = thissocketgamename;
+
     //
     // thisgame = allgames[socket.gamename];
     // console.log("Thisgame");
