@@ -300,7 +300,7 @@ function onConnection(socket) {
 
       var index = courtnum - 1;
       if (myzone.courts) {
-        // mycourt = allcourts[myzone.courts[index]];
+        mycourt = allcourts[myzone.courts[index]];
       }
       if (mycourt) {
         console.log('FINDACOURT: adding court to device [' + mydevice.ipaddress + ']');
@@ -993,7 +993,10 @@ function onConnection(socket) {
     } else {
       //court has already connected (this is probably a reconnect)
       var courtinfo = connectedcourtdevices[deviceIP];
-      // console.log('CONNECTION: court reconnected [IP: ' + deviceIP + ' , SOCKET: ' + socket.id + ']');
+
+      console.log('CONNECTION: court reconnected [IP: ' + deviceIP + ' , SOCKET: ' + socket.id + ']');
+      console.log('courtifo - ');
+      console.dir(courtinfo);
 
       socket.emit('court reconnected', courtinfo);
 
