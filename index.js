@@ -1159,11 +1159,14 @@ function onConnection(socket) {
     console.log('---Step 2---');
     console.log('start game (current gamename)- ' + thisgamesroom.gamename);
     newGameObject = {
-      gamename: thisgamesroom.gamename,
+      name: thisgamesroom.gamename,
       players: {},
       gameDateTime: newdate
     }
-    console.log(newGameObject);
+    console.dir(newGameObject);
+    console.log('---Step 3---');
+    console.log('add newGameObject to socket - ');
+    debugSocket();
     socket.game = newGameObject;
     // socket.gamename = thisgamesroom.gamename;
 
