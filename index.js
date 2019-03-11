@@ -1166,7 +1166,7 @@ function onConnection(socket) {
     console.dir(newGameObject);
     console.log('---Step 3---');
     console.log('add newGameObject to socket - ');
-    debugSocket();
+    debugSocket(socket);
     socket.game = newGameObject;
     // socket.gamename = thisgamesroom.gamename;
 
