@@ -54,8 +54,12 @@ $( document ).ready( function() {
        $(this).removeClass('blinking');
      }
      $('#footerLogo').show();
+     $('.form .title').show();
+     $('.button-container').show();
   });
   $('.passcodeInput').focus(function() {
      $('#footerLogo').hide();
+     $('.form .title').hide();
+     $('.button-container').hide();
   });
 });
