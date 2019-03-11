@@ -939,10 +939,13 @@ function onConnection(socket) {
       myzone = allzones[mydevice.zone];
 
       if (mydevice.court) {
-        mycourt = mydevice.court;
-        console.log('mydevice.court - ' + mycourt);
+        mycourt = mydevice.court[0];
+        console.log('GETCOURTTOSHOW: mydevice.court - ');
+        console.dir(mycourt);
+        console.log('allcourts');
+        console.dir(allcourts);
 
-        mycourt = allcourts[mydevice.court];
+        mycourt = allcourts[mycourt];
       }
 
       if (!myzone) {
@@ -962,6 +965,7 @@ function onConnection(socket) {
           findARoom(mycourt,mydevice);
         }
       } else { //find a court
+        console.log('m')
         findACourt(mydevice, myzone);
       }
     } else { //unknown device
