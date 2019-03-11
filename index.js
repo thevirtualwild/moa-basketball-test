@@ -1515,11 +1515,15 @@ function onConnection(socket) {
     var thisgamesroom = roomnames[socket.roomname];
     thisgamesroom.courtcount += 1;
     if (currentGame) {
-      updatedGame = addPlayerToGame(currentGame, _newplayer)
+      var updatedGame = addPlayerToGame(currentGame, _newplayer)
       allgames[updatedGame.name] = updatedGame;
+      socket.game = updatedGame;
     } else {
       console.log("ADDPLAYERTOGAME: socket doesn't have game");
-      socket.game = allgames[thisgamesroom.gamename];
+      currentGame = allgames[thisgamesroom.gamename];
+      var updatedGame = addPlayerToGame(currentGame, _newplayer)
+      allgames[updatedGame.name] = updatedGame;
+      socket.game = updatedGame;
       debugSocket(socket);
     }
   });
