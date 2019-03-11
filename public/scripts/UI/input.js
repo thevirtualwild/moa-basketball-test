@@ -5,6 +5,8 @@ var inputForm = $(".form");
 var errorMessage = $(".form .errorMessage");
 var passcodeInput = $(".form .passcodeInput");
 errorMessage.css({opacity:0});
+var passcodePage = $("#passcodePage");
+var playerPage = $("#playerPage");
 
 var loading_overlay = $('#screen-overlay');
 
@@ -27,14 +29,13 @@ function UIInputAnimateIn()
 {
   loading_overlay.css({display:'none!important'});
 
-    passcodeInput.value("");
+    passcodeInput.val("");
     passcodeInput.blur();
     errorMessage.css({opacity:0});
-    inputPage.css({opacity:0});
-    customizePage.css({display:"none"});
-    gameoverPage.css({display:"none"});
+    passcodePage.css({opacity:1});
+    playerPage.css({display:"none"});
     TweenMax.to(inputForm, inputFadeTime*3.5, {delay:inputFadeTime, opacity:1});
-    TweenMax.to(inputForm, inputFadeTime*3, {delay:inputFadeTime, top:height *.4, ease:Back.easeOut});
+    // TweenMax.to(inputForm, inputFadeTime*3, {delay:inputFadeTime, top:height *.4, ease:Back.easeOut});
 }
 
 function UIInputAnimateOut()
@@ -42,6 +43,8 @@ function UIInputAnimateOut()
     //console.log()
     initPosY = parseFloat(inputForm.style.top.substr(0, inputForm.style.top.length-2));
     errorMessage.css({opacity:0});
+
+    TweenMax.to(passcodePage, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0});
     TweenMax.to(inputForm, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0});
     TweenMax.to(inputForm, inputFadeTime*3, {delay:inputFadeTime, top:0, ease:Back.easeIn, onComplete: UICustomizeAnimateIn});
 }
