@@ -980,4 +980,35 @@ footer #footerRight img#sponsorGround {
   position: relative;
   height: 1080px; }
 
+.dot1, .dot2, .dot3 {
+  animation: loading 4s infinite;
+  -webkit-animation: loading 3s infinite;
+  -moz-animation: loading 3s infinite;
+  opacity: 0; }
+
+.dot2 {
+  animation-delay: 1s;
+  animation: loading 3s infinite;
+  -webkit-animation: loading 3s infinite;
+  -moz-animation: loading 3s infinite; }
+
+.dot3 {
+  animation-delay: 2s;
+  animation: loading 2s infinite;
+  -webkit-animation: loading 2s infinite;
+  -moz-animation: loading 2s infinite; }
+
+@keyframes loading {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+#screen-overlay h2.general-text, #screen-overlay #infobar h2.emphasis-text, #infobar #screen-overlay h2.emphasis-text {
+  font-size: 400%; }
+
+#screen-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
 /*# sourceMappingURL=court.css.map */

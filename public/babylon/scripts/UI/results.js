@@ -142,6 +142,13 @@ function UIResultsSetData(topScoreData,playerScoreData) {
           winnerstreak: winnerstreak
         }
 
+        // if (playerscore < 10) {
+        //   ShowYouLostResults(resultsdata);
+        //   message = message = results_breakpoints["loser"].message_line1 + '<br/>'
+        //     + results_breakpoints["loser"].message_line2;
+        //   console.log("UIRESULTSSETDATA: Low Scorer Message- " + message);
+        //   ShowCustomMessage(message);
+        // } else
         if(playerscore >= winnerscore)
         {
             winner = true;
@@ -167,8 +174,8 @@ function UIResultsSetData(topScoreData,playerScoreData) {
         else
         {
             ShowYouLostResults(resultsdata);
-            message = results_breakpoints["loser"].message;
-
+            message = results_breakpoints["loser"].message_line1 + '<br/>'
+              + results_breakpoints["loser"].message_line2;
 
             ShowCustomMessage(message);
         }
@@ -203,6 +210,7 @@ function ShowYouLostResults(resultsdata) {
   winner = false;
 
   player_score_num.text(resultsdata.playerscore.toString());
+  player_streak_num.text(resultsdata.playerstreak.toString());
 
   winner_stats.css({display:"block"});
   winner_name.css({display:"block"});
@@ -214,6 +222,7 @@ function ShowYouLostResults(resultsdata) {
   winner_name_last.text(winner_fullname.substr(winner_fullname.indexOf(' ') + 1));
 
   winner_score_num.text(resultsdata.winnerscore);
+  winner_streak_num.text(resultsdata.winnerstreak);
   console.log("YOU LOST TO HIGH SCORER " + resultsdata.playerscore + " top score " + resultsdata.winnerscore);
 }
 
