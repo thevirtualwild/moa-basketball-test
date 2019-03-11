@@ -39,8 +39,8 @@ var results_breakpoints = {
   "loser":
   {
     "points"        : "N/A",
-    "message_line1" : "Don't Quit",
-    "message_line2" : "Your Day Job!",
+    "message_line1" : "Try Again",
+    "message_line2" : "Ya Loser!",
     "redirect_url"  : "https://stackoverflow.com"
   },
   "bad":

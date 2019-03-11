@@ -1324,10 +1324,10 @@ $orange2: rgb(241, 99, 34);
         line-height: 1;
       }
       .top {
-        transform: translate(-100px, -15px);
+        transform: translate(-100px, -15px) rotate(-14deg);
       }
       .bottom {
-        transform: translate(80px, -5px);
+        transform: translate(80px, -5px) rotate(-14deg);
       }
     }
 

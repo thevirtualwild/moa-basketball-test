@@ -899,9 +899,9 @@ footer #footerRight img#sponsorGround {
         text-transform: uppercase;
         line-height: 1; }
       #game-container #game-overlay #gameplay-flavortext .top {
-        transform: translate(-100px, -15px); }
+        transform: translate(-100px, -15px) rotate(-14deg); }
       #game-container #game-overlay #gameplay-flavortext .bottom {
-        transform: translate(80px, -5px); }
+        transform: translate(80px, -5px) rotate(-14deg); }
     #game-container #game-overlay #sponsorArea {
       position: absolute;
       bottom: 40px;
