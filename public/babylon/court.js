@@ -2069,7 +2069,7 @@ function fakeSyncData(_syncData)
 
 socket.on('game almost ready', function(gamedata)
 {
-   gameName = gamedata.gamename;
+   gameName = gamedata.game.name;
    console.log('GAMEALMOSTREADY: ' + gameName);
 });
 

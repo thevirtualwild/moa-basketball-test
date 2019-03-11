@@ -12,6 +12,8 @@ var $passcodePage = $('.passcode.page'); // The roomchange page
 
 var shotInfo;
 
+var gameName = '';
+
 var basketball;
 var dragging = false;
 var shot = false;
@@ -453,9 +455,10 @@ socket.on('game already running', function() {
 socket.on('game almost ready', function(gamedata) {
     //fade out customization screen
     //roll in ball;
+    gameName = gamedata.game.name;
 
     var ae = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "r"});
-    console.log("GAME ALMOST READY RECEIVED");
+    console.log("GAME ALMOST READY RECEIVED - " + gamedata.game.name);
     scene.actionManager.processTrigger(scene.actionManager.actions[0].trigger,  ae);
 });
 socket.on('end all games', function() {
