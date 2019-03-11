@@ -5,7 +5,7 @@ var engine = new BABYLON.Engine(canvas, true, null, false);
 
 var $window = $(window);
 var $pages = $('.pages'); // Input for roomname
-var $gameover = $('#gameover');
+// var $gameover = $('#gameover');
 var $passcodeInput = $('.passcodeInput'); // Input for roomname
 // var $usernameInput = $('.usernameInput');
 var $passcodePage = $('.passcode.page'); // The roomchange page
@@ -343,7 +343,7 @@ function randomRange (min, max) {
     return number;
 }
 
-$gameover.fadeOut();
+// $gameover.fadeOut();
 // $passcodeInput.focus();
 $window.keydown(function (event) {
   // When the client hits ENTER on their keyboard
@@ -437,7 +437,7 @@ function cleanInput(input) {
 }
 
 socket.on('reset game', function(){
-    UIGameoverAnimateOut();
+    // UIGameoverAnimateOut();
     console.log("reset game EMIT");
 });
 
@@ -469,7 +469,7 @@ socket.on('game almost ready', function(gamedata) {
 socket.on('end all games', function() {
     console.log('Games Ended, look at results screen');
     //show this players score
-    $gameover.fadeIn();
+    // $gameover.fadeIn();
     var ae = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "t"});
     //console.log(ae);
     scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger,  ae);

@@ -28,7 +28,7 @@ function UIGameplayAnimateIn()
 function UIGameplayAnimateOut()
 {
   TweenMax.to(headerInstructions, customizeFadeTime, {delay:customizeFadeTime, top:50});
-  TweenMax.to(headerInstructions, customizeFadeTime, {delay:customizeFadeTime, opacity:0, onComplete: UIAttractAnimateIn});
+  TweenMax.to(headerInstructions, customizeFadeTime, {delay:customizeFadeTime, opacity:0, onComplete: UIInputAnimateIn});
   turnOffGameplay();
 }
 
@@ -53,5 +53,5 @@ function turnOffGameplay()
 function redirectNormal() {
   console.log('trying to redirect');
   // console.dir(resultsdata);
-  window.location.href = ("http://www.ampthink.com/");
+  // window.location.href = ("http://www.ampthink.com/");
 }

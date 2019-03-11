@@ -1,9 +1,9 @@
 var inputFadeTime = 0.25;
 
 var canvas = document.getElementById("canvas");
-var inputForm = $(".form");
-var errorMessage = $(".form .errorMessage");
-var passcodeInput = $(".form .passcodeInput");
+var inputForm = $("#passcodePage .form");
+var errorMessage = $("#passcodePage .form .errorMessage");
+var passcodeInput = $("#passcodePage .form .passcodeInput");
 errorMessage.css({opacity:0});
 var passcodePage = $("#passcodePage");
 var playerPage = $("#playerPage");
@@ -44,7 +44,7 @@ function UIInputAnimateOut()
     // initPosY = parseFloat(inputForm.style.top.substr(0, inputForm.style.top.length-2));
     errorMessage.css({opacity:0});
 
-    TweenMax.to(passcodePage, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0});
+    TweenMax.to(passcodePage, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0, onComplete: UICustomizeAnimateIn});
     TweenMax.to(inputForm, inputFadeTime*3.5, {delay:inputFadeTime, opacity:0});
 }
 
