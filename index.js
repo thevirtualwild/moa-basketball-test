@@ -1509,6 +1509,8 @@ function onConnection(socket) {
   });
   socket.on('add player to game', function(_newplayer) {
     var currentGame = socket.game;
+
+    var thisgamesroom = roomnames[socket.roomname];
     thisgamesroom.courtcount += 1;
     if (currentGame) {
       updatedGame = addPlayerToGame(currentGame, _newplayer)

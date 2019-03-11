@@ -165,8 +165,8 @@ function createScene()
     /* END BACKBOARD SHOTCLOCK */
 
     //
-
-    changeGameState(gameStates.ATTRACT);
+    //
+    // changeGameState(gameStates.ATTRACT);
 
     function changeGameState(gameState)
     {
@@ -216,10 +216,7 @@ function createScene()
 
                 updateUI();
 
-                if(ISTEAMGAME)
-                {
-                  updateBallColor();
-                }
+                updateBallColor();
 
                 break;
 
@@ -505,7 +502,7 @@ function createScene()
         baseMaterial.diffuseTexture.hasAlpha = true;
 
         var overlayMaterial             = new BABYLON.StandardMaterial("overlayMaterial", scene);
-        overlayMaterial.ambientColor    = new BABYLON.Color3(1,.4,.2);
+        overlayMaterial.ambientColor    = defaultColor3;
 
         var multimat                    = new BABYLON.MultiMaterial("multi", scene);
         multimat.subMaterials.push(baseMaterial);
@@ -1472,7 +1469,8 @@ function createScene()
     {
         for(var i = 0; i < basketballs.length; i++)
         {
-            newBasketballs[i].material.subMaterials[1].ambientColor = playerData.team.colorRGB;
+            newBasketballs[i].material.subMaterials[1].ambientColor = defaultColor3;
+
             //newBasketballOutlines[i].material.ambientColor = playerData.team.colorRGB;
         }
     }
@@ -1484,7 +1482,7 @@ function createScene()
         if(basketballs === undefined) return;
         for(var i = 0; i < basketballs.length; i++)
         {
-            newBasketballs[i].material.subMaterials[1].ambientColor = new BABYLON.Color3(1,.4,.2);
+            newBasketballs[i].material.subMaterials[1].ambientColor = defaultColor3;
             //newBasketballOutlines[i].material.ambientColor = new BABYLON.Color3(1,.4,.2);
         }
     }

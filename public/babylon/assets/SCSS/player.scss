@@ -396,6 +396,8 @@ $orange2: rgb(241, 99, 34);
       border: none;
       pointer-events: initial;
       opacity:1;
+      line-height: normal !important;
+      margin-bottom:-5px;
 
       &.blinking {
         animation: pulse .8s infinite;

@@ -269,7 +269,9 @@ canvas {
     background-color: transparent;
     border: none;
     pointer-events: initial;
-    opacity: 1; }
+    opacity: 1;
+    line-height: normal !important;
+    margin-bottom: -5px; }
     .passcode.page .form .passcodeInput.blinking, .input-state .form .passcodeInput.blinking {
       animation: pulse .8s infinite; }
     .passcode.page .form .passcodeInput:focus, .input-state .form .passcodeInput:focus {

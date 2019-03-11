@@ -19,11 +19,18 @@ function generateName()
     return name;
 }
 
+
+var redColor3 = new BABYLON.Color3(204,0,0);
+var whiteColor3 = new BABYLON.Color3(255,255,255);
+var blueColor3 = new BABYLON.Color3(76, 194, 235);
+
+var defaultColor3 = whiteColor3;
+
 var primaryTeam =
 {
     name: 'Red',
     colorHex: '#cc0000',
-    colorRGB: new BABYLON.Color3(204,0,0),
+    colorRGB: redColor3,
 
     colorR: 204,
     colorG: 0,
@@ -34,7 +41,7 @@ var secondaryTeam =
 {
     name: 'White',
     colorHex: '#ffffff',
-    colorRGB: new BABYLON.Color3(255,255,255),
+    colorRGB: whiteColor3,
 
     colorR: 255,
     colorG: 255,
@@ -44,7 +51,7 @@ var tertiaryTeam =
 {
     name: 'Blue',
     colorHex: '#4cc2eb',
-    colorRGB: new BABYLON.Color3(76, 194, 235),
+    colorRGB: blueColor3,
 
     colorR: 76,
     colorG: 194,

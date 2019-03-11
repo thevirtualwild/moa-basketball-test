@@ -377,9 +377,7 @@ function attemptToJoinCourt(someCourtName){
       courttojoin = 'GAME';
   }
 
-  if (ISTEAMGAME) {
-    overlayMaterial.ambientColor = team.colorRGB;
-  }
+  overlayMaterial.ambientColor = defaultColor3;
 
   userdata = {
       'username': username,
@@ -416,9 +414,7 @@ function joinCourt(someCourt) {
   // fade out input page
   //$pages.fadeOut();
 
-  if (ISTEAMGAME) {
-    overlayMaterial.ambientColor = team.colorRGB;
-  }
+  overlayMaterial.ambientColor = defaultColor3;
 
   userdata = {
       'username': username,
