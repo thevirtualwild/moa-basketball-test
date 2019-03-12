@@ -225,8 +225,10 @@ function createScene()
                 currentGameState    = gameState;
                 currentCameraIndex  = 1;
 
-                TweenMax.delayedCall(2,gameOver);
-                TweenMax.delayedCall(3,updateUI);
+                gameOver();
+                updateUI();
+                // TweenMax.delayedCall(2,gameOver);
+                // TweenMax.delayedCall(3,updateUI);
 
                 //DAVID: This should really be called at the end of results. Not sure exactly how or when
                 TweenMax.delayedCall(initResultsTime + 2,roomReset);
@@ -395,7 +397,7 @@ function createScene()
           currentGameTime -= (engine.getDeltaTime() / 1000);
           if(combopts > 1)
           {
-            combopts -= (scoremodifier-1 * (engine.getDeltaTime() / 8000) ); //change for combo dropoff
+            combopts -= (scoremodifier * (engine.getDeltaTime() / 8000) ); //change for combo dropoff
             updateScoreModifier();
           }
 
