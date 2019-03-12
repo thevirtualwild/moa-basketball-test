@@ -15,7 +15,7 @@ var currentNetState     = netStates.FREE;
 
 var cameraNames         = Object.freeze({"freeThrow": 0, "quarterFar": 1, "close": 2});
 var selectedCameraType  = cameraNames.freeThrow;
-var roomReset           = false;
+
 
 var m_BasketballCount   = 6;
 
@@ -190,7 +190,6 @@ function createScene()
                 updateUI();
                 combo               = 0;
                 changeBallFX(false);
-                roomReset           = false;
 
                 break;
 
@@ -228,6 +227,8 @@ function createScene()
 
                 gameOver();
                 updateUI();
+
+                TweenMax.delayedCall(initResultsTime + 2,roomReset);
 
                 initRun             = false;
 
@@ -412,17 +413,11 @@ function createScene()
       {
           currentResultsTime -= (engine.getDeltaTime() / 1000);
 
-          if(currentResultsTime <= -2 && !roomReset)
+          if(currentResultsTime <= -2)
           {
               resetClock();
               updateClock();
               UIResultsAnimateOut();
-
-              if(ISMASTER)
-              {
-                  socket.emit('room reset');
-                  roomReset = true
-              }
           }
           else if(currentResultsTime <= 0)
           {
@@ -1998,6 +1993,13 @@ socket.on('set master', function()
     scene.actionManager.processTrigger(scene.actionManager.actions[3].trigger, {additionalData: "animateaction"});
 });
 
+///////////////////////////////////////////////////////////////////////
+function roomReset() {
+    if(ISMASTER)
+    {
+        socket.emit('room reset');
+    }
+}
 ///////////////////////////////////////////////////////////////////////
 
 function fakeSyncData(_syncData)
