@@ -225,9 +225,10 @@ function createScene()
                 currentGameState    = gameState;
                 currentCameraIndex  = 1;
 
-                gameOver();
-                updateUI();
+                TweenMax.delayedCall(2,gameOver);
+                TweenMax.delayedCall(3,updateUI);
 
+                //DAVID: This should really be called at the end of results. Not sure exactly how or when
                 TweenMax.delayedCall(initResultsTime + 2,roomReset);
 
                 initRun             = false;

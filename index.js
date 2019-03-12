@@ -591,23 +591,18 @@ function onConnection(socket) {
       console.log('thisgame already in allgames: ');
       console.dir(thisgame);
       console.log('pushing new score to thisgame array');
-
-      var playername = _courtgamedata.player.username;
-      var courtname = _courtgamedata.player.court;
-      var playerscore = _courtgamedata.score;
-      var playerstreak = _courtgamedata.highestStreak;
-
       console.log(courtname);
 
-      thisgame.players[courtname].score = playerscore;
-      thisgame.players[courtname].streak = playerstreak;
-
       var scoredata = {
-        playername: playername,
-        courtname: courtname,
-        playerscore: playerscore,
-        playerstreak: playerstreak
+        playername: _courtgamedata.player.username,
+        courtname: _courtgamedata.player.court,
+        playerscore: _courtgamedata.score,
+        playerstreak: _courtgamedata.highestStreak
       };
+
+      thisgame.players[_courtgamedata.player.court].score = scoredata.playerscore;
+      thisgame.players[_courtgamedata.player.court].streak = scoredata.playerstreak;
+
 
       if (thisgame.scores) {
         thisgame.scores.push(scoredata);
