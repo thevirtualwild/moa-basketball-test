@@ -625,17 +625,18 @@ function onConnection(socket) {
     console.log('  - ScoresCounted = ' + thisgamesroom.scorescounted);
 
     // if all games scores added, get high score
-    if (thisgamesroom.scorescounted == thisgamesroom.courtcount) {
-      // // console.log('all scores added, getting highscore: ');
-      // // console.dir(thisgamesroom);
-      // // console.log('get high score for gamename - ' + thissocketgamename);
+    if (thisgamesroom.scorescounted && thisgamesroom.courtcount) {
+      if (thisgamesroom.scorescounted == thisgamesroom.courtcount) {
+        // // console.log('all scores added, getting highscore: ');
+        // // console.dir(thisgamesroom);
+        // // console.log('get high score for gamename - ' + thissocketgamename);
 
-      getHighScore(thissocketgamename);
-
-      // pushScoreToDatabase(thisgame);
-    } else {
-      // // console.log('not all scores added, waiting for all scores: ');
-      // // console.log('counted,courtcount: ' + thisgamesroom.scorescounted + ',' + thisgamesroom.courtcount);
+        getHighScore(thissocketgamename);
+        // pushScoreToDatabase(thisgame);
+      } else {
+        // // console.log('not all scores added, waiting for all scores: ');
+        // // console.log('counted,courtcount: ' + thisgamesroom.scorescounted + ',' + thisgamesroom.courtcount);
+      }
     }
 
   }
@@ -720,7 +721,6 @@ function onConnection(socket) {
         thisgame.highscore = ascore;
       }
 
-
     }
     // // console.log('setting scorescounted to 0: ' + gamename);
     thisgamesroom.scorescounted = 0;
@@ -743,12 +743,8 @@ function onConnection(socket) {
     socket.broadcast.to(socket.roomname).emit('show results', emitData);
     socket.emit('show results', emitData);
 
-
     // // // // // console.log("socket roomname: " + socket.roomname);
     allgames[_gamename] = thisgame;
-
-
-
   }
 
 
@@ -1403,7 +1399,7 @@ function onConnection(socket) {
     console.log('PLAYERDISCONNECTED: remove them from the players in a game');
     var thisgamesroom = roomnames[somesocket.roomname];
 
-    thisgamesroom.courtcount -= 1;
+    // thisgamesroom.courtcount -= 1;
   }
 
   //server stuff

@@ -180,6 +180,10 @@ function createScene()
                 gameReady           = false;
                 //console.log("Aspect Ratio: " + canvas.width/canvas.height);
                 lobbyStarted        = false;
+
+                scoremodifier = 1;
+                combopts = 0;
+
                 resetBallColor();
 
                 if(ISMASTER)
@@ -1197,12 +1201,13 @@ function createScene()
         scene.meshes.pop(netSpheres[i]);
     });
 
-    var scoreTrigger = new BABYLON.Mesh.CreateBox("scoreTrigger", 3, scene);
+    var scoreTrigger = new BABYLON.Mesh.CreateBox("scoreTrigger", 5, scene); //was 3
+
     scoreTrigger.position = torus.position;
-    scoreTrigger.position.y += .75;
+    scoreTrigger.position.y += .2; //was .75
 
     var clearMat = new BABYLON.StandardMaterial("myMaterial", scene);
-    clearMat.alpha = 0;
+    clearMat.alpha = 0; //change alpha here to change scorebox //DAVID
     scoreTrigger.material = clearMat;
     score = 0;
     highestStreak = 0;

@@ -84,6 +84,11 @@ function turnOffResults()
   changeDisplay('results-state', 'none');
   turnOffAnimations();
   turnOffResultsBackground();
+
+  winner_stats.css({display:"none"});
+  winner_name.css({display:"none"});
+  winner_trophy.css({display:"none"});
+  winner_ribbon.css({display:"none"});
 }
 
 
