@@ -166,8 +166,8 @@ function createScene()
     /* END BACKBOARD SHOTCLOCK */
 
     //
-    //
-    // changeGameState(gameStates.ATTRACT);
+    //DAVID: this wasn't clock issue
+    changeGameState(gameStates.ATTRACT);
 
     function changeGameState(gameState)
     {
@@ -1116,7 +1116,6 @@ function createScene()
             /* END JAY JAY */
 
             netVisiblePositions.push(sphere2);
-            scene.meshes.pop(sphere2);
 
             sphere1.physicsImpostor = new BABYLON.PhysicsImpostor(sphere1, BABYLON.PhysicsImpostor.SphereImpostor, {
                 mass: currentMass,
