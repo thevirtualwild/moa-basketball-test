@@ -15,6 +15,7 @@ var currentNetState     = netStates.FREE;
 
 var cameraNames         = Object.freeze({"freeThrow": 0, "quarterFar": 1, "close": 2});
 var selectedCameraType  = cameraNames.freeThrow;
+var roomReset           = false;
 
 var m_BasketballCount   = 6;
 
