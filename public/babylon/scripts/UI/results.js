@@ -1,4 +1,4 @@
-var textFadeTimeResults = 1.5;
+var textFadeTimeResults = 2.5;
 
 var canvas = $('#canvas');
 
@@ -73,6 +73,8 @@ function UIResultsAnimateOut()
 
 function turnOnResults()
 {
+    results_flavor_text.css({opacity:0});
+    player_stats.css({opacity:0});
     changeVisibility('results-state', 'visible');
     changeDisplay('results-state', 'block');
     turnOnAnimations();
@@ -245,6 +247,8 @@ function turnOnResultsBackground() {
 
   TweenMax.to(overlay_background, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
   TweenMax.to(info_layer, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(results_flavor_text, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(player_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
   TweenMax.to(results_flavor_text, textFadeTime, {scale:1.5, delay: textFadeTime + textFadeTime, ease:Back.out});
 }
 function turnOffResultsBackground() {
@@ -252,4 +256,7 @@ function turnOffResultsBackground() {
 
   TweenMax.to(overlay_background, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
   TweenMax.to(info_layer, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(results_flavor_text, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(player_stats, textFadeTime, {opacity:0, delay: textFadeTime, ease:Sine.easeInOut});
+  TweenMax.to(results_flavor_text, textFadeTime, {scale:1, delay: textFadeTime + textFadeTime, ease:Sine.easeInOut});
 }

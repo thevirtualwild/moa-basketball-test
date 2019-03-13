@@ -632,7 +632,7 @@ function onConnection(socket) {
         // // console.log('get high score for gamename - ' + thissocketgamename);
 
         getHighScore(thissocketgamename);
-        // pushScoreToDatabase(thisgame);
+        pushGameToDatabase(thisgame);
       } else {
         // // console.log('not all scores added, waiting for all scores: ');
         // // console.log('counted,courtcount: ' + thisgamesroom.scorescounted + ',' + thisgamesroom.courtcount);
@@ -653,7 +653,56 @@ function onConnection(socket) {
     // socket.emit('show results', playerdata);
   }
 
-  function pushScoreToDatabase(data) {
+  function pushGameToDatabase(_gameData) {
+    console.log('____PUSHGAMETODATABASE____');
+    console.dir(_gameData);
+
+    // var winnerCourtID = courtnames[_gameData.highscore.courtname].id;
+    // console.log('winnercourtid - ' + winnerCourtID)
+
+    score_base('Games').create({
+      "Name": _gameData.name,
+      "Date": _gameData.gameDateTime,
+      // "Players": players,
+      "Winning Player": _gameData.highscore.playername
+    }, function(err, record) {
+        if (err) { console.error(err); return; }
+
+        //Callback from API push
+        var newgameid = record.getId();
+
+        pushPlayerScores(newgameid, _gameData.players);
+    });
+  }
+  function pushPlayerScores(_gamerecordId, _playersdata) {
+    var players = [];
+
+    console.log(' - gamedata players');
+    console.dir(_playersdata);
+
+    for( var playername in _playersdata ) {
+
+      var player = _playersdata[playername];
+
+      score_base('Players').create({
+        "Name": player.username,
+        "Score": player.score,
+        "Longest Streak": player.streak,
+        "Game": [_gamerecordId]
+      }, function(err, record) {
+          if (err) { console.error(err); return; }
+
+          //push new player to array of players
+          console.log(record.getId());
+          players.push(record.getId());
+      });
+      console.log('players');
+      console.dir(players);
+    }
+  }
+
+  function pushScoreToDatabase(data) //push player score
+  {
     playername = data.player.username;
     var playerstreak = data.highestStreak;
     var playershotsmade = data.shotsMade;
