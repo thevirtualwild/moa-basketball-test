@@ -1366,6 +1366,7 @@ function onConnection(socket) {
     // // // // console.dir(roomnames);
     // if (thisgamesroom.gamerunning) {
       // console.log('room reset called');
+
       thisgamesroom.gamerunning = false;
       thisgamesroom.canjoingame = true;
 
@@ -1385,42 +1386,47 @@ function onConnection(socket) {
     courtnames[somecourtname] = thiscourt;
   });
 
-  function courtDisconnected(somesocket) {
+  function courtDisconnected(_somesocket) {
 
-      var thisgamesroom = roomnames[somesocket.roomname];
+    var thisgamesroom = roomnames[_somesocket.roomname];
 
-      if (thisgamesroom.courtcount <= 0) {
-        thisgamesroom.gamerunning = false;
-        thisgamesroom.courtcount = 0;
-      }
-      roomnames[somesocket.roomname] = thisgamesroom;
+    console.log('COURTDISCONNECTED:');
+    debugSocket(_somesocket);
+    console.log(' - courtcount: ' + thisgamesroom.courtcount);
+    thisgamesroom.courtcount -= 1;
+    console.log(' - courtcount2: ' + thisgamesroom.courtcount);
 
-      var thiscourt = courtnames[somesocket.court.name];
-      // // // console.log(thiscourt);
+    if (thisgamesroom.courtcount <= 0) {
 
+      console.log(' - setgamerunning to false: ' + thisgamesroom.courtcount);
+      thisgamesroom.gamerunning = false;
 
-      courtnum -= 1;
+      socket.emit('end all games', _somesocket.court);
+      console.log(' - forcing room to reset');
+      socket.emit('force room reset');
+      thisgamesroom.courtcount = 0;
+    }
+    roomnames[_somesocket.roomname] = thisgamesroom;
+    allrooms[thisgamesroom.id] = thisgamesroom;
 
-      // // console.log("COURT DISCONNECTED");
-      thiscourt.hasplayer = false;
-      courtnames[somesocket.court] = thiscourt;
+    var thiscourt = courtnames[_somesocket.court.name];
 
-      // // // console.log("")
+    courtnum -= 1;
+
+    thiscourt.hasplayer = false;
+    courtnames[_somesocket.court] = thiscourt;
+
     if (socket.court) {
-      var somecourtid = somesocket.court.id;
+      var somecourtid = _somesocket.court.id;
       var courtid = somecourtid;
       var court = courtsandmaster[courtid];
 
       socket.emit('reset game');
-      socket.broadcast.to(somesocket.roomname).emit('reset game');
+      // socket.broadcast.to(somesocket.roomname).emit('reset game');
 
       if(USEMASTERSLAVEMODE) {
 
         if (court.master == socket.id) {
-          // // // // // // console.log('need to find new master - ');
-          // // // // // console.dir(socket.court);
-          // // // // // // console.log('current courtsandmaster');
-          // // // // // console.dir(courtsandmaster);
 
           findNewMaster(socket.id);
         } else {
@@ -1428,13 +1434,10 @@ function onConnection(socket) {
           court.slaves.pop(slaveindex);
           courtsandmaster[courtid] = court;
 
-            // // // // // // console.log('court after pop');
-            // // // // // console.dir(court);
-            // // // // // // console.log('current courtsandmaster');
-            // // // // // console.dir(courtsandmaster);
         }
       }
     }
+
   }
   function playerConnectedToCourt(_somePlayerData, _someCourtData) {
     console.log('PLAYERCONNECTEDTOCOURT: - playerdata - ');

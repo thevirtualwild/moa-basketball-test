@@ -229,9 +229,10 @@ function createScene()
                 currentGameState    = gameState;
                 currentCameraIndex  = 1;
 
-                gameOver();
+                // gameOver();
+                TweenMax.delayedCall(2,gameOver);
+
                 updateUI();
-                // TweenMax.delayedCall(2,gameOver);
                 // TweenMax.delayedCall(3,updateUI);
 
                 //DAVID: This should really be called at the end of results. Not sure exactly how or when
@@ -521,7 +522,7 @@ function createScene()
         var newBasketball               = mesh[0];
         scene.meshes.pop(mesh[0]);
 
-        for (var i = 0; i < basketballs.length; i++)
+        for (var i = 0; i < basketballs.length; i++) //creation of Basketballs
         {
             basketballs[i].physicsImpostor = new BABYLON.PhysicsImpostor(basketballs[i], BABYLON.PhysicsImpostor.SphereImpostor, {
                 mass: 1,
@@ -563,32 +564,6 @@ function createScene()
                                                                          masterData.basketballs[i].roty,
                                                                          masterData.basketballs[i].rotz,
                                                                          masterData.basketballs[i].rotw);
-
-                    // var newPos                  = new BABYLON.Vector3(basketballs[i].posx,
-                    //                                                   basketballs[i].posy,
-                    //                                                   basketballs[i].posz);
-                    //
-                    // var newRot                  = new BABYLON.Quaternion(basketballs[i].rotx,
-                    //                                                      basketballs[i].roty,
-                    //                                                      basketballs[i].rotz,
-                    //                                                      basketballs[i].rotw);
-
-
-                    // var newPos                  = new BABYLON.Vector3(basketballs[i].position.x,
-                    //                                                   basketballs[i].position.y,
-                    //                                                   basketballs[i].position.z);
-                    //
-                    // var newRot                  = new BABYLON.Quaternion(basketballs[i].rotation.x,
-                    //                                                      basketballs[i].rotation.y,
-                    //                                                      basketballs[i].rotation.z,
-                    //                                                      basketballs[i].rotation.w);
-
-// console.log("basketballs[i].posx = " + basketballs[i].posx);
-// console.log("basketballs[i].position.x = " + basketballs[i].position.x);
-
-                    // newBasketballs[i].position  = newPos;
-                    // newBasketballs[i].position  = BABYLON.Vector3.Lerp(newBasketballs[i].position, newPos, 0.9552999999999884);
-                    // newBasketballs[i].rotation  = newRot.toEulerAngles();
 
                     newBasketballs[i].position  = BABYLON.Vector3.Lerp(newBasketballs[i].position, newPos, 0.9552999999999884);
                     newBasketballs[i].rotation  = newRot.toEulerAngles();
@@ -665,6 +640,7 @@ function createScene()
             currentEmitTime -= (engine.getDeltaTime() / 1000);
             currentLoadTime -= (engine.getDeltaTime() / 1000);
 
+            //loadScreenAnimateOut
             if(currentLoadTime <= 0)
             {
                 sceneLoaded = true;
@@ -677,7 +653,6 @@ function createScene()
             }
 
             //
-
             if(currentEmitTime <= 0)
             {
                 currentEmitTime = initEmitTime;
@@ -764,7 +739,7 @@ function createScene()
               }
           }
       });
-  });
+    });
 
     BABYLON.SceneLoader.ImportMesh("", "./assets/BBall/", "Bball_Outline.babylon", scene, function (mesh) {
 
@@ -1230,6 +1205,7 @@ function createScene()
                         var idx = shotIndex-1;
                         if(idx < 0) idx = 9;
 
+                        //DAVID: point scored, shot made, boolean set, addScore
                         if(basketballStates[idx] == 1) {
                             basketballStates[idx] = 0;
                             add1Point = true;
@@ -2023,6 +1999,13 @@ socket.on('set master', function()
     console.log("ON SETMASTER: animateaction");
 
     scene.actionManager.processTrigger(scene.actionManager.actions[3].trigger, {additionalData: "animateaction"});
+});
+
+///
+
+socket.on('force room reset', function() {
+  console.log('force room reset called from server')
+  roomReset();
 });
 
 ///////////////////////////////////////////////////////////////////////
