@@ -769,9 +769,15 @@ function onConnection(socket) {
       console.log(ascore);
 
       if (thisgame.highscore) {
+        console.log('highscore already exists - ');
+        console.dir(thisgame.highscore);
+        console.log('this score');
+        console.dir(ascore);
         if (ascore.playerscore > thisgame.highscore.score) {
           console.log('new high score');
           thisgame.highscore = ascore;
+        } else {
+          console.log('score '+ ascore.playerscore +' lower than high score ' + thisgame.highscore.score);
         }
       } else {
         thisgame.highscore = ascore;
@@ -1371,7 +1377,7 @@ function onConnection(socket) {
     // // // // // console.log('roomname:' +socket.roomname);
     // // // // // console.log('room reset called');
     // // // // console.dir(roomnames);
-    // if (thisgamesroom.gamerunning) {
+    if (thisgamesroom) {
       // console.log('room reset called');
 
       thisgamesroom.gamerunning = false;
@@ -1382,9 +1388,9 @@ function onConnection(socket) {
 
       socket.broadcast.to(socket.roomname).emit('reset game');
       socket.emit('reset game');
-    // } else {
-      // // // console.log('room reset called while game not running');
-    // }
+    } else {
+      console.log('room reset called while room not set');
+    }
   });
   socket.on('court reset', function(somecourtname) {
     // // // // // console.log('court resetting');
