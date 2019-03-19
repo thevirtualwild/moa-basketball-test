@@ -89,7 +89,7 @@ function UIComboLevelChange(_newlevel) {
   console.log('Combo Level Change - ' + _newlevel);
 
   if (_newlevel > currentComboLevel) {
-    TweenMax.to(comboBadge, .2, {scaleX:1.2, scaleY:1.2, repeat: 1, yoyo:true, ease: Expo.easeInOut});
+    TweenMax.to(comboBadge, .2, {scaleX:1.2, scaleY:1.2, repeat: 1, yoyo:true, ease: Sine.easeInOut});
   }
 
   currentComboLevel = _newlevel;
