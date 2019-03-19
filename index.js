@@ -296,10 +296,10 @@ function onConnection(socket) {
       console.log('FINDACOURT: ' + mydevice.ipaddress + ' - should be in court #' + courtnum);
       var mycourt;
 
-      var index = courtnum - 1;
-      if (myzone.courts) {
-        mycourt = allcourts[myzone.courts[index]];
-      }
+      // var index = courtnum - 1;
+      // if (myzone.courts) {
+      //   mycourt = allcourts[myzone.courts[index]];
+      // }
       if (mycourt) {
         console.log('FINDACOURT: adding court to device [' + mydevice.ipaddress + ']');
         console.dir(mycourt);
@@ -602,7 +602,8 @@ function onConnection(socket) {
 
       console.log(' - _courtgamedata: ');
       console.dir(_courtgamedata);
-      if (_courtgamedata.player) {
+
+      if (thisgame.players[_courtgamedata.player.court]) {
             thisgame.players[_courtgamedata.player.court].score = scoredata.playerscore;
             thisgame.players[_courtgamedata.player.court].streak = scoredata.playerstreak;
       } else {
