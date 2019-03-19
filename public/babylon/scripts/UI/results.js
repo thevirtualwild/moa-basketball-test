@@ -33,16 +33,16 @@ var currentScore;
 var currentName;
 function UIResultsAnimateIn()
 {
-    turnOnResults();
+    TweenMax.delayedCall(textFadeTimeResults,turnOnResults);
 
     console.log("ANIMATE RESULTS IN");
     animating = false;
 
     // TweenMax.to(textResults, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
-    animateLeftFromX(textResults, '-1000px', textFadeTime, textFadeTime);
-    animateLeftFromX(winner_stats, '-500px', textFadeTime, textFadeTime);
-    animateLeftFromX(winner_name, '-500px', textFadeTime, textFadeTime);
+    animateLeftFromX(textResults, '-1000px', textFadeTime, textFadeTimeResults);
+    animateLeftFromX(winner_stats, '-500px', textFadeTime, textFadeTimeResults);
+    animateLeftFromX(winner_name, '-500px', textFadeTime, textFadeTimeResults);
     // TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
     // TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 

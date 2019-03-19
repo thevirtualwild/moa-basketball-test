@@ -15,6 +15,8 @@ var lastName = $("#infobar-content .lastname");
 var textGameplay = $("#infobar-content .gameplay-state .text-container");
 var info_layer = $('.info-layer');
 
+var currentComboLevel = 1;
+
 function UIGameplayAnimateIn()
 {
   turnOnGameplay();
@@ -74,7 +76,6 @@ function UIGameplayAnimateBadgeOn(comboNum)
   TweenMax.to(comboBadge, 0.1, {opacity: 1});
   comboNumText.text(comboNum.toString());
   turnOnAnimations();
-  TweenMax.to(comboNumText, 0.1, {scaleX:1.2, scaleY:1.2, repeat: 1, yoyo:true});
 }
 
 function UIGameplayAnimateBadgeOff()
@@ -84,10 +85,15 @@ function UIGameplayAnimateBadgeOff()
   turnOffAnimations();
 }
 
-function UIComboLevelChange(newlevel) {
-  console.log('Combo Level Change - ' + newlevel);
+function UIComboLevelChange(_newlevel) {
+  console.log('Combo Level Change - ' + _newlevel);
 
-  UIGameplayAnimateBadgeOn(newlevel);
+  if (_newlevel > currentComboLevel) {
+    TweenMax.to(comboBadge, .2, {scaleX:1.2, scaleY:1.2, repeat: 1, yoyo:true, ease: Expo.easeInOut});
+  }
+
+  currentComboLevel = _newlevel;
+  UIGameplayAnimateBadgeOn(_newlevel);
 }
 
 function turnOnGameplay()

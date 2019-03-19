@@ -1026,7 +1026,7 @@ function onConnection(socket) {
           findARoom(mycourt,mydevice);
         }
       } else { //find a court
-        console.log('m')
+        console.log('m');
         findACourt(mydevice, myzone);
       }
     } else { //unknown device
