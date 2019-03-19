@@ -600,8 +600,15 @@ function onConnection(socket) {
         playerstreak: _courtgamedata.highestStreak
       };
 
-      thisgame.players[_courtgamedata.player.court].score = scoredata.playerscore;
-      thisgame.players[_courtgamedata.player.court].streak = scoredata.playerstreak;
+      console.log(' - _courtgamedata: ');
+      console.dir(_courtgamedata);
+      if (_courgamedata.player) {
+            thisgame.players[_courtgamedata.player.court].score = scoredata.playerscore;
+            thisgame.players[_courtgamedata.player.court].streak = scoredata.playerstreak;
+      } else {
+        console.log(' ** addCourtGameScore problem with _courtgamedata.player');
+        console.dir(_courtgamedata);
+      }
 
 
       if (thisgame.scores) {
