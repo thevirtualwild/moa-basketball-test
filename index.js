@@ -602,7 +602,7 @@ function onConnection(socket) {
 
       console.log(' - _courtgamedata: ');
       console.dir(_courtgamedata);
-      if (_courgamedata.player) {
+      if (_courtgamedata.player) {
             thisgame.players[_courtgamedata.player.court].score = scoredata.playerscore;
             thisgame.players[_courtgamedata.player.court].streak = scoredata.playerstreak;
       } else {
