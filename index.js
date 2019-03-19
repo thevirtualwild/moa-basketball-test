@@ -773,11 +773,11 @@ function onConnection(socket) {
         console.dir(thisgame.highscore);
         console.log('this score');
         console.dir(ascore);
-        if (ascore.playerscore > thisgame.highscore.score) {
+        if (ascore.playerscore > thisgame.highscore.playerscore) {
           console.log('new high score');
           thisgame.highscore = ascore;
         } else {
-          console.log('score '+ ascore.playerscore +' lower than high score ' + thisgame.highscore.score);
+          console.log('score '+ ascore.playerscore +' lower than high score ' + thisgame.highscore.playerscore);
         }
       } else {
         thisgame.highscore = ascore;
