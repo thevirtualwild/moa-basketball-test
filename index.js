@@ -607,7 +607,7 @@ function onConnection(socket) {
             thisgame.players[_courtgamedata.player.court].score = scoredata.playerscore;
             thisgame.players[_courtgamedata.player.court].streak = scoredata.playerstreak;
       } else {
-        console.log(' ** addCourtGameScore problem with _courtgamedata.player');
+        console.log(' ** addCourtGameScore problem with thisgame.players[_courtgamedata.player.court]');
         console.dir(_courtgamedata);
       }
 

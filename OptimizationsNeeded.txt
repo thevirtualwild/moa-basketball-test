@@ -40,3 +40,51 @@ UI
 
 
 sarah somehow got into the game at the wrong time, and then started another game without telling the other players
+
+
+
+
+
+
+
+
+
+
+
+Event sent every second from the server to the socket (counting clock down)
+
+Server broadcasts every second
+
+Server
+
+Room - state machine
+
+Court sends event - server changes states
+
+
+If courts don't report
+
+
+Rooms manage courts, master court manages player
+
+
+
+
+
+
+server {
+  courts {
+    'MYCOURT' {
+      players {
+        'Sneaky Pirate' {
+
+        }
+      }
+    },
+    'HISCOURT' {
+      players {
+        ''
+      }
+    }
+  }
+}
