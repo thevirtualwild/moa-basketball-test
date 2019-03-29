@@ -1,3 +1,5 @@
+////////////////////////////////////////////////////////
+
 var socket = io();
 
 var canvas = document.getElementById("canvas");
@@ -5,14 +7,12 @@ var engine = new BABYLON.Engine(canvas, true, null, false);
 
 var $window = $(window);
 var $pages = $('.pages'); // Input for roomname
-// var $gameover = $('#gameover');
 var $passcodeInput = $('.passcodeInput'); // Input for roomname
-// var $usernameInput = $('.usernameInput');
 var $passcodePage = $('.passcode.page'); // The roomchange page
 
 var shotInfo;
 
-var gameName = '';
+var m_gameName = '';
 
 var basketball;
 var dragging = false;
@@ -30,7 +30,7 @@ var ballStates = Object.freeze({"WAITING": 0, "DRAGGABLE": 1, "DRAGGING": 2, "SH
 var currentBallState = ballStates.WAITING;
 var targetX = 0;
 var targetY = 0;
-var overlayMaterial;
+var g_overlayMaterial;
 
 // Create Scene
 var scene = createScene();
@@ -38,6 +38,73 @@ var pageScaleFactorX;
 var pageScaleFactorY;
 var mouseDownPos;
 var mouseUpPos;
+
+////////////////////////////////////////////////////////
+
+//- Helper Functions
+function cleanInput(input) {
+  return $('<div/>').text(input).html();
+}
+function randomRange (min, max) {
+    var number = (Math.random() * (min - max) + max);
+    return number;
+}
+function setTeamColor(_someColor3) {
+  g_overlayMaterial.ambientColor = _someColor3;
+}
+function sendErrorMessage(_someMessage) {
+  UIInputErrorMessage(_someMessage);
+}
+//- END Helper Functions
+
+//- Player Connection Functions
+function submitGameCode() {
+  var courtname = cleanInput($passcodeInput.val().trim());
+
+  attemptToJoinCourt(courtname);
+}
+function attemptToJoinCourt(_someCourtName) {
+  var userdata = initializePlayer(_someCourtName);
+
+  console.log('JOINCOURT: Court name - ' + _someCourtName + ' userdata:');
+  console.dir(userdata);
+  // Tell the server your new room to connect to
+  socket.emit('player wants to join court', userdata);
+}
+function initializePlayer(_someCourtName) {
+  // calls functions from /babylon/scrips/playerInfo.js (generate Functions)
+  var username = generateName();
+  var team = generateTeam();
+
+  if (_someCourtName) {
+      _someCourtName = _someCourtName.toUpperCase();
+  } else {
+      _someCourtName = 'GAME';
+  }
+
+  setTeamColor(defaultColor3);
+
+  var userdata = {
+      'username': username,
+      'team': team,
+      'court': _someCourtName
+  };
+
+  return userdata;
+}
+//- END Player Connection Functions
+
+//- Gameplay Related functions
+function startGameplay(_gamedata) {
+  m_gameName = _gamedata.name;
+
+  var startgameplay_event = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "start gameplay"});
+  console.log("STARTGAMEPLAY called - " + _gamedata.name);
+  scene.actionManager.processTrigger(scene.actionManager.actions[0].trigger,  startgameplay_event);
+}
+//- END Gameplay Related functions
+
+//- Game Engine (Scene and Engine Loop)
 function createScene() {
   var scene = new BABYLON.Scene(engine);
   engine.enableOfflineSupport = false;
@@ -72,17 +139,17 @@ function createScene() {
 
   BABYLON.SceneLoader.ImportMesh("", "/babylon/assets/BBall_V2/", "BBall_V2.babylon", scene, function (mesh) {
     var baseMaterial = new BABYLON.StandardMaterial("baseMaterial", scene);
-    overlayMaterial = new BABYLON.StandardMaterial("overlayMaterial", scene);
+    g_overlayMaterial = new BABYLON.StandardMaterial("overlayMaterial", scene);
     var multimat = new BABYLON.MultiMaterial("multi", scene);
 
     baseMaterial.emissiveTexture = new BABYLON.Texture("babylon/assets/BBall_V2/BBall_noLogo-v2.png", scene);
     baseMaterial.diffuseTexture = new BABYLON.Texture("babylon/assets/BBall_V2/BBall_noLogo-v2.png", scene);
     baseMaterial.diffuseTexture.hasAlpha = true;
 
-    overlayMaterial.ambientColor = new BABYLON.Color3(1,.4,.2);
+    g_overlayMaterial.ambientColor = new BABYLON.Color3(1,.4,.2);
 
     multimat.subMaterials.push(baseMaterial);
-    multimat.subMaterials.push(overlayMaterial);
+    multimat.subMaterials.push(g_overlayMaterial);
 
     basketball = mesh[0];
     basketball.material = multimat;
@@ -96,6 +163,7 @@ function createScene() {
       ignoreParent: true
     });
 
+    //- Touch Event Listeners (Doesn't need to be in the ball), should be its own function | TODO: David
     document.addEventListener('mousedown', function(ev) {
       if(currentBallState == ballStates.DRAGGABLE) {
             currentBallState = ballStates.DRAGGING;
@@ -104,7 +172,6 @@ function createScene() {
             mouseDownPos = new BABYLON.Vector2(ev.pageX, ev.pageY);
         }
     });
-
     document.addEventListener('mouseup', function(ev) {
       if(currentBallState == ballStates.DRAGGING) {
           mouseUpPos = new BABYLON.Vector2(ev.pageX, ev.pageY);
@@ -120,13 +187,11 @@ function createScene() {
           }
       }
     });
-
     document.addEventListener('mousemove', function(ev) {
       if(currentBallState != ballStates.DRAGGING) return;
       targetX = ev.pageX;
       targetY = ev.pageY;
     });
-
     document.addEventListener('touchstart', function(ev) {
       if(currentBallState == ballStates.DRAGGABLE) {
             currentBallState = ballStates.DRAGGING;
@@ -135,13 +200,11 @@ function createScene() {
             //mouseDownPos = new BABYLON.Vector2(ev.targetTouches[0].clientX, ev.targetTouches[0].clientY);
         }
     });
-
     document.addEventListener('touchmove', function(ev) {
       if(currentBallState != ballStates.DRAGGING) return;
       targetX = ev.targetTouches[0].clientX;
       targetY = ev.targetTouches[0].clientY;
     });
-
     document.addEventListener('touchend', function(ev){
       if(currentBallState == ballStates.DRAGGING) {
         //     console.log("orig " + ev);
@@ -161,6 +224,7 @@ function createScene() {
             }
         }
     });
+    //- Listeners
 
     scene.registerBeforeRender( function() {
       if(currentBallState == ballStates.DRAGGABLE)
@@ -239,7 +303,7 @@ function createScene() {
 
   });
 
-  function takeShot() {
+  function takeShot()   { // Ball gets thrown by the player (after finger is released while dragging)
       currentBallState = ballStates.SHOT;
       var vel = basketball.physicsImpostor.getLinearVelocity();
       vel.z *= 2;
@@ -249,19 +313,8 @@ function createScene() {
       vel.y = 0;
       vel.z = 0;
       basketball.physicsImpostor.setAngularVelocity(vel);
-      /*
-      basketball.physicsImpostor.setAngularVelocity(0,0,0);
-      basketball.physicsImpostor.setLinearVelocity(0,0,0);
-      basketball.physicsImpostor.applyImpulse(new BABYLON.Vector3(5, 0, 0), basketball.position);
-      var convertedRot = new BABYLON.Vector3(0,0,0);
-      var velocity = basketball.physicsImpostor.getLinearVelocity();
-      convertedRot.x = velocity.z;
-      convertedRot.z = -velocity.x;
-      basketball.physicsImpostor.setAngularVelocity(convertedRot);
-      */
   }
-
-  function resetBall() {
+  function resetBall()  { // This is actually where the ball is rolled out and waiting to be thrown
       currentBallState = ballStates.WAITING;
 
       basketball.physicsImpostor.setAngularVelocity(0,0,0);
@@ -284,8 +337,7 @@ function createScene() {
       convertedRot.z = -velocity.x;
       basketball.physicsImpostor.setAngularVelocity(convertedRot);
   }
-
-  function resetGame() {
+  function resetGame()  { // Ball is reset to off stage, not seen until it is rolled onto the screen with "resetBall"
     currentBallState = ballStates.WAITING;
     console.log("RESET");
     basketball.position = new BABYLON.Vector3(-10, 0, 0);
@@ -293,13 +345,16 @@ function createScene() {
     basketball.physicsImpostor.setLinearVelocity(0,0,0);
   }
 
-  scene.actionManager = new BABYLON.ActionManager(scene);
+  ////////////////////////////////////////////////////////
+  //           **** Scene Action Manger  ****           //
 
+  scene.actionManager = new BABYLON.ActionManager(scene);
+  //Start Gameplay Trigger
   scene.actionManager.registerAction(
       new BABYLON.ExecuteCodeAction(
           {
               trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-              additionalData: "r"
+              additionalData: "start gameplay"
           },
 
           function ()
@@ -309,12 +364,12 @@ function createScene() {
           }
       )
   );
-
+  //Reset Game Trigger
   scene.actionManager.registerAction(
       new BABYLON.ExecuteCodeAction(
           {
               trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-              additionalData: "t"
+              additionalData: "reset game trigger"
           },
 
           function ()
@@ -324,160 +379,97 @@ function createScene() {
       )
   );
 
+  //         **** END Scene Action Manager ****         //
+  ////////////////////////////////////////////////////////
+
   return scene;
 }
 
-// babylon game engine starts running here
-engine.runRenderLoop(function(){
+engine.runRenderLoop(function(){ // babylon game engine starts running here
 
   scene.render();
 
+  // Loading Screen Out
   $( document ).ready( function() {
     UILoadingAnimateOut();
-
   });
 });
+//- END Game Engine
 
-function randomRange (min, max) {
-    var number = (Math.random() * (min - max) + max);
-    return number;
-}
+////////////////////////////////////////////////////////
 
-// $gameover.fadeOut();
-// $passcodeInput.focus();
-$window.keydown(function (event) {
-  // When the client hits ENTER on their keyboard
-  if (event.which === 13) {
-    initializePlayer();
-    $passcodeInput.blur();
-  }
-});
-
+//- Listener Events
 $(document).ready(function(){
     $("#submit-gamecode").on('click', function () {
-      initializePlayer();
+      submitGameCode();
       $passcodeInput.blur();
     });
+
+    $(document).keydown(function (event) {
+      // When the client hits ENTER on their keyboard
+      if (event.which === 13) {
+        submitGameCode();
+        $passcodeInput.blur();
+      }
+    });
 });
+//- END Listener Events
 
-function submitGameCode() {
-  var courttojoin;
-  courttojoin = cleanInput($passcodeInput.val().trim());
+////////////////////////////////////////////////////////
+//       *********** Socket Listeners ***********     //
 
-  attemptToJoinCourt(courttojoin);
-} //not used yet
-function attemptToJoinCourt(someCourtName){
-  username = generateName();
-  team = generateTeam();
-
-  var courttojoin = someCourt;
-  if (courttojoin) {
-      courttojoin = courttojoin.toUpperCase();
-  } else {
-      courttojoin = 'GAME';
-  }
-
-  overlayMaterial.ambientColor = defaultColor3;
-
-  userdata = {
-      'username': username,
-      'team': team,
-      'court': courttojoin
-  };
-
-  console.log('ATTEMPTTOJOINCOURT: Court name - ' + courttojoin);
-  // Tell the server your new room to connect to
-  socket.emit('player wants to join court', userdata);
-} //not used yet
-
-function initializePlayer() {
-  var courttojoin;
-  courttojoin = cleanInput($passcodeInput.val().trim());
-
-  joinCourt(courttojoin);
-}
-
-function joinCourt(someCourt) {
-  username = generateName();
-  team = generateTeam();
-  // if (username) {
-  //   username = username.toUpperCase();
-  // } else {
-  //   username = generateName();
-  // }
-  var courttojoin = someCourt;
-  if (courttojoin) {
-      courttojoin = courttojoin.toUpperCase();
-  } else {
-      courttojoin = 'GAME';
-  }
-  // fade out input page
-  //$pages.fadeOut();
-
-  overlayMaterial.ambientColor = defaultColor3;
-
-  userdata = {
-      'username': username,
-      'team': team,
-      'court': courttojoin
-  };
-
-  // socket.emit('add user', userdata);
-
-  console.log('JOINCOURT: Court name - ' + courttojoin);
-  // Tell the server your new room to connect to
-  socket.emit('player wants to join court', userdata);
-}
-function cleanInput(input) {
-  return $('<div/>').text(input).html();
-}
-
-socket.on('reset game', function(){
-    // UIGameoverAnimateOut();
-    console.log("reset game EMIT");
-});
-
-socket.on('you joined court', function(_courtdata) {
+//-- Player Connection Response:
+socket.on('you joined court', function() {
     UIInputErrorMessage('Joining Court...')
     UIInputAnimateOut(); //from input.js (then customize.js)
 });
+
 socket.on('court not found', function() {
-    UIInputErrorMessage("Invalid Game Code");
+    sendErrorMessage("Invalid Game Code");
 });
-
 socket.on('someone already playing', function() {
-    UIInputErrorMessage("someone already playing");
+    sendErrorMessage("someone already playing");
 });
-
 socket.on('game already running', function() {
-    UIInputErrorMessage("game already started");
+  sendErrorMessage("game already started, please wait");
 });
+//-- END Player Connection Response
 
-socket.on('game almost ready', function(gamedata) {
-    //fade out customization screen
-    //roll in ball;
-    gameName = gamedata.game.name;
-
-    var ae = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "r"});
-    console.log("GAME ALMOST READY RECEIVED - " + gamedata.game.name);
-    scene.actionManager.processTrigger(scene.actionManager.actions[0].trigger,  ae);
+//-- Game State UPDATE
+socket.on('update game state', function(_someGameState) {
+  console.log('Update Game State called - ' + _someGameState);
 });
+//-- END
+
+//-- Game Starting
+socket.on('game almost ready', function(_gamedata) {
+  startGameplay(_gamedata);
+});
+//-- END Game Starting
+
+//-- Game Ending
 socket.on('end all games', function() {
     console.log('Games Ended, look at results screen');
     //show this players score
     // $gameover.fadeIn();
-    var ae = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "t"});
+    var resetgame_event = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "reset game trigger"});
     //console.log(ae);
-    scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger,  ae);
-    //$passcodeInput.text = "";
-    //scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger, {additionalData: "t"});
+    scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger,  resetgame_event);
 
     UIGameplayAnimateOut();
     console.log("GAMES ENDED");
 });
-
 socket.on('show results', function(resultsdata) {
   console.log('Results:');
   console.dir(resultsdata);
   redirectNormal(resultsdata);
 });
+
+socket.on('reset game', function(){
+    // UIGameoverAnimateOut();
+    console.log("PLAYER: reset game requested from server");
+});
+//-- END Game Ending
+
+//     *********** END Socket Listeners ***********    //
+////////////////////////////////////////////////////////

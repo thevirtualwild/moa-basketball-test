@@ -116,16 +116,16 @@ function UIResultsUpdateScore(playerScore)
 
 }
 
-function UIResultsSetData(gamedata,playerScoreData) {
+function UIResultsSetData(_gamedata, _playerScoreData) {
   console.log('___UIRESULTSSETDATA___');
-    var playerscore = playerScoreData.score;
-    var playerstreak = playerScoreData.highestStreak;
+    var playerscore = _playerScoreData.score;
+    var playerstreak = _playerScoreData.highestStreak;
     console.log('topscoredata');
-    console.dir(gamedata);
-    console.log('playerscoredata');
-    console.dir(playerScoreData)
+    console.dir(_gamedata);
+    console.log('_playerScoreData');
+    console.dir(_playerScoreData)
 
-    topScoreData = gamedata.game.highscore
+    var topScoreData = _gamedata.highscore
 
     var winnername = topScoreData.playername;
     var winnerscore = topScoreData.playerscore;
