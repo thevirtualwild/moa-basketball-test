@@ -12,8 +12,6 @@ var $passcodePage = $('.passcode.page'); // The roomchange page
 
 var shotInfo;
 
-var m_gameName = '';
-
 var basketball;
 var dragging = false;
 var shot = false;
@@ -98,10 +96,11 @@ function initializePlayer(_someCourtName) {
 
 //- Gameplay Related functions
 function startGameplay(_gamedata) {
-  m_gameName = _gamedata.name;
+  console.log('START Gameplay - gamedata');
+  console.dir(_gamedata);
 
   var startgameplay_event = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "start gameplay"});
-  console.log("STARTGAMEPLAY called - " + _gamedata.name);
+  // console.log("STARTGAMEPLAY called - " + _gamedata.name);
   scene.actionManager.processTrigger(scene.actionManager.actions[0].trigger,  startgameplay_event);
 }
 //- END Gameplay Related functions
@@ -426,6 +425,11 @@ socket.on('you joined court', function(_data) {
   UIInputErrorMessage('Joining Court...')
   UIInputAnimateOut(); //from input.js (then customize.js)
 });
+// socket.on('player can join court', function(_data) {
+//   if ( (_data.court.name == p_userdata.court) && (_data.player.username == p_username) ) {
+//     console.log('Player Can Join Court');
+//   }
+// });
 
 socket.on('court not found', function() {
     sendErrorMessage("Invalid Game Code");

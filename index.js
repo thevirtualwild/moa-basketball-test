@@ -6,7 +6,7 @@ var g_gameStates = Object.freeze({"INACTIVE": 0, "WAITING": 1, "GAMEPLAY": 2});
 var initWaitTime = 5;
 var initGameTime = 20;
 var initResultsTime = 10;
-
+//- END Config stuff
 
 //-  Imports and Stuff
 const express = require('express');
@@ -49,7 +49,9 @@ var d_alldevices = {},
 //- end d_ server Variables
 
 //- g_ server based gameplay objects
-var g_activerooms = {};
+var g_activerooms = {},
+    g_gamerooms = {};
+// var g_gameCourts = {};
 
 //- end g_ server based gameplay objects
 
@@ -106,6 +108,8 @@ function getDataFromAirtable() {
 
         d_allrooms[_record.id] = recorddata;
         d_roomnames[name] = recorddata;
+
+        initializeGameRoom(recorddata);
       });
       fetchNextPage();
     }, function done(err) {
@@ -383,6 +387,54 @@ function showResultsInRoom(_someRoom) {
 
 
 }
+
+
+
+
+
+
+////////////////// NEW AND CLEAN ///////////////////
+
+function initializeGameRoom(_someRoom) {
+  _someRoom.state = g_gameStates.ATTRACT;
+  _someRoom.courts = {};
+  updateGameRooms(_someRoom);
+}
+//- update Functions
+function updateGameRooms(_someRoom) {
+  g_gamerooms[_someRoom.name] = _someRoom;
+}
+
+//- checks will return boolean
+function checkIfCourtInGameRoom(_someCourt, _someRoom) {
+  if (_someRoom.courts[_someCourt.name]) {
+    return true;
+  } else {
+    return false;
+  }
+}
+function checkIfPlayerCanJoinCourtInGameRoom(_somePlayer, _someCourt, _someRoom) {
+  if (_someRoom.state == g_gameStates.ATTRACT || _someRoom.state == g_gameStates.WAITING) {
+    if (_someRoom.courts[_someCourt.name].player) {
+      return {canjoingame: false, message: 'Player already playing on this court'};
+    } else {
+      return {canjoingame: true, message: 'Court Avaialble for New Player'};
+    }
+  } else {
+    return {canjoingame: false, message: 'Game Already In Progress'};
+  }
+}
+
+//////////////// END NEW AND CLEAN /////////////////
+
+
+
+
+
+
+
+
+
 
 
 ////////////////////////////////////////////////////////
@@ -670,7 +722,7 @@ function onConnection(socket) {
     socket.court = _somecourt;
 
     if (USEMASTERSLAVEMODE) {
-      d_courtsandmaster[socket.court.id] = socket.court;
+      d_courtsandmaster[socket.court.id] = socket.court; //ERROR this won't work, becuase socket.court
 
       if (!socket.hasmaster) {
         socket.hasmaster = true;
@@ -687,19 +739,12 @@ function onConnection(socket) {
       }
     }
 
-    // if (_somecourt.room) {
-    //   console.log('assigning court to room - ');
-    //   console.dir(_somecourt.room);
-    // } else {
-    //   // // // // // // // // console.log('trying to update court info as - ');
-    //   // // // // // // // console.dir(fullroomdata);
-    //   // config_base('Courts').update(somecourt.id, {
-    //   //   "Room": [fullroomdata.id]
-    //   // }, function(err, _record) {
-    //   //     if (err) { console.error(err); return; }
-    //   // });
-    // }
-
+    if (checkIfCourtInGameRoom) {
+      console.log('ASSIGNCOURTTOROOM: Court Already in Game Room. What does this mean?');
+      addCourtToGameRoom(_somecourt, fullroomdata);
+    } else {
+      addCourtToGameRoom(_somecourt, fullroomdata);
+    }
     //TODO: David need to update court list
     socket.emit('join this room', data);
   }
@@ -757,12 +802,15 @@ function onConnection(socket) {
   function playerRequestToJoinCourt(_somePlayerData, _somecourtname) {
 
     var courttojoin = d_courtnames[_somecourtname]; //Should this be d_connectedCourts?
-    _debugObject('PLAYERREQUEST - courttojoin:', courttojoin);
+    // _debugObject('PLAYERREQUEST - courttojoin:', courttojoin);
 
     if (courttojoin) {
 
       var roomcourtisapartof = d_allrooms[courttojoin.room];
-      _debugObject('JOINCOURT - roomcourtisapartof:', roomcourtisapartof);
+      // _debugObject('JOINCOURT - roomcourtisapartof:', roomcourtisapartof);
+
+      // var gameroom = g_gamerooms[roomcourtisapartof.name];
+
 
       if (g_activerooms[roomcourtisapartof.name]) {
         //do something by adding player to court requested
@@ -796,9 +844,17 @@ function onConnection(socket) {
         }
       } else {
 
-        _debugObject('Room not currently active, create a game, add player to it, and start waiting clock', roomcourtisapartof);
+        // _debugObject('Room not currently active, create a game, add player to it, and start waiting clock', roomcourtisapartof);
+        // _debugObject('CourtToJoin',courttojoin);
 
-        // g_activerooms[roomcourtisapartof.name] = roomcourtisapartof;
+        g_gamerooms[roomcourtisapartof.name] = {
+          courts: {}
+        };
+        g_gamerooms[roomcourtisapartof.name].courts[courttojoin.name] = {
+          player: _somePlayerData
+        };
+
+        // _debugObject('g_gamerooms', g_gamerooms);
         courttojoin.hasplayer = true;
 
         //addroominfotosocket
@@ -832,7 +888,7 @@ function onConnection(socket) {
   ////////////////////////////////////////////////////////
 
   function changeRoomGameState(_someRoom, _someGameState) {
-    _someRoom.game.state = _someGameState;
+    _someRoom.state = _someGameState;
 
     updateRooms(_someRoom);
     updateActiveRooms(_someRoom);
@@ -841,8 +897,8 @@ function onConnection(socket) {
   }
   function updateDevicesInRoomGameStates(_someRoom) {
     _debugObject('UPDATEGAMESTATES', _someRoom);
-    socket.broadcast.to(_someRoom.name).emit('update game state', _someRoom.game.state);
-    socket.emit('update game state', _someRoom.game.state);
+    socket.broadcast.to(_someRoom.name).emit('update game state', _someRoom.state);
+    socket.emit('update game state', _someRoom.state);
   }
 
   function startGameLobbyInRoom(_someRoom) {
@@ -1481,6 +1537,67 @@ function onConnection(socket) {
   }
   //- END Player Connection Related Functions
 
+
+
+  ///////// NEW AND CLEAN /////////
+
+  function addCourtToGameRoom(_someCourt, _someRoom) {
+    _someRoom.courts[_someCourt.name] = _someCourt;
+    updateGameRooms(_someRoom);
+  }
+  function addPlayerToCourtInGameRoom(_somePlayer, _someCourt, _someRoom) {
+    _someRoom.courts[_someCourt.name].player = _somePlayer;
+    updateGameRooms(_someRoom);
+
+    var emitData = {
+      player: _somePlayer,
+      court: _someCourt,
+      room: _someRoom
+    }
+
+    socket.roomname = _someRoom.name;
+    socket.join(socket.roomname);
+    socket.emit('player can join room', emitData);
+
+    playerConnectedToCourt(_somePlayer);
+  }
+  function playerRequestToJoinCourtInGameRoom(_somePlayer, _someCourt, _someRoom, _somesocket) {
+    var courtingameroom = checkIfCourtInGameRoom(_someCourt, _someRoom);
+
+    if (courtingameroom) {
+      var availabilitycheck = checkIfPlayerCanJoinCourtInGameRoom(_somePlayer, _someCourt, _someRoom);
+
+      if (availabilitycheck.canjoingame) {
+        addPlayerToCourtInGameRoom(_somePlayer, _someCourt, _someRoom);
+        _someCourt.hasplayer = true; //holdover from before
+        updateCourts(_someCourt,false);
+
+        if (_someRoom.state == g_gameStates.ATTRACT) {
+          //start game and change state of game room
+          startGameLobbyInRoom(_someRoom);
+        } else {
+          //game is already in waiting state, and should start soon.
+        }
+      } else {
+        //some sort of message should be sent to player
+        console.log("Can't Join - " + availablitycheck.message);
+      }
+    } else {
+      console.log('Court - ' + _someCourt.name + ' not in room - ' + _someRoom.name);
+    }
+  }
+
+  /////// END NEW AND CLEAN ///////
+
+
+
+
+
+
+
+
+
+
   ////////////////////////////////////////////////////////
   //               **SOCKET LISTENERS**                 //
 
@@ -1530,8 +1647,12 @@ function onConnection(socket) {
     socket.team = _playerdata.team;
     socket.court = _playerdata.court;
 
+    var courttojoin = d_courtnames[_playerdata.court];
+    var roomcourtisapartof = d_allrooms[courttojoin.room[0]];
 
-    playerRequestToJoinCourt(_playerdata, socket.court);
+    // playerRequestToJoinCourt(_playerdata, courttojoin);
+
+    playerRequestToJoinCourtInGameRoom(_playerdata, courttojoin, roomcourtisapartof);
   });
   socket.on('change player name', function(playerdata) {
     oldplayer = {

@@ -104,7 +104,7 @@ var countdownStarted  = true;
 
 var thisRoom          = '';
 var courtName         = '';
-var gameName          = '';
+// var gameName          = '';
 var hasplayer         = false;
 var lobbyStarted      = false;
 
@@ -1999,8 +1999,8 @@ function gameOver()
 
   var courtdata = {
     playerInfoData: playerData,
-    playerScoreData: playerScoreData,
-    gameName: gameName
+    playerScoreData: playerScoreData//,
+    // gameName: gameName
   }
 
   var gamedata = {
@@ -2008,8 +2008,8 @@ function gameOver()
     score: score,
     combo: combo,
     highestStreak: highestStreak,
-    shotsMade: shotsMade,
-    gamename: gameName
+    shotsMade: shotsMade//,
+    // gamename: gameName
   }
 
   console.log('GAMEOVER: gamedata - ');
@@ -2328,11 +2328,11 @@ socket.on('change player name', function(data)
 });
 
 ///////////////////////////////////////////////////////////////////////
-
-socket.on('update game name', function(newgamename)
-{
-  gameName = newgamename;
-});
+//
+// socket.on('update game name', function(newgamename)
+// {
+//   gameName = newgamename;
+// });
 
 ///////////////////////////////////////////////////////////////////////
 
