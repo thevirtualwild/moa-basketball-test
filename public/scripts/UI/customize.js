@@ -39,7 +39,7 @@ function UICustomizeAnimateIn()
     lastName.style.opacity = 0;
     refreshLogo.style.opacity = 0;
 
-    name = userdata.username;
+    name = p_userdata.username;
     firstName.innerHTML = name.substr(0, name.indexOf(' '));
     lastName.innerHTML = name.substr(name.indexOf(' ') + 1);
 
@@ -85,9 +85,9 @@ function getName()
     TweenMax.to(firstName, customizeFadeTime, {opacity: 1, marginLeft: 0});
     TweenMax.to(lastName, customizeFadeTime, {opacity: 1, marginRight: 0, onComplete: stopAnimating});
 
-    userdata.username = name;
+    p_userdata.username = name;
 
-    socket.emit("change player name", userdata);
+    socket.emit("change player name", p_userdata);
 
 }
 

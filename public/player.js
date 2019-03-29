@@ -20,9 +20,9 @@ var shot = false;
 var thrown = true;
 var countdownStarted = true;
 
-var m_username;
-var m_team;
-var m_userdata;
+var p_username;
+var p_team;
+var p_userdata;
 
 var initCameraPos;
 
@@ -39,6 +39,8 @@ var pageScaleFactorY;
 var mouseDownPos;
 var mouseUpPos;
 
+// Necessary Variables
+var thisRoom = '';
 ////////////////////////////////////////////////////////
 
 //- Helper Functions
@@ -64,17 +66,17 @@ function submitGameCode() {
   attemptToJoinCourt(courtname);
 }
 function attemptToJoinCourt(_someCourtName) {
-  m_userdata = initializePlayer(_someCourtName);
+  p_userdata = initializePlayer(_someCourtName);
 
-  console.log('JOINCOURT: Court name - ' + _someCourtName + ' m_userdata:');
-  console.dir(m_userdata);
+  console.log('JOINCOURT: Court name - ' + _someCourtName + ' p_userdata:');
+  console.dir(p_userdata);
   // Tell the server your new room to connect to
-  socket.emit('player wants to join court', m_userdata);
+  socket.emit('player wants to join court', p_userdata);
 }
 function initializePlayer(_someCourtName) {
   // calls functions from /babylon/scrips/playerInfo.js (generate Functions)
-  m_username = generateName();
-  m_team = generateTeam();
+  p_username = generateName();
+  p_team = generateTeam();
 
   if (_someCourtName) {
       _someCourtName = _someCourtName.toUpperCase();
@@ -85,8 +87,8 @@ function initializePlayer(_someCourtName) {
   setTeamColor(defaultColor3);
 
   var userdata = {
-      'username': username,
-      'team': team,
+      'username': p_username,
+      'team': p_team,
       'court': _someCourtName
   };
 
@@ -419,9 +421,10 @@ $(document).ready(function(){
 //       *********** Socket Listeners ***********     //
 
 //-- Player Connection Response:
-socket.on('you joined court', function() {
-    UIInputErrorMessage('Joining Court...')
-    UIInputAnimateOut(); //from input.js (then customize.js)
+socket.on('you joined court', function(_data) {
+  thisRoom = _data.roomname;
+  UIInputErrorMessage('Joining Court...')
+  UIInputAnimateOut(); //from input.js (then customize.js)
 });
 
 socket.on('court not found', function() {
@@ -442,13 +445,18 @@ socket.on('update game state', function(_someGameState) {
 //-- END
 
 //-- Game Starting
-socket.on('game almost ready', function(_gamedata) {
-  startGameplay(_gamedata);
+socket.on('game almost ready', function(_data) {
+  if (_data.room.name == thisRoom) {
+    startGameplay(_data.game);
+  } else {
+    console.log('|another room| game almost ready');
+  }
 });
 //-- END Game Starting
 
 //-- Game Ending
-socket.on('end all games', function() {
+socket.on('end all games', function(_someRoom) {
+  if (_someRoom.name == thisRoom) {
     console.log('Games Ended, look at results screen');
     //show this players score
     // $gameover.fadeIn();
@@ -458,8 +466,12 @@ socket.on('end all games', function() {
 
     UIGameplayAnimateOut();
     console.log("GAMES ENDED");
+  } else {
+    console.log('|another room| end all games called');
+  }
 });
 socket.on('show results', function(resultsdata) {
+
   console.log('Results:');
   console.dir(resultsdata);
   redirectNormal(resultsdata);

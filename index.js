@@ -284,7 +284,6 @@ function startGameplayClock(_someRoom) {
   }
 
 }
-
 function startResultsClock(_someRoom) {
   var newTimer = setInterval(updateResultsTime, 1000, _someRoom);
 
@@ -301,8 +300,12 @@ function updateWaitTime(_someRoom) {
   currentWaitTime -= 1;
   waittimers[_someRoom.name].currenttime = currentWaitTime;
 
+  var emitData = {
+    room: _someRoom,
+    time: currentWaitTime
+  }
   // io.sockets.in(_someRoom).emit('update wait time', currentWaitTime);
-  io.emit('update wait time', currentWaitTime);
+  io.emit('update wait time', emitData);
 
   if (currentWaitTime <= -2) { //TODO: delayed call? how do we do on server without tweenmax
     clearInterval(waittimers[_someRoom.name].timer);
@@ -315,7 +318,12 @@ function updateGameTime(_someRoom) {
   currentGameTime -= 1;
   gametimers[_someRoom.name].currenttime = currentGameTime;
 
-  io.emit('update game time', currentGameTime);
+  var emitData = {
+    room: _someRoom,
+    time: currentGameTime
+  }
+
+  io.emit('update game time', emitData);
 
   if (currentGameTime <= -1) { //TODO: delayed call
     clearInterval(gametimers[_someRoom.name].timer);
@@ -330,7 +338,12 @@ function updateResultsTime(_someRoom) {
   currentResultsTime -= 1;
   resultstimers[_someRoom.name].currenttime = currentResultsTime;
 
-  io.emit('update results time', currentResultsTime);
+  var emitData = {
+    room: _someRoom,
+    time: currentResultsTime
+  }
+
+  io.emit('update results time', emitData);
 
   if (currentResultsTime <= -1) { //TODO: delayed call
     clearInterval(resultstimers[_someRoom.name].timer);
@@ -349,8 +362,13 @@ function startGameForRoom(_someRoom) {
 
   startGameplayClock(_someRoom);
 
+  var emitData = {
+    room: _someRoom,
+    game: _someRoom.game
+  }
+
   // io.sockets.in(_someRoom).emit('game almost ready', _someRoom.game);
-  io.emit('game almost ready', _someRoom.game);
+  io.emit('game almost ready', emitData);
 }
 
 function endGameInRoom(_someRoom) {
@@ -371,12 +389,9 @@ function showResultsInRoom(_someRoom) {
 
 //- Web Socket (Socket.io)
 function onConnection(socket) {
-
   ////////////////////////////////////////////////////////
-
   // Any new connection to the server calls this function and can use the info in here
   console.log('new connection - ' + socket.id);
-
   ////////////////////////////////////////////////////////
 
   //- Court Connection Functions (Court Setup)
@@ -1447,14 +1462,14 @@ function onConnection(socket) {
 
   //- Player Connection and Disconnection
   function playerConnectedToCourt(_somePlayerData) {
-    _debugObject('PLAYERCONNECTEDTOCOURT: - playerdata - ', _somePlayerData);
-
-    _debugSocket(socket);
-
     socket.broadcast.to(socket.roomname).emit('player joined court', _somePlayerData);
     // // // // // console.log('socket.roomname - ' + socket.roomname);
 
-    socket.emit('you joined court');
+    var emitData = {
+      roomname: socket.roomname
+    }
+
+    socket.emit('you joined court', emitData);
   }
   function playerDisconnected(somesocket) {
     console.log('PLAYERDISCONNECTED: remove them from the players in a game');
@@ -1751,9 +1766,6 @@ function onConnection(socket) {
       _debugSocket(socket);
     }
   });
-
-
-
 
   //- Master sync socket emits
   socket.on('sync screens', function(data) {

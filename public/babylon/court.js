@@ -2062,28 +2062,38 @@ function fakeSyncData(_syncData)
 ///////////////////////////////////////////////////////////////////////
 //              *********** Socket Listeners ***********             //
 
-socket.on('game almost ready', function(_gamedata)
+socket.on('game almost ready', function(_data)
 {
-   socket.emit('update game', _gamedata);
-   console.log('GAMEALMOSTREADY: ' + _gamedata);
+   socket.emit('update game', _data.game);
+   console.log('GAMEALMOSTREADY: ' + _data.game);
 
    gameStarted();
 });
 
-socket.on('update wait time', function(_newTime) {
-  currentWaitTime = _newTime;
-  console.log('Update Wait Time - ' + _newTime);
+socket.on('update wait time', function(_data) {
+  if (_data.room.name == thisRoom) {
+    currentWaitTime = _data.time;
+    console.log('Update Wait Time - ' + currentWaitTime);
+  } else {
+    console.log('|another room| Update Wait Time');
+  }
 });
-
-socket.on('update game time', function(_newTime) {
-  currentGameTime = _newTime;
-  console.log('Update Game Time - ' + _newTime);
+socket.on('update game time', function(_data) {
+  if (_data.room.name == thisRoom) {
+    currentGameTime = _data.time;
+    console.log('Update Game Time - ' + currentGameTime);
+  } else {
+    console.log('|another room| Update Game Time');
+  }
 });
-
-socket.on('update results time', function (_newTime) {
-  currentResultsTime = _newTime;
-  console.log('Update Results Time - ' + _newTime);
-})
+socket.on('update results time', function (_data) {
+  if (_data.room.name == thisRoom) {
+    currentResultsTime = _data.time;
+    console.log('Update Results Time - ' + currentResultsTime);
+  } else {
+    console.log('|another room| Update Results Time');
+  }
+});
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -2255,6 +2265,7 @@ socket.on('shot sent', function()
 
 socket.on('end all games', function(_someRoom)
 {
+  if (_someRoom.name == thisRoom) {
     console.log('End all games in - ' + _someRoom.name);
     showResults();
 
@@ -2268,6 +2279,9 @@ socket.on('end all games', function(_someRoom)
         //DAVID: This should really be called at the end of results. Not sure exactly how or when
         // TweenMax.delayedCall(initResultsTime + 2,roomReset);
     }
+  } else {
+    console.log('|another room| end all games called');
+  }
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -2358,8 +2372,6 @@ socket.on('reconnect_failed', function() {
 socket.on('disconnect', function() {
   isconnected = false;
 });
-
-
 
 
 
