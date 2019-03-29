@@ -2200,7 +2200,7 @@ socket.on('update game state', function(_someGameState) {
   console.log('Update Game State called - ' + _someGameState);
 
   if (_someGameState == g_gameStates.WAITING) {
-    callWaitingTrigger();
+    // callWaitingTrigger();
   } else if (_someGameState == g_gameStates.GAMEPLAY) {
     callGameplayTrigger();
   } else if (_someGameState == g_gameStates.RESULTS) {

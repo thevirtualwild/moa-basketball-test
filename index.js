@@ -840,12 +840,13 @@ function onConnection(socket) {
     updateDevicesInRoomGameStates(_someRoom);
   }
   function updateDevicesInRoomGameStates(_someRoom) {
+    _debugObject('UPDATEGAMESTATES', _someRoom);
     socket.broadcast.to(_someRoom.name).emit('update game state', _someRoom.game.state);
     socket.emit('update game state', _someRoom.game.state);
   }
 
   function startGameLobbyInRoom(_someRoom) {
-    changeRoomGameState(_someRoom, g_gameStates.WAITING)
+    changeRoomGameState(_someRoom, g_gameStates.WAITING);
 
     startWaitingClock(_someRoom);
   }
