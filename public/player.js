@@ -446,6 +446,8 @@ socket.on('update game state', function(_someGameState) {
 
 //-- Game Starting
 socket.on('game almost ready', function(_data) {
+  _debugObject(_data);
+
   if (_data.room.name == thisRoom) {
     startGameplay(_data.game);
   } else {
