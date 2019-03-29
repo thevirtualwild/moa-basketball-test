@@ -1322,6 +1322,7 @@ function onConnection(socket) {
 
     var gamedata = {
       // gamename: thisgamesroom.gamename,
+      room: thisgamesroom,
       game: socket.game
     }
 
