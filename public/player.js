@@ -20,9 +20,9 @@ var shot = false;
 var thrown = true;
 var countdownStarted = true;
 
-var username;
-var team;
-var userdata;
+var m_username;
+var m_team;
+var m_userdata;
 
 var initCameraPos;
 
@@ -64,17 +64,17 @@ function submitGameCode() {
   attemptToJoinCourt(courtname);
 }
 function attemptToJoinCourt(_someCourtName) {
-  var userdata = initializePlayer(_someCourtName);
+  m_userdata = initializePlayer(_someCourtName);
 
-  console.log('JOINCOURT: Court name - ' + _someCourtName + ' userdata:');
-  console.dir(userdata);
+  console.log('JOINCOURT: Court name - ' + _someCourtName + ' m_userdata:');
+  console.dir(m_userdata);
   // Tell the server your new room to connect to
-  socket.emit('player wants to join court', userdata);
+  socket.emit('player wants to join court', m_userdata);
 }
 function initializePlayer(_someCourtName) {
   // calls functions from /babylon/scrips/playerInfo.js (generate Functions)
-  var username = generateName();
-  var team = generateTeam();
+  m_username = generateName();
+  m_team = generateTeam();
 
   if (_someCourtName) {
       _someCourtName = _someCourtName.toUpperCase();
