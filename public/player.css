@@ -291,8 +291,10 @@ canvas {
       /* Firefox */ }
     .passcode.page .form .passcodeInput:placeholder-shown, .input-state .form .passcodeInput:placeholder-shown {
       font-weight: normal !important;
-      transform: scale(0.2, 1);
-      line-height: normal !important; }
+      transform: scale(0.2, 0.8);
+      line-height: 0 !important;
+      padding-top: 2px !important;
+      padding-bottom: 8px !important; }
     .passcode.page .form .passcodeInput:-ms-input-placeholder, .input-state .form .passcodeInput:-ms-input-placeholder {
       /* Internet Explorer 10-11 */
       color: white !important;
@@ -337,7 +339,6 @@ canvas {
     clip-path: polygon(0% 0, 100% 0%, 89.5% 100%, 0% 100%);
     -webkit-clip-path: polygon(0% 0, 100% 0%, 89.5% 100%, 0% 100%);
     height: auto;
-    display: flex;
     align-items: center;
     justify-content: center; }
     #ribbon #ribbon-container #ribbon-background:before, #ribbon #ribbon-container #ribbon-background:after {
@@ -364,7 +365,8 @@ canvas {
       font-family: 'Interstate';
       line-height: 1;
       width: 100%;
-      display: flex;
+      display: block;
+      padding-top: 10px;
       align-items: center;
       justify-content: center; }
 

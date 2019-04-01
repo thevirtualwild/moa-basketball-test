@@ -998,7 +998,7 @@ function onConnection(socket) {
 
       if (thisgame.courts[thiscourtname].players) {
         //TODO?
-        // _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].players);
+        _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].players);
         thisgame.courts[thiscourtname].players[_courtgamedata.player.username].score = scoredata.playerscore;
         thisgame.courts[thiscourtname].players[_courtgamedata.player.username].streak = scoredata.playerstreak;
       } else {
