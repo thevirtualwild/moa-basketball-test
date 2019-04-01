@@ -1521,7 +1521,7 @@ function createScene()
 
     function updateClock()
     {
-        if (currentGameTime > 10) {
+        if ( Math.ceil(parseInt((currentGameTime).toFixed(2))) >= 10) {
             var firstDigit = Math.ceil(parseInt((currentGameTime).toFixed(2).substr(0, 1)));
             var secondDigit = Math.ceil(parseInt((currentGameTime).toFixed(2).substr(1, 1)));
         }
@@ -2212,9 +2212,13 @@ socket.on('update game state', function(_someGameState) {
   if (_someGameState == g_gameStates.WAITING) {
     // callWaitingTrigger();
   } else if (_someGameState == g_gameStates.GAMEPLAY) {
-    callGameplayTrigger();
+    if(hasplayer){
+      callGameplayTrigger();
+    }
   } else if (_someGameState == g_gameStates.RESULTS) {
-    callResultsTrigger();
+    if (hasplayer) {
+      callResultsTrigger();
+    }
   }
 });
 //-- END
