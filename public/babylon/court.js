@@ -19,6 +19,7 @@ var currentNetState     = netStates.FREE;
 var cameraNames         = Object.freeze({"freeThrow": 0, "quarterFar": 1, "close": 2});
 var selectedCameraType  = cameraNames.freeThrow;
 
+var basketballStateConstants    = Object.freeze({"NOTSHOT": 0, "SHOT": 1, "MISSED": 2});
 
 var m_BasketballCount   = 6;
 
@@ -124,7 +125,7 @@ var scene = createScene();
 engine.runRenderLoop(function()
 {
     if(!isconnected) {
-      console.log('tried to run engine but !isconnected');
+      // console.log('tried to run engine but !isconnected');
       return;
     }
 
@@ -192,7 +193,7 @@ function getMyIP() {
     {
       var thisDeviceIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
 
-      console.log('This Court Device IP: ', thisDeviceIP);
+      // console.log('This Court Device IP: ', thisDeviceIP);
 
 
 
@@ -220,7 +221,7 @@ function showCourt(_someDeviceIP) {
 
 function checkMyDeviceInfo(_someIP)
 {
-    console.log('court ready for setup: ip-' + _someIP);
+    // console.log('court ready for setup: ip-' + _someIP);
 
     var data = {
       hasconnected: hasconnected,
@@ -322,7 +323,7 @@ function createScene()
                 currentGameState    = gameState;
                 currentCameraIndex  = 0;
                 gameReady           = false;
-                //console.log("Aspect Ratio: " + canvas.width/canvas.height);
+                //// console.log("Aspect Ratio: " + canvas.width/canvas.height);
                 lobbyStarted        = false;
 
                 scoremodifier = 1;
@@ -596,7 +597,7 @@ function createScene()
 
     BABYLON.SceneLoader.ImportMesh("", "./assets/BBall_V2/", "BBall_V2.babylon", scene, function (mesh)
     {
-        //console.log("BBall_V2");
+        //// console.log("BBall_V2");
         //JAY happens 1 time;
 
         var baseMaterial                = new BABYLON.StandardMaterial("baseMaterial", scene);
@@ -643,7 +644,7 @@ function createScene()
 
                 worldtime = 0;
 
-                  // console.log("masterData");
+                  // // console.log("masterData");
                   // console.dir(masterData);
 
                 for(var i = 0; i < basketballs.length; i++)
@@ -706,7 +707,7 @@ function createScene()
                     {
                         if(currentGameState == gameStates.ATTRACT)
                         {
-                            // console.log('SCENELOADER TAKESHOTS DURING ATTRACT');
+                            // // console.log('SCENELOADER TAKESHOTS DURING ATTRACT');
                             shotIndex       = 0;
                             takeShot();
                         }
@@ -717,13 +718,13 @@ function createScene()
                 {
                     if(basketballs[i].position.y < -30 && basketballStates[i] == 1)
                     {
-                        combo               = 0;
+                        // combo               = 0;
                         //UIGameplayAnimateBadgeOff();
                         //changeBallFX(false);
                         basketballStates[i] = 0;
-                        console.log('Missed a Shot - combo just broke');
-                        ComboIsBroken       = true;
-                        StreakIsBroken      = true;
+                        // console.log('Missed a Shot - combo just broke');
+                        // ComboIsBroken       = true;
+                        // StreakIsBroken      = true;
                     }
                 }
             }
@@ -757,7 +758,7 @@ function createScene()
                       if(m_thisDeviceIP) {
                         myIP = m_thisDeviceIP;
                       }
-                      console.log("IP IS UNDEFINED");
+                      // console.log("IP IS UNDEFINED");
                       return;
                     }
 
@@ -809,7 +810,7 @@ function createScene()
                             posz: netSpheres[i].position.z
                         }
 
-                        //console.log(newNetPosition);
+                        //// console.log(newNetPosition);
                         syncData['netvertexes'].push(newNetPosition);
                     }
 
@@ -827,8 +828,8 @@ function createScene()
 
                       if(add1Point == true)
                       {
-                          console.log(syncData.score);
-                          console.log("SENT BASKET MADE")
+                          // console.log(syncData.score);
+                          // console.log("SENT BASKET MADE")
                           add1Point = false;
                       }
                   }
@@ -1113,7 +1114,7 @@ function createScene()
             var currentMass;
             var currentRestitution;
 
-            //console.log("useCannon = " + useCannon + " / lowEndDevice = " + lowEndDevice);
+            //// console.log("useCannon = " + useCannon + " / lowEndDevice = " + lowEndDevice);
 
             if(useCannon)
             {
@@ -1276,6 +1277,10 @@ function createScene()
 
     // var scoreTrigger = BABYLON.MeshBuilder.CreatePlane("scoreTrigger", {width: 5, height: 2}, scene);
 
+    var missTrigger = BABYLON.MeshBuilder.CreateBox("missTrigger", {width: 1000000, height:2, depth: 1000000}, scene);
+    missTrigger.position = new BABYLON.Vector3(0, -4.75, 8.9); //initial torus position
+    missTrigger.position.y = -22; //was .75
+
     var scoreTrigger = BABYLON.MeshBuilder.CreateCylinder("scoreTrigger", {diameterTop: 5, height: 5, diameterBottom:5, tessellation: 6}, scene);
     scoreTrigger.position = torus.position;
     scoreTrigger.position.y += .2; //was .75
@@ -1284,7 +1289,9 @@ function createScene()
     var greenMat                = new BABYLON.StandardMaterial("greenMat", scene);
     greenMat.emissiveColor      = new BABYLON.Color3(0, 1, 0);
     greenMat.alpha              = 0;
+
     scoreTrigger.material = greenMat;
+    missTrigger.material = greenMat;
 
     var clearMat = new BABYLON.StandardMaterial("myMaterial", scene);
     clearMat.alpha = .8; //change alpha here to change scorebox //DAVID
@@ -1294,6 +1301,9 @@ function createScene()
 
     var manager = new BABYLON.ActionManager(scene);
     scoreTrigger.actionManager = manager;
+
+    var missManager = new BABYLON.ActionManager(scene);
+    missTrigger.actionManager = missManager;
 
     var test;
 
@@ -1305,17 +1315,26 @@ function createScene()
                     parameter: basketballs[i]
                 },
                 function () {
+                  console.log('hit+gamestate ' + currentGameState);
+                  console.log('----');
+
+                  basketballs[shotIndex].scored = true;
+
+                  console.log('basketball scored - ' + basketballs[shotIndex].scored);
                     if(currentGameState == gameStates.GAMEPLAY || currentGameState == gameStates.RESULTS)
                     {
-                        var idx = shotIndex-1;
-                        if(idx < 0) idx = 9;
+                      console.log(' - INNER:hit+gamestate ' + currentGameState);
+                      console.log(' ---');
+                      scoreTriggerHit();
+
+                      var idx = shotIndex-1;
+                      if(idx < 0) idx = 9;
 
                         //DAVID: point scored, shot made, boolean set, addScore
                         if(basketballStates[idx] == 1) {
                             basketballStates[idx] = 0;
                             add1Point = true;
 
-                            scoreTriggerHit();
                             //addScore();
 
                             /*
@@ -1331,6 +1350,32 @@ function createScene()
                             */
                         }
                     }
+                }
+            )
+        );
+        missTrigger.actionManager.registerAction(
+            new BABYLON.ExecuteCodeAction(
+                {
+                    trigger: BABYLON.ActionManager.OnIntersectionExitTrigger,
+                    parameter: basketballs[i]
+                },
+                function () {
+                  var idx = shotIndex-1;
+                  if(idx < 0) idx = 9;
+                  // console.log('miss+basketball scored ' + basketballs[i].scored);
+
+                  console.log('miss+basketball.scored' + basketballs[shotIndex].scored);
+                  if(currentGameState == gameStates.GAMEPLAY || currentGameState == gameStates.RESULTS)
+                  {
+                    //DAVID: point scored, shot made, boolean set, addScore
+                    if(!basketballs[shotIndex].scored) {
+                        console.log(' - INNER:miss+gamestate ' + currentGameState);
+                        console.log(' ---');
+                        missTriggerHit();
+                    }
+
+                  }
+                  basketballs[shotIndex].scored = false;
                 }
             )
         );
@@ -1406,7 +1451,7 @@ function createScene()
             function()
             {
                 changeGameState(gameStates.ATTRACT);
-                console.log("Change game state to attract from reset game");
+                // console.log("Change game state to attract from reset game");
             }
         )
     );
@@ -1435,7 +1480,7 @@ function createScene()
             function()
             {
                 animateCamera();
-                console.log("ANIMATING");
+                // console.log("ANIMATING");
             }
         )
     );
@@ -1464,7 +1509,7 @@ function createScene()
             function()
             {
                 changeGameState(gameStates.GAMEPLAY);
-                console.log("Change game state to gameplay");
+                // console.log("Change game state to gameplay");
             }
         )
     );
@@ -1484,10 +1529,37 @@ function createScene()
     );
 
     ///////////////////////////////////////////////////////////////////////
-     var scoretriggernum = 0;
+    var scoretriggernum = 0;
     function scoreTriggerHit() {
       scoretriggernum++;
+
+      combo++;
+      if(!ComboIsBroken && !StreakIsBroken) {
+        if (combo > highestStreak) {
+          highestStreak = combo;
+        }
+        console.log('  -- scoretrigger - combo: ' + combo);
+      } else {
+        // UIGameplayAnimateBadgeOff();
+        // changeBallFX(false);
+
+        ComboIsBroken       = false;
+        StreakIsBroken      = false;
+      }
+
+      shotsMade++;
+
       console.log('score trigger hit - ' + scoretriggernum);
+      incrementScore();
+    }
+    var misstriggernum = 0;
+    function missTriggerHit() {
+      misstriggernum++;
+
+      ComboIsBroken = true;
+      StreakIsBroken = true;
+      combo = 0;
+      console.log('miss trigger hit - ' + misstriggernum);
     }
 
     ////////
@@ -1503,7 +1575,7 @@ function createScene()
             secondDigit = parseInt((currentGameTime).toFixed(2).substr(0, 1));
         }
 
-        // console.log("UPDATECLOCK: current combopts - " + combopts + ' - ' + scoremodifier);
+        // // console.log("UPDATECLOCK: current combopts - " + combopts + ' - ' + scoremodifier);
 
         if(currentGameTime == 30)
         {
@@ -1745,11 +1817,11 @@ function courtReconnection(courtinfofromserver)
 {
     if (courtinfofromserver.hascourt)
     {
-      console.log('court setup: '+ courtinfofromserver.courtname);
+      // console.log('court setup: '+ courtinfofromserver.courtname);
     }
     else
     {
-      console.log('we need to set up court')
+      // console.log('we need to set up court')
     }
 }
 
@@ -1767,7 +1839,7 @@ function haveCourtJoinRoom(courtname, roomnametojoin)
 
   socket.emit('join room', data);
 
-  console.log("HAVE COURT TO JOIN");
+  // console.log("HAVE COURT TO JOIN");
   initRun = false;
   updateUI();
 }
@@ -1797,7 +1869,7 @@ function randomRange (min, max)
 
 function checkCurrentLevel(newModifier, pointsNeeded) {
   if (scoremodifier == newModifier) {
-    console.log('Too long to score.');
+    // console.log('Too long to score.');
 
   } else {
     combopts = pointsNeeded + 1;
@@ -1809,7 +1881,7 @@ function checkCurrentLevel(newModifier, pointsNeeded) {
 
 function updateScoreModifier()
 {
-  // console.log('updateScoreMod - ' + combopts);
+  // // console.log('updateScoreMod - ' + combopts);
     if (combopts >= 92) {
       checkCurrentLevel(10, 92);
     } else if (combopts >= 74) {
@@ -1837,18 +1909,25 @@ function updateScoreModifier()
 }
 
 ///////////////////////////////////////////////////////////////////////
+function incrementScore() {
+  var scoreToAdd = scoremodifier * 2;
 
+  score = score + scoreToAdd;
+
+  combopts = combopts + 1 + (scoreToAdd);
+  updateScoreModifier();
+}
 function madeAShot()
 {
-    console.log("BASKET MADE RECEIVED");
+    // console.log("BASKET MADE RECEIVED");
 
-    var scoreToAdd = scoremodifier * 2;
-
-    score = score + scoreToAdd;
-
-    combopts = combopts + 1 + (scoreToAdd);
-    console.log("MADEASHOT: combopts - " + combopts);
-    updateScoreModifier(); //was combo
+    // var scoreToAdd = scoremodifier * 2;
+    //
+    // score = score + scoreToAdd;
+    //
+    // combopts = combopts + 1 + (scoreToAdd);
+    // // console.log("MADEASHOT: combopts - " + combopts);
+    // updateScoreModifier(); //was combo
     // changeBallFX(true);
 }
 
@@ -1860,7 +1939,7 @@ function addScore()
     currentNetLerpDelayTime = initNetLerpDelayTime;
 
     if(currentGameState != gameStates.GAMEPLAY && currentGameState != gameStates.RESULTS) return;
-    //console.log("SCORE ADDED");
+    //// console.log("SCORE ADDED");
     //score++;
     UIGameplayUpdateScore(score);
     UIResultsUpdateScore(score);
@@ -1868,19 +1947,19 @@ function addScore()
     scoreLabel.innerHTML = "Score: " + score;
     playerData.score = score;
 
-    combo++;
-    shotsMade++;
+    // combo++;
+    // shotsMade++;
 
-    console.log('Combo+ ' + combo);
+    // console.log('Combo+ ' + combo);
 
-    if (combo > highestStreak)
-    {
-      console.log('highestStreak+ ' + highestStreak)
-      highestStreak = combo;
-      console.log("Highest Streak: " + highestStreak);
-    }
+    // if (combo > highestStreak)
+    // {
+    //   // console.log('highestStreak+ ' + highestStreak)
+    //   highestStreak = combo;
+    //   // console.log("Highest Streak: " + highestStreak);
+    // }
 
-    console.log("Combo: " + combo);
+    // console.log("Combo: " + combo);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -1903,7 +1982,7 @@ function updateUI()
             resetClock();
             UIGameplayUpdateScore(0);
             if(!initRun){
-              console.log("uianimatein inside of updateui");
+              // console.log("uianimatein inside of updateui");
               UIAttractAnimateIn();
             }
             break;
@@ -1998,10 +2077,10 @@ function gameOver()
     // gamename: gameName
   }
 
-  console.log('GAMEOVER: gamedata - ');
+  // console.log('GAMEOVER: gamedata - ');
   console.dir(gamedata);
-  console.log('GAMEOVER: courtdata - ');
-  console.log(courtdata);
+  // console.log('GAMEOVER: courtdata - ');
+  // console.log(courtdata);
 
   if(playerData)
   {
@@ -2031,7 +2110,7 @@ function fakeSyncData(_syncData)
 
     if(!ISMASTER)
     {
-        //console.log("SYNC WITH MASTER");
+        //// console.log("SYNC WITH MASTER");
 
         if(netPhysicsDisabled == false)
         {
@@ -2051,7 +2130,7 @@ function fakeSyncData(_syncData)
 socket.on('game almost ready', function(_data)
 {
    socket.emit('update game', _data.game);
-   console.log('GAMEALMOSTREADY: ' + _data.game);
+   // console.log('GAMEALMOSTREADY: ' + _data.game);
 
    gameStarted();
 });
@@ -2059,25 +2138,25 @@ socket.on('game almost ready', function(_data)
 socket.on('update wait time', function(_data) {
   if (_data.room.name == thisRoom) {
     currentWaitTime = _data.time;
-    console.log('Update Wait Time - ' + currentWaitTime);
+    // console.log('Update Wait Time - ' + currentWaitTime);
   } else {
-    console.log('|another room| Update Wait Time');
+    // console.log('|another room| Update Wait Time');
   }
 });
 socket.on('update game time', function(_data) {
   if (_data.room.name == thisRoom) {
     currentGameTime = _data.time;
-    console.log('Update Game Time - ' + currentGameTime);
+    // console.log('Update Game Time - ' + currentGameTime);
   } else {
-    console.log('|another room| Update Game Time');
+    // console.log('|another room| Update Game Time');
   }
 });
 socket.on('update results time', function (_data) {
   if (_data.room.name == thisRoom) {
     currentResultsTime = _data.time;
-    console.log('Update Results Time - ' + currentResultsTime);
+    // console.log('Update Results Time - ' + currentResultsTime);
   } else {
-    console.log('|another room| Update Results Time');
+    // console.log('|another room| Update Results Time');
   }
 });
 
@@ -2086,7 +2165,7 @@ socket.on('update results time', function (_data) {
 socket.on('device knows court', function(data)
 {
   // do something with the data
-  console.log('device knows court');
+  // console.log('device knows court');
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -2094,7 +2173,7 @@ socket.on('device knows court', function(data)
 socket.on('device needs court', function()
 {
   // find something out
-  console.log('Device doesnt know court');
+  // console.log('Device doesnt know court');
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -2111,18 +2190,18 @@ socket.on('join this room', function(data)
 
 socket.on('court joined room', function(data)
 {
-    //console.log('Congrats ' + courtName +'(' + data.courtname + ')' + ', you joined room: ' + data.roomname);
+    //// console.log('Congrats ' + courtName +'(' + data.courtname + ')' + ', you joined room: ' + data.roomname);
     hasCourt = true;
 });
 
 ///////////////////////////////////////////////////////////////////////
 
 socket.on('change hasplayer', function(userdata) {
-  console.log('this courtname - ' + courtName);
+  // console.log('this courtname - ' + courtName);
   console.dir(userdata);
   if(userdata.court == courtName)
   {
-    console.log('Player ' + userdata.username + ' - Joined Your Court - ' + userdata.court);
+    // console.log('Player ' + userdata.username + ' - Joined Your Court - ' + userdata.court);
     UIGameplayUpdateName(userdata.username);
     UIResultsUpdateName(userdata.username);
 
@@ -2133,11 +2212,11 @@ socket.on('change hasplayer', function(userdata) {
 
 socket.on('player joined court', function(userdata)
 {
-  console.log('this courtname - ' + courtName);
+  // console.log('this courtname - ' + courtName);
   console.dir(userdata);
   if(userdata.court == courtName)
   {
-    console.log('Player ' + userdata.username + ' - Joined Your Court - ' + userdata.court);
+    // console.log('Player ' + userdata.username + ' - Joined Your Court - ' + userdata.court);
     UIGameplayUpdateName(userdata.username);
     UIResultsUpdateName(userdata.username);
 
@@ -2157,7 +2236,7 @@ socket.on('player joined court', function(userdata)
     //IS THIS WHERE LOBBY IS STARTED??
     //DAVID: To Add "Waiting Countdown for attract screen (should be a new state) add it here"
     lobbyStarted = true;
-    console.log('Player ' + userdata.username + ' - Joined Sister Court - ' + userdata.court);
+    // console.log('Player ' + userdata.username + ' - Joined Sister Court - ' + userdata.court);
   }
 });
 
@@ -2175,12 +2254,12 @@ function callResultsTrigger() {
 }
 
 function gameStarted() {
-  console.log(hasplayer);
+  // console.log(hasplayer);
   callGameplayTrigger();
 }
 
 function showResults() {
-  console.log('Show Results Called');
+  // console.log('Show Results Called');
   callResultsTrigger();
 }
 
@@ -2188,7 +2267,7 @@ function showResults() {
 socket.on('update game state', function(_someRoom) {
   if (thisRoom == _someRoom.name) {
     var newgamestate = _someRoom.state
-    console.log('Update Game State called - ' + newgamestate);
+    // console.log('Update Game State called - ' + newgamestate);
 
     if (newgamestate == g_gameStates.ATTRACT) {
       callAttractTrigger();
@@ -2210,11 +2289,11 @@ socket.on('update game state', function(_someRoom) {
 
 socket.on('player changed name', function(data)
 {
-    //console.log(data);
-    //console.log(data.dir);
+    //// console.log(data);
+    //// console.log(data.dir);
     if(courtName == data.newplayer.court)
     {
-      console.log('Player ' + playerData.username + ' - Change Name - ' + data.newplayer.username);
+      // console.log('Player ' + playerData.username + ' - Change Name - ' + data.newplayer.username);
 
       playerData = data.newplayer;
 
@@ -2223,7 +2302,7 @@ socket.on('player changed name', function(data)
     }
     else
     {
-      console.log('Player ' + data.username + ' - Change Name - ' + data.newplayer.username);
+      // console.log('Player ' + data.username + ' - Change Name - ' + data.newplayer.username);
     }
 });
 
@@ -2237,18 +2316,18 @@ socket.on('take shot', function(data)
   if(shotmadeincourt == courtName)
   {
     //var trigger = scene.actionManager.actions[0].trigger;
-    console.log(shotInfo);
+    // console.log(shotInfo);
     takeShotTrigger();
   }
   else
   {
-    console.log('shot made in a sister court - ' + shotmadeincourt);
+    // console.log('shot made in a sister court - ' + shotmadeincourt);
   }
 });
 
 function takeShotTrigger() {
   var ae = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "takeShot"});
-  //console.log(ae);
+  //// console.log(ae);
   scene.actionManager.processTrigger(scene.actionManager.actions[0].trigger,  ae);
 }
 
@@ -2256,7 +2335,7 @@ function takeShotTrigger() {
 
 socket.on('shot sent', function()
 {
-  // console.log('We got a message back!');
+  // // console.log('We got a message back!');
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -2265,7 +2344,7 @@ socket.on('end all games', function(_someRoom)
 {
   if (hasplayer) {
     if (_someRoom.name == thisRoom) {
-      console.log('End all games in - ' + _someRoom.name);
+      // console.log('End all games in - ' + _someRoom.name);
       showResults();
 
       if(ISMASTER)
@@ -2279,7 +2358,7 @@ socket.on('end all games', function(_someRoom)
           // TweenMax.delayedCall(initResultsTime + 2,roomReset);
       }
     } else {
-      console.log('|another room| end all games called');
+      // console.log('|another room| end all games called');
     }
   }
 });
@@ -2288,7 +2367,7 @@ socket.on('end all games', function(_someRoom)
 
 socket.on('show results', function(_gamedata)
 {
-  console.log('-Court.js- Show Results!');
+  // console.log('-Court.js- Show Results!');
   console.dir(_gamedata);
 
   if(hasplayer)
@@ -2309,7 +2388,7 @@ socket.on('reset game', function(_someRoom)
 {
   // callAttractTrigger();
 
-  console.log('court should be reset here');
+  // console.log('court should be reset here');
   currentResultsTime = initResultsTime;
   socket.emit('court reset', courtName);
 });
@@ -2319,8 +2398,8 @@ socket.on('reset game', function(_someRoom)
 socket.on('change player name', function(data)
 {
     UIGameplayUpdateName(data.name);
-    console.log("CHANGE PLAYER NAME");
-    console.log(data);
+    // console.log("CHANGE PLAYER NAME");
+    // console.log(data);
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -2348,19 +2427,19 @@ socket.on('court reconnected', function(courtinfo) {
 
 socket.on('reconnect', function() {
   isconnected = true;
-  console.log('reconnect');
+  // console.log('reconnect');
 });
 
 ///////////////////////////////////////////////////////////////////////
 
 socket.on('reconnecting', function() {
-  console.log('reconnecting');
+  // console.log('reconnecting');
 });
 
 ///////////////////////////////////////////////////////////////////////
 
 socket.on('reconnect_failed', function() {
-  console.log('reconnect failed');
+  // console.log('reconnect failed');
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -2378,8 +2457,8 @@ socket.on('set master', function()
 {
     ISMASTER  = true;
 
-    console.log("SET MASTER " + ISMASTER);
-    console.log("ON SETMASTER: animateaction");
+    // console.log("SET MASTER " + ISMASTER);
+    // console.log("ON SETMASTER: animateaction");
     animateTrigger();
 });
 
@@ -2390,7 +2469,7 @@ function animateTrigger() {
 ///
 
 socket.on('force room reset', function() {
-  console.log('force room reset called from server')
+  // console.log('force room reset called from server')
   roomReset();
 });
 
