@@ -1001,7 +1001,7 @@ function onConnection(socket) {
 
       if (thisgame.courts[thiscourtname].player) {
         //TODO?
-        _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].player);
+        _debugObject('thisgame.courts[thiscourtname].player',thisgame.courts[thiscourtname].player);
         thisgame.courts[thiscourtname].player.score = scoredata.playerscore;
         thisgame.courts[thiscourtname].player.streak = scoredata.playerstreak;
       } else {
@@ -1042,14 +1042,16 @@ function onConnection(socket) {
   function checkScoresIn(_someGame) {
     _debugObject('CHECK SCORES IN: _someGame', _someGame);
     for(var court in _someGame.courts) {
-      for (var player in court.players) {
-        if (player.score) {
-          return true;
-        } else {
-          console.log('CHECKSCORESIN - need player score: ' + player);
-          break;
-        }
+      var player = _someGame.courts[court];
+      if (player.score) {
+        return true;
+      } else {
+        console.log('CHECKSCORESIN - need player score: ' + player);
+        break;
       }
+      // for (var player in court.players) {
+      //
+      // }
     }
   }
 
@@ -1386,14 +1388,16 @@ function onConnection(socket) {
     // _debugObject('Add player to game:', _somePlayerData);
     if (_someGame.courts[courtname]) {
       // if this court is already a part of the game, and we are somehow adding another player
-      _someGame.courts[courtname].players[_somePlayerData.username] = _somePlayerData;
+      // _someGame.courts[courtname].players[_somePlayerData.username] = _somePlayerData;
+      _someGame.courts[courtname].player = _somePlayerData;
     } else {
       var tempPlayersObject = {};
       tempPlayersObject[_somePlayerData.username] = _somePlayerData;
 
       var playercourt = {
         name: courtname,
-        players: tempPlayersObject
+        players: tempPlayersObject,
+        player: _somePlayerData
       }
 
       playerConnectedToCourt(_somePlayerData);
