@@ -721,7 +721,8 @@ footer #footerRight img#sponsorGround {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 500; }
+        z-index: 500;
+        padding-bottom: 25px; }
       #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state {
         width: 100%; }
         #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #winner-stats, #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #game-container #game-overlay #player-stats, #game-container #game-overlay #infobar #info-container #ribbon #ribbon-container #ribbon-background .results-state #player-stats {

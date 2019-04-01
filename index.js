@@ -1034,7 +1034,7 @@ function onConnection(socket) {
       thisgame.haspushed = true;
     } else {
       console.log('NOT ALL SCORES IN');
-      setTimeout(forceScoreSubmission, 2000, thisgame);
+      setTimeout(forceScoreSubmission, 3000, thisgame);
     }
 
   }
@@ -1046,6 +1046,7 @@ function onConnection(socket) {
         if (player.score) {
           return true;
         } else {
+          console.log('CHECKSCORESIN - need player score: ' + player);
           break;
         }
       }
