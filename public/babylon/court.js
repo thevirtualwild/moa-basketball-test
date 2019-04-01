@@ -194,6 +194,16 @@ function getMyIP() {
 
       console.log('This Court Device IP: ', thisDeviceIP);
 
+
+
+      //DAVID TEST: for testing only
+      thisDeviceIP = randomCode(8);
+      //END TEST
+
+
+
+
+
       showCourt(thisDeviceIP);
 
       pc.onicecandidate = noop;

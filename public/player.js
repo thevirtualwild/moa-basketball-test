@@ -97,7 +97,7 @@ function initializePlayer(_someCourtName) {
 //- Gameplay Related functions
 function startGameplay(_gamedata) {
   console.log('START Gameplay - gamedata');
-  console.dir(_gamedata);
+  console.dir(_gamedata); //undefined
 
   var startgameplay_event = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "start gameplay"});
   // console.log("STARTGAMEPLAY called - " + _gamedata.name);

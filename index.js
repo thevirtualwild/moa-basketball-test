@@ -106,10 +106,12 @@ function getDataFromAirtable() {
           canjoingame: true
         };
 
-        d_allrooms[_record.id] = recorddata;
-        d_roomnames[name] = recorddata;
+        if (isEmpty(d_allrooms)) {
+          d_allrooms[_record.id] = recorddata;
+          d_roomnames[name] = recorddata;
+          initializeGameRoom(recorddata);
+        }
 
-        initializeGameRoom(recorddata);
       });
       fetchNextPage();
     }, function done(err) {
@@ -187,7 +189,9 @@ function getDataFromAirtable() {
   }
 
   getDevices();
-  getRooms();
+  // if (!d_allrooms) {
+    getRooms();
+  // }
   getZones();
   getCourts();
   getConfigs();
@@ -196,6 +200,13 @@ function getDataFromAirtable() {
 //- END data setting functions
 
 //- Helper Functions
+function isEmpty(_object) {
+  for (var key in _object) {
+    if (_object.hasOwnProperty(key))
+      return false;
+  }
+  return true;
+}
 function randomCode(howLong) {
   var randomname = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -232,10 +243,10 @@ function countConnectedCourts() {
 //- END Helper Functions
 
 //- Update functions
-function updateDevices(_somedevice, _PUSHTODATASE) {
+function updateDevices(_somedevice, _PUSHTODATABASE) {
   d_alldevices[_somedevice.ipaddress] = _somedevice;
 
-  if (_PUSHTODATASE) {
+  if (_PUSHTODATABASE) {
     config_base('Devices').update( _somedevice.id, {
       "Court": [_somedevice.court.id]
     }, function(err, _record) {
@@ -244,11 +255,11 @@ function updateDevices(_somedevice, _PUSHTODATASE) {
     });
   }
 }
-function updateCourts(_somecourt, _PUSHTODATASE) {
+function updateCourts(_somecourt, _PUSHTODATABASE) {
   d_allcourts[_somecourt.id] = _somecourt;
   d_courtnames[_somecourt.name] = _somecourt;
 
-  if (_PUSHTODATASE) {
+  if (_PUSHTODATABASE) {
     config_base('Courts').update(_somecourt.id, {
       "Room": _somecourt.room
     }, function(err, _record) {
@@ -358,11 +369,33 @@ function updateResultsTime(_someRoom) {
 
 function resetRoom(_someRoom) {
   io.emit('reset game', _someRoom);
+
+  for (var courtname in _someRoom.courts) {
+    clearPlayersFromCourtInGameRoom(courtname, _someRoom);
+  }
+
+  _someRoom.state = g_gameStates.ATTRACT;
+}
+
+function clearPlayersFromCourtInGameRoom(_someCourtName, _someRoom) {
+  _debugObject('Clear Players -', _someRoom.courts);
+  _debugObject('CourtName', _someCourtName);
+
+  var thiscourt = _someRoom.courts[_someCourtName];
+  _debugObject('ThisCourt', thiscourt);
+
+  delete thiscourt.player;
+
+  thiscourt.hasplayer = false;
+
+  _someRoom.courts[_someCourtName] = thiscourt;
+
+  updateRooms(_someRoom);
 }
 
 
 function startGameForRoom(_someRoom) {
-  _debugObject('Start Game For Room', _someRoom);
+  // _debugObject('Start Game For Room', _someRoom);
 
   startGameplayClock(_someRoom);
 
@@ -382,7 +415,6 @@ function endGameInRoom(_someRoom) {
 
   io.emit('end all games', _someRoom);
 }
-
 function showResultsInRoom(_someRoom) {
 
 
@@ -404,9 +436,10 @@ function initializeGameRoom(_someRoom) {
 function updateGameRooms(_someRoom) {
   g_gamerooms[_someRoom.name] = _someRoom;
 }
-
 //- checks will return boolean
 function checkIfCourtInGameRoom(_someCourt, _someRoom) {
+  _debugObject('CHECK IF COURT IN GAME ROOM - court', _someCourt);
+  _debugObject('CHECK IF COURT IN GAME ROOM - room', _someRoom);
   if (_someRoom.courts[_someCourt.name]) {
     return true;
   } else {
@@ -424,6 +457,15 @@ function checkIfPlayerCanJoinCourtInGameRoom(_somePlayer, _someCourt, _someRoom)
     return {canjoingame: false, message: 'Game Already In Progress'};
   }
 }
+function checkIfActiveCourt(_someCourt, _someRoom) {
+  if (_someRoom.courts[_someCourt.name].player) {
+    console.log('court has player so it is active');
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 //////////////// END NEW AND CLEAN /////////////////
 
@@ -472,7 +514,7 @@ function onConnection(socket) {
     // courtnum += 1;
 
     d_connectedCourts[_deviceData.deviceIP] = _deviceData;
-    _debugObject(' - connected courts - newcourtdevice:' + _deviceData.deviceIP, d_connectedCourts);
+    // _debugObject(' - connected courts - newcourtdevice:' + _deviceData.deviceIP, d_connectedCourts);
 
     getCourtToShow(_deviceData.deviceIP);
   }
@@ -490,7 +532,7 @@ function onConnection(socket) {
       if (devicezone.devices) {
         // if zone already has devices add to existing array
         devicezone.devices.push(newdevice);
-        _debugObject('DeviceZone Devices:', devicezone);
+        // _debugObject('DeviceZone Devices:', devicezone);
       } else {
         // if zone doesn't have any devices, create new array of devices
         devicezone.devices = [newdevice];
@@ -562,6 +604,7 @@ function onConnection(socket) {
     });
   }
   function createRoom(somecourt) {
+    console.log("Create Room called");
       var newroomname = randomCode(7);
 
       //push new room with name ^
@@ -598,9 +641,9 @@ function onConnection(socket) {
     if (_deviceIP in d_alldevices) {
       // if we know the device already, check its court and zone,
       var mydevice = d_alldevices[_deviceIP];
-      _debugObject('GETCOURTTOSHOW - device:', mydevice);
+      // _debugObject('GETCOURTTOSHOW - device:', mydevice);
       var mycourt = d_allcourts[mydevice.court];
-      _debugObject(' - GETCOURTTOSHOW - mycourt', mycourt);
+      // _debugObject(' - GETCOURTTOSHOW - mycourt', mycourt);
 
       var myzone;
       if (mydevice.zone) {
@@ -611,7 +654,7 @@ function onConnection(socket) {
 
         myzone = d_allzones[defaultZoneID];
       }
-      _debugObject(' - GETCOURTTOSHOW - myzone', myzone);
+      // _debugObject(' - GETCOURTTOSHOW - myzone', myzone);
 
       if (mycourt) {
         console.log('COURT TO SHOW: ');
@@ -639,14 +682,14 @@ function onConnection(socket) {
     var thiszone = d_allzones[zoneid];
     var courtNeedingRoom = _somecourt;
 
-    _debugObject('FINDAROOM start - thiszone' + zoneid +':', thiszone);
+    // _debugObject('FINDAROOM start - thiszone' + zoneid +':', thiszone);
 
     if (thiszone.rooms) {
       var roomid = thiszone.rooms[0];
 
       courtNeedingRoom['room'] = [roomid];
 
-      _debugObject(' - FINDAROOM add room to court - somecourt:', courtNeedingRoom);
+      // _debugObject(' - FINDAROOM add room to court - somecourt:', courtNeedingRoom);
 
       assignCourtToRoom(courtNeedingRoom, roomid);
 
@@ -662,7 +705,11 @@ function onConnection(socket) {
     var numcourts = countConnectedCourts();
     console.log('FINDACOURT: current courtnum - ' + numcourts);
 
-    m_courtnum = numcourts - 1;
+    if (m_courtnum > 0) {
+      m_courtnum = numcourts - 1;
+    } else {
+      m_courtnum = 0;
+    }
 
     if (_myzone.configuration) {
       var zoneconfig = d_allconfigs[_myzone.configuration];
@@ -675,9 +722,10 @@ function onConnection(socket) {
       console.log('FINDACOURT: ' + _mydevice.ipaddress + ' - should be in court #' + m_courtnum);
       var mycourt;
 
-      if (_myzone.courts) {
-        mycourt = d_allcourts[_myzone.courts[m_courtnum]];
-      }
+      //TODO DAVID this can be looked at later. We are just going to always create new court if not the same IP
+      // if (_myzone.courts) {
+      //   mycourt = d_allcourts[_myzone.courts[m_courtnum]];
+      // }
 
       if (mycourt) {
         console.log('FINDACOURT: adding court to device [' + _mydevice.ipaddress + ']');
@@ -709,9 +757,9 @@ function onConnection(socket) {
   }
   function assignCourtToRoom(_somecourt, _someroomid) {
     var fullroomdata = d_allrooms[_someroomid];
-    _debugObject('ASSIGNCOURTTOROOM start - fullroomdata:', fullroomdata);
-    _debugObject('- ASSIGNCOURTTOROOM start - court:', _somecourt);
-    _debugObject('- ASSIGNCOURTTOROOM start - someroomid:', _someroomid);
+    // _debugObject('ASSIGNCOURTTOROOM start - fullroomdata:', fullroomdata);
+    // _debugObject('- ASSIGNCOURTTOROOM start - court:', _somecourt);
+    // _debugObject('- ASSIGNCOURTTOROOM start - someroomid:', _someroomid);
 
     var data = {
       court: _somecourt,
@@ -739,10 +787,12 @@ function onConnection(socket) {
       }
     }
 
-    if (checkIfCourtInGameRoom) {
+    if (checkIfCourtInGameRoom(_somecourt, fullroomdata)) {
       console.log('ASSIGNCOURTTOROOM: Court Already in Game Room. What does this mean?');
       addCourtToGameRoom(_somecourt, fullroomdata);
     } else {
+      fullroomdata.courts[_somecourt.name] = _somecourt;
+      updateRooms(fullroomdata);
       addCourtToGameRoom(_somecourt, fullroomdata);
     }
     //TODO: David need to update court list
@@ -757,8 +807,8 @@ function onConnection(socket) {
     //TODO: DAVID Needs work
 
     console.log('-------Check if Player Can Join Game-------');
-    _debugObject('SomeRoom', _someRoom);
-    _debugObject('SomeCourt', _someCourt);
+    // _debugObject('SomeRoom', _someRoom);
+    // _debugObject('SomeCourt', _someCourt);
 
     //check if gamestarted? check if canjoingame?
     var gamestarted;
@@ -802,19 +852,19 @@ function onConnection(socket) {
   function playerRequestToJoinCourt(_somePlayerData, _somecourtname) {
 
     var courttojoin = d_courtnames[_somecourtname]; //Should this be d_connectedCourts?
-    // _debugObject('PLAYERREQUEST - courttojoin:', courttojoin);
+    // // _debugObject('PLAYERREQUEST - courttojoin:', courttojoin);
 
     if (courttojoin) {
 
       var roomcourtisapartof = d_allrooms[courttojoin.room];
-      // _debugObject('JOINCOURT - roomcourtisapartof:', roomcourtisapartof);
+      // // _debugObject('JOINCOURT - roomcourtisapartof:', roomcourtisapartof);
 
       // var gameroom = g_gamerooms[roomcourtisapartof.name];
 
 
       if (g_activerooms[roomcourtisapartof.name]) {
         //do something by adding player to court requested
-        _debugObject('Room already active, adding additional player to active game', g_activerooms);
+        // _debugObject('Room already active, adding additional player to active game', g_activerooms);
 
         var playerCanJoinGame_data = checkIfPlayerCanJoinGame(roomcourtisapartof, courttojoin);
 
@@ -822,7 +872,7 @@ function onConnection(socket) {
           courttojoin.hasplayer = true;
 
           // save the hasplayer variable back to our list of courts
-          _debugObject('Updating Courtnames, but also courts?', d_courtnames);
+          // _debugObject('Updating Courtnames, but also courts?', d_courtnames);
           updateCourts(courttojoin,false); // d_courtnames[_somecourtname] = courttojoin;
 
           //addroominfotosocket
@@ -834,9 +884,9 @@ function onConnection(socket) {
           courttojoin.player = _somePlayerData;
 
           // // // console.log("IS GAME IN PROGRESS? " + socket.gamenamesrunning);
-          _debugObject('Player joining court - courttojoin:', courttojoin);
+          // _debugObject('Player joining court - courttojoin:', courttojoin);
           console.log('JOINCOURT: before player joined court emit');
-          _debugSocket(socket);
+          // _debugSocket(socket);
 
           playerConnectedToCourt(_somePlayerData);
         } else {
@@ -844,8 +894,8 @@ function onConnection(socket) {
         }
       } else {
 
-        // _debugObject('Room not currently active, create a game, add player to it, and start waiting clock', roomcourtisapartof);
-        // _debugObject('CourtToJoin',courttojoin);
+        // // _debugObject('Room not currently active, create a game, add player to it, and start waiting clock', roomcourtisapartof);
+        // // _debugObject('CourtToJoin',courttojoin);
 
         g_gamerooms[roomcourtisapartof.name] = {
           courts: {}
@@ -854,7 +904,7 @@ function onConnection(socket) {
           player: _somePlayerData
         };
 
-        // _debugObject('g_gamerooms', g_gamerooms);
+        // // _debugObject('g_gamerooms', g_gamerooms);
         courttojoin.hasplayer = true;
 
         //addroominfotosocket
@@ -874,7 +924,7 @@ function onConnection(socket) {
 
         startGameLobbyInRoom(roomcourtisapartof);
 
-        _debugObject('PlayerRequest - gameAddedToRoom:', roomcourtisapartof);
+        // _debugObject('PlayerRequest - gameAddedToRoom:', roomcourtisapartof);
 
         // g_activerooms
       }
@@ -896,7 +946,7 @@ function onConnection(socket) {
     updateDevicesInRoomGameStates(_someRoom);
   }
   function updateDevicesInRoomGameStates(_someRoom) {
-    _debugObject('UPDATEGAMESTATES', _someRoom);
+    // _debugObject('UPDATEGAMESTATES', _someRoom);
     socket.broadcast.to(_someRoom.name).emit('update game state', _someRoom.state);
     socket.emit('update game state', _someRoom.state);
   }
@@ -910,7 +960,7 @@ function onConnection(socket) {
   function updateActiveRooms(_someRoom) {
     g_activerooms[_someRoom.name] = _someRoom;
 
-    _debugObject('g_activerooms:', g_activerooms);
+    // _debugObject('g_activerooms:', g_activerooms);
   }
 
   ////////////////////////////////////////////////////////
@@ -918,11 +968,15 @@ function onConnection(socket) {
   //- GameScoring
   function addCourtGameScore(_courtgamedata) {
     var thisgamesroom = d_roomnames[socket.roomname];
-    var thissocketgamename = thisgamesroom.gamename;
+    var thisgamename = thisgamesroom.gamename;
 
     redirectPlayer(_courtgamedata);
 
-    var thisgame = d_allgames[thissocketgamename];
+
+    _debugObject('ADDCOURT - thisgamesroom', thisgamesroom);
+    _debugObject('ADDCOURTGAMESCORE - d_allGames', d_allgames);
+
+    var thisgame = d_allgames[thisgamename];
     // add score to list of scores
     if (thisgame) {
       console.log('thisgame already in d_allgames: ');
@@ -944,7 +998,7 @@ function onConnection(socket) {
 
       if (thisgame.courts[thiscourtname].players) {
         //TODO?
-        _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].players);
+        // _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].players);
         thisgame.courts[thiscourtname].players[_courtgamedata.player.username].score = scoredata.playerscore;
         thisgame.courts[thiscourtname].players[_courtgamedata.player.username].streak = scoredata.playerstreak;
       } else {
@@ -959,7 +1013,7 @@ function onConnection(socket) {
         thisgame.scores = [scoredata];
       }
       // updateHighScorer(agame, courtgamedata);
-      d_allgames[thissocketgamename] = thisgame;
+      d_allgames[thisgamename] = thisgame;
 
     } else {
       console.log('ADDCOURTGAMESCORE: How the hell did you get here without a game?');
@@ -968,12 +1022,11 @@ function onConnection(socket) {
     d_roomnames[socket.roomname] = thisgamesroom;
 
     console.log('____ADDCOURTGAMESCORE______')
-    _debugObject(' - this game', thisgame);
 
     var allscoresin = checkScoresIn(thisgame);
 
     if (allscoresin) {
-      getHighScore(thissocketgamename);
+      getHighScore(thisgamename);
       pushGameToDatabase(thisgame);
       thisgame.haspushed = true;
     } else {
@@ -984,6 +1037,7 @@ function onConnection(socket) {
   }
 
   function checkScoresIn(_someGame) {
+    _debugObject('CHECK SCORES IN: _someGame', _someGame);
     for(var court in _someGame.courts) {
       for (var player in court.players) {
         if (player.score) {
@@ -1065,7 +1119,7 @@ function onConnection(socket) {
     thisgame.highscore = 0;
 
 
-    _debugObject('Go Through Scores', thisgame);
+    // _debugObject('Go Through Scores', thisgame);
 
 
     for (index in thisgame.scores) {
@@ -1073,7 +1127,7 @@ function onConnection(socket) {
       console.log(' - ascore in thisgame');
       console.dir(ascore);
 
-      _debugObject(' - thisgame', thisgame);
+      // _debugObject(' - thisgame', thisgame);
 
       if (thisgame.highscore) {
         console.log('highscore already exists - ');
@@ -1123,7 +1177,7 @@ function onConnection(socket) {
       //   playerscore: playerscore
       // }
       console.log('redirectPlayer: socket - ' + courtGameData);
-      _debugSocket(socket);
+      // _debugSocket(socket);
       // socket.emit('show results', playerdata);
     }
 
@@ -1308,7 +1362,7 @@ function onConnection(socket) {
       haspushed: false
     }
 
-    _debugObject('NEWGAMECREATED: ', newGameObject);
+    // _debugObject('NEWGAMECREATED: ', newGameObject);
 
     return newGameObject;
   }
@@ -1325,7 +1379,7 @@ function onConnection(socket) {
   function addPlayerToGame(_someGame, _somePlayerData) {
     var courtname = _somePlayerData.court;
 
-    _debugObject('Add player to game:', _somePlayerData);
+    // _debugObject('Add player to game:', _somePlayerData);
     if (_someGame.courts[courtname]) {
       // if this court is already a part of the game, and we are somehow adding another player
       _someGame.courts[courtname].players[_somePlayerData.username] = _somePlayerData;
@@ -1342,7 +1396,7 @@ function onConnection(socket) {
       addCourtToGame(_someGame, playercourt);
     }
 
-    _debugObject('PLAYERADDEDTOGAME:', _someGame);
+    // _debugObject('PLAYERADDEDTOGAME:', _someGame);
     return _someGame;
   }
   function addCourtToGame(_someGame, _someCourt) {
@@ -1351,8 +1405,8 @@ function onConnection(socket) {
   function startGameInRoom(_someRoom) {
     var thisgamesroom = d_roomnames[socket.roomname];
 
-    _debugObject('startGameInRoom: _someRoom', _someRoom);
-    _debugObject('startGameInRoom: thisgamesroom', thisgamesroom);
+    // _debugObject('startGameInRoom: _someRoom', _someRoom);
+    // _debugObject('startGameInRoom: thisgamesroom', thisgamesroom);
 
     var newdate = new Date();
 
@@ -1404,16 +1458,16 @@ function onConnection(socket) {
   function addCourtScoreForGame(someCourtData) {
 
     // var thisgamesroom = d_roomnames[socket.roomname];
-    // var thissocketgamename = thisgamesroom.gamename;
+    // var thisgamename = thisgamesroom.gamename;
     // console.log('--BREAKING--');
-    // _debugSocket(socket);
+    // // _debugSocket(socket);
     //
     // gamedata = socket.game;
     // console.log("Socket.game");
     // console.dir(gamedata);
     //
     //
-    // socket.game.name = thissocketgamename;
+    // socket.game.name = thisgamename;
     //
     // //
     // // thisgame = d_allgames[socket.gamename];
@@ -1468,7 +1522,7 @@ function onConnection(socket) {
     var thisgamesroom = d_roomnames[_somesocket.roomname];
 
     console.log('COURTDISCONNECTED:');
-    _debugSocket(_somesocket);
+    // _debugSocket(_somesocket);
     console.log(' - courtcount: ' + thisgamesroom.courtcount);
     thisgamesroom.courtcount -= 1;
     console.log(' - courtcount2: ' + thisgamesroom.courtcount);
@@ -1580,7 +1634,7 @@ function onConnection(socket) {
         }
       } else {
         //some sort of message should be sent to player
-        console.log("Can't Join - " + availablitycheck.message);
+        console.log("Can't Join - " + availabilitycheck.message);
       }
     } else {
       console.log('Court - ' + _someCourt.name + ' not in room - ' + _someRoom.name);
@@ -1821,7 +1875,7 @@ function onConnection(socket) {
     thiscourt.hasplayer = false;
     d_courtnames[somecourtname] = thiscourt;
 
-    _debugSocket(socket);
+    // _debugSocket(socket);
 
   });
 
@@ -1833,7 +1887,7 @@ function onConnection(socket) {
 
     socket.game = _gamedata;
 
-    _debugSocket(socket);
+    // _debugSocket(socket);
     // var thisgamesroom = d_roomnames[socket.roomname];
     //
     // thisgamesroom.gamename = newgamename;
@@ -1864,7 +1918,7 @@ function onConnection(socket) {
     console.log('add newGameObject to socket - ');
     socket.game = newGameObject;
 
-    _debugSocket(socket);
+    // _debugSocket(socket);
 
     console.log('SOCKETGAMENAME - ' + socket.game.name);
     // socket.gamename = thisgamesroom.gamename;
@@ -1886,7 +1940,7 @@ function onConnection(socket) {
       var updatedGame = addPlayerToGame(currentGame, _newplayer)
       d_allgames[updatedGame.name] = updatedGame;
       socket.game = updatedGame;
-      _debugSocket(socket);
+      // _debugSocket(socket);
     }
   });
 
