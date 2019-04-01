@@ -320,16 +320,20 @@ function createScene() {
 
       basketball.physicsImpostor.setAngularVelocity(0,0,0);
       basketball.physicsImpostor.setLinearVelocity(0,0,0);
+
+      var rangelow = 18; //was 9
+      var rangehigh = 22; //was 11
+
       var left = true;
       if(randomRange(0, 1) < .5)
       {
           basketball.position = new BABYLON.Vector3(-10, 0, 0);
-          basketball.physicsImpostor.applyImpulse(new BABYLON.Vector3(randomRange(9, 11), 0, randomRange(-1,1)), basketball.position);
+          basketball.physicsImpostor.applyImpulse(new BABYLON.Vector3(randomRange(rangelow, rangehigh), 0, randomRange(-1,1)), basketball.position);
       }
       else
       {
           basketball.position = new BABYLON.Vector3(10, 0, 0);
-          basketball.physicsImpostor.applyImpulse(new BABYLON.Vector3(randomRange(-9, -11), 0, randomRange(-1,1)), basketball.position);
+          basketball.physicsImpostor.applyImpulse(new BABYLON.Vector3(randomRange((-1*rangelow), (-1*rangehigh)), 0, randomRange(-1,1)), basketball.position);
       }
 
       var convertedRot = new BABYLON.Vector3(0,0,0);
@@ -469,16 +473,19 @@ socket.on('end all games', function(_someRoom) {
     console.log('Games Ended, look at results screen');
     //show this players score
     // $gameover.fadeIn();
-    var resetgame_event = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "reset game trigger"});
-    //console.log(ae);
-    scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger,  resetgame_event);
-
+    resetGameTrigger();
     UIGameplayAnimateOut();
     console.log("GAMES ENDED");
   } else {
     console.log('|another room| end all games called');
   }
 });
+
+function resetGameTrigger(){
+  var resetgame_event = BABYLON.ActionEvent.CreateNewFromScene(scene, {additionalData: "reset game trigger"});
+  //console.log(ae);
+  scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger,  resetgame_event);
+}
 socket.on('show results', function(resultsdata) {
 
   console.log('Results:');
@@ -488,7 +495,9 @@ socket.on('show results', function(resultsdata) {
 
 socket.on('reset game', function(){
     // UIGameoverAnimateOut();
+    resetGameTrigger();
     console.log("PLAYER: reset game requested from server");
+
 });
 //-- END Game Ending
 

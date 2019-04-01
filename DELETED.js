@@ -280,3 +280,53 @@
 
 
 ////////////////////////////////////////////////////////
+
+
+
+//
+// if(currentWaitTime <= -5)
+// {
+//   if(hasplayer)
+//   {
+//     changeGameState(gameStates.GAMEPLAY);
+//   }
+//   else
+//   {
+//     changeGameState(gameStates.INACTIVE);
+//   }
+// }
+// else if(currentWaitTime <= -4 && !gameReady)
+// {
+//     gameReady = true;
+//
+//     if(ISMASTER)
+//     {
+//         if(hasplayer)
+//         {
+//             console.log("EMITTING GAME ALMOST READY " + courtName);
+//             socket.emit("waiting countdown less than four", courtName);
+//         }
+//     }
+// }
+// else if(currentWaitTime <= -2)
+// {
+//     //attractLabel.innerHTML = "GAME STARTS IN <br />" +  (5.5 + currentWaitTime).toFixed(0);
+//     //attractLabel.innerHTML = "";
+// }
+// else if(currentWaitTime < 0)
+// {
+//     //attractLabel.innerHTML = "PLAYERS LOCKED IN";
+//     //attractLabel.innerHTML = "";
+// }
+// else
+// {
+//     if(hasplayer)
+//     {
+//         //attractLabel.innerHTML =  currentWaitTime.toFixed(0) - 2 + "<br /> WAITING FOR PLAYERS";
+//         //attractLabel.innerHTML =  "";
+//     }
+//     else{
+//         //DISPLAY COUNTDOWN HERE IF GAME STARTED IN SAME ROOM BUT DIFF COURT
+//         //attractLabel.innerHTML = "JOIN NOW!<br />" +  (currentWaitTime).toFixed(0);
+//     }
+// }
