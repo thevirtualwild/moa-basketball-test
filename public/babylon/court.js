@@ -720,7 +720,8 @@ function createScene()
                         //UIGameplayAnimateBadgeOff();
                         //changeBallFX(false);
                         basketballStates[i] = 0;
-                        // ComboIsBroken       = true;
+                        console.log('Missed a Shot - combo just broke');
+                        ComboIsBroken       = true;
                         StreakIsBroken      = true;
                     }
                 }
@@ -1810,7 +1811,7 @@ function updateScoreModifier()
       checkCurrentLevel(2, 4);
     } else {
       scoremodifier = 1;
-      comboIsBroken = true;
+      // comboIsBroken = true;
 
       UIGameplayAnimateBadgeOff();
     }
@@ -1851,8 +1852,11 @@ function addScore()
     combo++;
     shotsMade++;
 
+    console.log('Combo+ ' + combo);
+
     if (combo > highestStreak)
     {
+      console.log('highestStreak+ ' + highestStreak)
       highestStreak = combo;
       console.log("Highest Streak: " + highestStreak);
     }

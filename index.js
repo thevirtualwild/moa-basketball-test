@@ -1003,7 +1003,7 @@ function onConnection(socket) {
         //TODO?
         _debugObject('thisgame.courts[thiscourtname].player',thisgame.courts[thiscourtname].player);
         thisgame.courts[thiscourtname].player.score = scoredata.playerscore;
-        thisgame.courts[thiscourtname].player.streak = scoredata.playerstreak;
+        thisgame.courts[thiscourtname].player.highestStreak = scoredata.playerstreak;
       } else {
         console.log(' ** addCourtGameScore problem with thisgame.courts[thiscourtname].players[_courtgamedata.player.username]');
         console.dir(_courtgamedata);
