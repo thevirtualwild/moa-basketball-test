@@ -494,6 +494,7 @@ $orange2: rgb(241, 99, 34);
 
       height: auto;
       // display: flex;
+      display:block;
       align-items: center;
       justify-content: center;
 
@@ -526,8 +527,9 @@ $orange2: rgb(241, 99, 34);
         line-height: 1;
         width: 100%;
         // display: flex;
-        display:block;
+        display:block !important;
         padding-top:10px;
+        position:relative;
         align-items: center;
         justify-content: center;
 

@@ -339,6 +339,7 @@ canvas {
     clip-path: polygon(0% 0, 100% 0%, 89.5% 100%, 0% 100%);
     -webkit-clip-path: polygon(0% 0, 100% 0%, 89.5% 100%, 0% 100%);
     height: auto;
+    display: block;
     align-items: center;
     justify-content: center; }
     #ribbon #ribbon-container #ribbon-background:before, #ribbon #ribbon-container #ribbon-background:after {
@@ -365,8 +366,9 @@ canvas {
       font-family: 'Interstate';
       line-height: 1;
       width: 100%;
-      display: block;
+      display: block !important;
       padding-top: 10px;
+      position: relative;
       align-items: center;
       justify-content: center; }
 
