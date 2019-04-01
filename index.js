@@ -456,6 +456,9 @@ function initializeGameRoom(_someRoom) {
 function updateGameRooms(_someRoom) {
   g_gamerooms[_someRoom.name] = _someRoom;
 }
+function updateGames(_someGame) {
+  d_allgames[_someGame.name] = _someGame;
+}
 //- checks will return boolean
 function checkIfCourtInGameRoom(_someCourt, _someRoom) {
   _debugObject('CHECK IF COURT IN GAME ROOM - court', _someCourt);
@@ -974,7 +977,7 @@ function onConnection(socket) {
 
 
     _debugObject('ADDCOURT - thisgamesroom', thisgamesroom);
-    _debugObject('ADDCOURTGAMESCORE - d_allGames', d_allgames);
+    _debugObject('ADDCOURTGAMESCORE - d_allgames', d_allgames);
 
     var thisgame = d_allgames[thisgamename];
     // add score to list of scores
@@ -996,11 +999,11 @@ function onConnection(socket) {
 
       var thiscourtname = _courtgamedata.player.court;
 
-      if (thisgame.courts[thiscourtname].players) {
+      if (thisgame.courts[thiscourtname].player) {
         //TODO?
-        _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].players);
-        thisgame.courts[thiscourtname].players[_courtgamedata.player.username].score = scoredata.playerscore;
-        thisgame.courts[thiscourtname].players[_courtgamedata.player.username].streak = scoredata.playerstreak;
+        _debugObject('thisgame.courts[thiscourtname].players',thisgame.courts[thiscourtname].player);
+        thisgame.courts[thiscourtname].player.score = scoredata.playerscore;
+        thisgame.courts[thiscourtname].player.streak = scoredata.playerstreak;
       } else {
         console.log(' ** addCourtGameScore problem with thisgame.courts[thiscourtname].players[_courtgamedata.player.username]');
         console.dir(_courtgamedata);
@@ -1722,12 +1725,12 @@ function onConnection(socket) {
     }
   });
   socket.on('change player name', function(playerdata) {
-    oldplayer = {
+    var oldplayer = {
       username: socket.username,
       team: socket.team,
       court: socket.court
     };
-    newplayer = {
+    var newplayer = {
       username: playerdata.username,
       team: playerdata.team,
       court: playerdata.court
@@ -1743,6 +1746,21 @@ function onConnection(socket) {
       oldplayer: oldplayer,
       newplayer: newplayer
     }
+
+    console.log('change player namer - ');
+    _debugSocket(socket);
+
+    var playersRoom = d_roomnames[socket.roomname];
+    playersRoom.courts[socket.court].player = newplayer;
+    var thisgame = d_allgames[playersRoom.gamename];
+    thisgame.courts[socket.court].player = newplayer;
+
+    _debugObject('- thisgame',thisgame);
+    _debugObject('- d_allgames', d_allgames);
+    updateGames(thisgame);
+    _debugObject('- d_allgames', d_allgames);
+    updateGameRooms(playersRoom);
+    updateRooms(playersRoom, false);
     // // // // // console.log("Broadcasting to player changed name: " + data);
     socket.broadcast.to(socket.roomname).emit('player changed name', data);
   });
