@@ -1713,7 +1713,7 @@ function onConnection(socket) {
 
       playerRequestToJoinCourtInGameRoom(_playerdata, courttojoin, roomcourtisapartof);
     } else {
-      console.log('PLAYER WANTS TO JOIN COURT - courtnamenotfound' + _playerdata.username);
+      console.log('PLAYER WANTS TO JOIN COURT - courtnamenotfound' + _playerdata.court);
     }
   });
   socket.on('change player name', function(playerdata) {

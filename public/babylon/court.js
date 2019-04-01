@@ -2186,7 +2186,7 @@ socket.on('player joined court', function(userdata)
 });
 
 function callAttractTrigger() {
-  scene.actionManager.processTrigger(scene.actionManager.actions[2].trigger, {additionalData: "changeGameStateAttract"});
+  scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger, {additionalData: "changeGameStateAttract"});
 }
 function callWaitingTrigger() {
   scene.actionManager.processTrigger(scene.actionManager.actions[2].trigger, {additionalData: "changeGameStateWaiting"});
@@ -2331,16 +2331,12 @@ socket.on('show results', function(_gamedata)
 
 socket.on('reset game', function(_someRoom)
 {
-  callAttractTrigger(_someRoom);
+  callAttractTrigger();
 
   console.log('court should be reset here');
   currentResultsTime = initResultsTime;
   socket.emit('court reset', courtName);
 });
-
-function callAttractTrigger(_someRoom) {
-  scene.actionManager.processTrigger(scene.actionManager.actions[1].trigger, {additionalData: "changeGameStateAttract"});
-}
 
 ///////////////////////////////////////////////////////////////////////
 

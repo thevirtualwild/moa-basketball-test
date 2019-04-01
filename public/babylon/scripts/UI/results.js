@@ -66,6 +66,7 @@ function UIResultsAnimateOut()
     // TweenMax.to(winner_stats, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut, onComplete:UIAttractAnimateIn});
     // TweenMax.to(winner_name, textFadeTime, {opacity:1, delay: textFadeTime, ease:Sine.easeInOut});
 
+    ShowCustomMessage('');
     animating = true;
 
     currentScore = 0;
