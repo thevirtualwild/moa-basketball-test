@@ -321,8 +321,8 @@ function createScene() {
       basketball.physicsImpostor.setAngularVelocity(0,0,0);
       basketball.physicsImpostor.setLinearVelocity(0,0,0);
 
-      var rangelow = 18; //was 9
-      var rangehigh = 22; //was 11
+      var rangelow = 15; //was 9
+      var rangehigh = 18; //was 11
 
       var left = true;
       if(randomRange(0, 1) < .5)
