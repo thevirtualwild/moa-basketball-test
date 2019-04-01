@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////
 // This needs to be exported from the states.js script, so that we can make it an actual state machine (I don't have time for this right now)
 var g_roomStates = Object.freeze({"ATTRACT": 0, "WAITING": 1, "GAMEPLAY": 2, "RESULTS": 3});
-var g_gameStates = Object.freeze({"INACTIVE": 0, "WAITING": 1, "GAMEPLAY": 2});
+var g_roomStates = Object.freeze({"INACTIVE": 0, "WAITING": 1, "GAMEPLAY": 2});
 // config stuff
 var initWaitTime = 5;
 var initGameTime = 20;
@@ -374,7 +374,7 @@ function resetRoom(_someRoom) {
     clearPlayersFromCourtInGameRoom(courtname, _someRoom);
   }
 
-  changeRoomGameState(_someRoom, g_gameStates.ATTRACT);
+  changeRoomGameState(_someRoom, g_roomStates.ATTRACT);
 }
 function changeRoomGameState(_someRoom, _someGameState) {
   _someRoom.state = _someGameState;
@@ -415,7 +415,7 @@ function clearPlayersFromCourtInGameRoom(_someCourtName, _someRoom) {
 function startGameForRoom(_someRoom) {
   // _debugObject('Start Game For Room', _someRoom);
 
-  changeRoomGameState(_someRoom, g_gameStates.GAMEPLAY);
+  changeRoomGameState(_someRoom, g_roomStates.GAMEPLAY);
 
   setTimeout(startGameplayClock, (3 * 1000), _someRoom);
 
@@ -429,7 +429,7 @@ function startGameForRoom(_someRoom) {
 }
 
 function endGameInRoom(_someRoom) {
-  changeRoomGameState(_someRoom, g_gameStates.RESULTS);
+  changeRoomGameState(_someRoom, g_roomStates.RESULTS);
 
   startResultsClock(_someRoom);
 
@@ -448,7 +448,7 @@ function showResultsInRoom(_someRoom) {
 ////////////////// NEW AND CLEAN ///////////////////
 
 function initializeGameRoom(_someRoom) {
-  _someRoom.state = g_gameStates.ATTRACT;
+  _someRoom.state = g_roomStates.ATTRACT;
   _someRoom.courts = {};
   updateGameRooms(_someRoom);
 }
@@ -467,7 +467,7 @@ function checkIfCourtInGameRoom(_someCourt, _someRoom) {
   }
 }
 function checkIfPlayerCanJoinCourtInGameRoom(_somePlayer, _someCourt, _someRoom) {
-  if (_someRoom.state == g_gameStates.ATTRACT || _someRoom.state == g_gameStates.WAITING) {
+  if (_someRoom.state == g_roomStates.ATTRACT || _someRoom.state == g_roomStates.WAITING) {
     if (_someRoom.courts[_someCourt.name].player) {
       return {canjoingame: false, message: 'Player already playing on this court'};
     } else {
@@ -958,7 +958,7 @@ function onConnection(socket) {
   ////////////////////////////////////////////////////////
 
   function startGameLobbyInRoom(_someRoom) {
-    changeRoomGameState(_someRoom, g_gameStates.WAITING);
+    changeRoomGameState(_someRoom, g_roomStates.WAITING);
 
     startWaitingClock(_someRoom);
   }
@@ -1358,7 +1358,7 @@ function onConnection(socket) {
       gameDateTime: newDate,
       courts: {
       },
-      state: g_gameStates.INACTIVE,
+      state: g_roomStates.INACTIVE,
       haspushed: false
     }
 
@@ -1626,7 +1626,7 @@ function onConnection(socket) {
         _someCourt.hasplayer = true; //holdover from before
         updateCourts(_someCourt,false);
 
-        if (_someRoom.state == g_gameStates.ATTRACT) {
+        if (_someRoom.state == g_roomStates.ATTRACT) {
           //start game and change state of game room
           startGameLobbyInRoom(_someRoom);
         } else {
@@ -1702,14 +1702,19 @@ function onConnection(socket) {
     socket.court = _playerdata.court;
 
     var courttojoin = d_courtnames[_playerdata.court];
-    var roomcourtisapartof = d_allrooms[courttojoin.room[0]];
+    if (courttojoin) {
 
-    console.log('PLAYER WANTS TO JOIN COURT - ' + _playerdata.username);
-    _debugObject(' - Room Info', roomcourtisapartof);
+      var roomcourtisapartof = d_allrooms[courttojoin.room[0]];
 
-    // playerRequestToJoinCourt(_playerdata, courttojoin);
+      console.log('PLAYER WANTS TO JOIN COURT - ' + _playerdata.username);
+      _debugObject(' - Room Info', roomcourtisapartof);
 
-    playerRequestToJoinCourtInGameRoom(_playerdata, courttojoin, roomcourtisapartof);
+      // playerRequestToJoinCourt(_playerdata, courttojoin);
+
+      playerRequestToJoinCourtInGameRoom(_playerdata, courttojoin, roomcourtisapartof);
+    } else {
+      console.log('PLAYER WANTS TO JOIN COURT - courtnamenotfound' + _playerdata.username);
+    }
   });
   socket.on('change player name', function(playerdata) {
     oldplayer = {
