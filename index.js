@@ -1858,7 +1858,12 @@ function onConnection(socket) {
 
     // addCourtScoreForGame(someGameData);
     // Submit Player Data To Database
-    addCourtGameScore(someGameData);
+    _debugSocket(socket);
+    if(someCourtData.playerInfoData.court == socket.court.name) {
+      addCourtGameScore(someGameData);
+    } else {
+      _debugObject('AddCourtGameScore Called from another court', somecourtData);
+    }
 
   });
 
