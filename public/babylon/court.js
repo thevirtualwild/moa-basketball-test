@@ -269,6 +269,7 @@ function createScene()
     camera.attachControl(canvas, true);
 
     camera.position = cameraSettings[currentCameraIndex].initPos;
+
     camera.setTarget(cameraSettings[currentCameraIndex].initFocus);
     //camera.maxZ = 50;
     //camera.minZ = 1;
@@ -1271,14 +1272,23 @@ function createScene()
         scene.meshes.pop(netSpheres[i]);
     });
 
-    var scoreTrigger = new BABYLON.Mesh.CreateBox("scoreTrigger", 5, scene); //was 3
+    // var scoreTrigger = new BABYLON.Mesh.CreateBox("scoreTrigger", 5, scene); //was 3
 
+    // var scoreTrigger = BABYLON.MeshBuilder.CreatePlane("scoreTrigger", {width: 5, height: 2}, scene);
+
+    var scoreTrigger = BABYLON.MeshBuilder.CreateCylinder("scoreTrigger", {diameterTop: 5, height: 5, diameterBottom:5, tessellation: 6}, scene);
     scoreTrigger.position = torus.position;
     scoreTrigger.position.y += .2; //was .75
 
+
+    var greenMat                = new BABYLON.StandardMaterial("greenMat", scene);
+    greenMat.emissiveColor      = new BABYLON.Color3(0, 1, 0);
+    greenMat.alpha              = 0;
+    scoreTrigger.material = greenMat;
+
     var clearMat = new BABYLON.StandardMaterial("myMaterial", scene);
-    clearMat.alpha = 0; //change alpha here to change scorebox //DAVID
-    scoreTrigger.material = clearMat;
+    clearMat.alpha = .8; //change alpha here to change scorebox //DAVID
+    // scoreTrigger.material = clearMat;
     score = 0;
     highestStreak = 0;
 
@@ -1304,6 +1314,8 @@ function createScene()
                         if(basketballStates[idx] == 1) {
                             basketballStates[idx] = 0;
                             add1Point = true;
+
+                            scoreTriggerHit();
                             //addScore();
 
                             /*
@@ -1472,6 +1484,13 @@ function createScene()
     );
 
     ///////////////////////////////////////////////////////////////////////
+     var scoretriggernum = 0;
+    function scoreTriggerHit() {
+      scoretriggernum++;
+      console.log('score trigger hit - ' + scoretriggernum);
+    }
+
+    ////////
 
     function updateClock()
     {
