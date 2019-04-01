@@ -374,7 +374,25 @@ function resetRoom(_someRoom) {
     clearPlayersFromCourtInGameRoom(courtname, _someRoom);
   }
 
-  _someRoom.state = g_gameStates.ATTRACT;
+  changeRoomGameState(_someRoom, g_gameStates.ATTRACT);
+}
+function changeRoomGameState(_someRoom, _someGameState) {
+  _someRoom.state = _someGameState;
+
+  updateRooms(_someRoom);
+  updateActiveRooms(_someRoom);
+
+  updateDevicesInRoomGameStates(_someRoom);
+}
+function updateActiveRooms(_someRoom) {
+  g_activerooms[_someRoom.name] = _someRoom;
+
+  // _debugObject('g_activerooms:', g_activerooms);
+}
+function updateDevicesInRoomGameStates(_someRoom) {
+  // _debugObject('UPDATEGAMESTATES', _someRoom);
+
+  io.emit('update game state', _someRoom);
 }
 
 function clearPlayersFromCourtInGameRoom(_someCourtName, _someRoom) {
@@ -397,6 +415,8 @@ function clearPlayersFromCourtInGameRoom(_someCourtName, _someRoom) {
 function startGameForRoom(_someRoom) {
   // _debugObject('Start Game For Room', _someRoom);
 
+  changeRoomGameState(_someRoom, g_gameStates.GAMEPLAY);
+
   setTimeout(startGameplayClock, (3 * 1000), _someRoom);
 
   var emitData = {
@@ -409,7 +429,7 @@ function startGameForRoom(_someRoom) {
 }
 
 function endGameInRoom(_someRoom) {
-  // changeRoomGameState(_someRoom, g_gameStates.RESULTS);
+  changeRoomGameState(_someRoom, g_gameStates.RESULTS);
 
   startResultsClock(_someRoom);
 
@@ -937,30 +957,10 @@ function onConnection(socket) {
 
   ////////////////////////////////////////////////////////
 
-  function changeRoomGameState(_someRoom, _someGameState) {
-    _someRoom.state = _someGameState;
-
-    updateRooms(_someRoom);
-    updateActiveRooms(_someRoom);
-
-    updateDevicesInRoomGameStates(_someRoom);
-  }
-  function updateDevicesInRoomGameStates(_someRoom) {
-    // _debugObject('UPDATEGAMESTATES', _someRoom);
-    socket.broadcast.to(_someRoom.name).emit('update game state', _someRoom.state);
-    socket.emit('update game state', _someRoom.state);
-  }
-
   function startGameLobbyInRoom(_someRoom) {
     changeRoomGameState(_someRoom, g_gameStates.WAITING);
 
     startWaitingClock(_someRoom);
-  }
-
-  function updateActiveRooms(_someRoom) {
-    g_activerooms[_someRoom.name] = _someRoom;
-
-    // _debugObject('g_activerooms:', g_activerooms);
   }
 
   ////////////////////////////////////////////////////////
@@ -1703,6 +1703,9 @@ function onConnection(socket) {
 
     var courttojoin = d_courtnames[_playerdata.court];
     var roomcourtisapartof = d_allrooms[courttojoin.room[0]];
+
+    console.log('PLAYER WANTS TO JOIN COURT - ' + _playerdata.username);
+    _debugObject(' - Room Info', roomcourtisapartof);
 
     // playerRequestToJoinCourt(_playerdata, courttojoin);
 

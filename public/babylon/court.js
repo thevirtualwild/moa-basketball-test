@@ -2185,6 +2185,9 @@ socket.on('player joined court', function(userdata)
   }
 });
 
+function callAttractTrigger() {
+  scene.actionManager.processTrigger(scene.actionManager.actions[2].trigger, {additionalData: "changeGameStateAttract"});
+}
 function callWaitingTrigger() {
   scene.actionManager.processTrigger(scene.actionManager.actions[2].trigger, {additionalData: "changeGameStateWaiting"});
 }
@@ -2206,18 +2209,23 @@ function showResults() {
 }
 
 //-- Game State UPDATE
-socket.on('update game state', function(_someGameState) {
-  console.log('Update Game State called - ' + _someGameState);
+socket.on('update game state', function(_someRoom) {
+  if (thisRoom == _someRoom.name) {
+    var newgamestate = _someRoom.state
+    console.log('Update Game State called - ' + newgamestate);
 
-  if (_someGameState == g_gameStates.WAITING) {
-    // callWaitingTrigger();
-  } else if (_someGameState == g_gameStates.GAMEPLAY) {
-    if(hasplayer){
-      callGameplayTrigger();
-    }
-  } else if (_someGameState == g_gameStates.RESULTS) {
-    if (hasplayer) {
-      callResultsTrigger();
+    if (newgamestate == g_gameStates.ATTRACT) {
+      callAttractTrigger();
+    } else if (newgamestate == g_gameStates.WAITING) {
+      // callWaitingTrigger();
+    } else if (newgamestate == g_gameStates.GAMEPLAY) {
+      if(hasplayer){
+        callGameplayTrigger();
+      }
+    } else if (newgamestate == g_gameStates.RESULTS) {
+      if (hasplayer) {
+        callResultsTrigger();
+      }
     }
   }
 });

@@ -443,8 +443,9 @@ socket.on('game already running', function() {
 //-- END Player Connection Response
 
 //-- Game State UPDATE
-socket.on('update game state', function(_someGameState) {
-  console.log('Update Game State called - ' + _someGameState);
+socket.on('update game state', function(_someRoom) {
+  var newgamestate = _someRoom.state;
+  console.log('Update Game State called - ' + newgamestate);
 });
 //-- END
 
