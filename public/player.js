@@ -434,9 +434,14 @@ socket.on('you joined court', function(_data) {
 //     console.log('Player Can Join Court');
 //   }
 // });
+socket.on('you cant play', function(_data) {
+  var message = _data.message;
 
-socket.on('court not found', function() {
-    sendErrorMessage("Invalid Game Code");
+  sendErrorMessage(message);
+})
+
+socket.on('court not found', function(_data) {
+    sendErrorMessage(message);
 });
 socket.on('someone already playing', function() {
     sendErrorMessage("someone already playing");

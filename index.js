@@ -1635,9 +1635,14 @@ function onConnection(socket) {
       } else {
         //some sort of message should be sent to player
         console.log("Can't Join - " + availabilitycheck.message);
+        socket.emit('you cant play', availabilitycheck);
       }
     } else {
       console.log('Court - ' + _someCourt.name + ' not in room - ' + _someRoom.name);
+      var data = {
+        message: 'Court Not Found'
+      }
+      socket.emit('cant find court', data);
     }
   }
 
