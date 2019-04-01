@@ -397,7 +397,7 @@ function clearPlayersFromCourtInGameRoom(_someCourtName, _someRoom) {
 function startGameForRoom(_someRoom) {
   // _debugObject('Start Game For Room', _someRoom);
 
-  startGameplayClock(_someRoom);
+  setTimeout(startGameplayClock, (3 * 1000), _someRoom);
 
   var emitData = {
     room: _someRoom,

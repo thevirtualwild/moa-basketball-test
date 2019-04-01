@@ -2279,22 +2279,24 @@ socket.on('shot sent', function()
 
 socket.on('end all games', function(_someRoom)
 {
-  if (_someRoom.name == thisRoom) {
-    console.log('End all games in - ' + _someRoom.name);
-    showResults();
+  if (hasplayer) {
+    if (_someRoom.name == thisRoom) {
+      console.log('End all games in - ' + _someRoom.name);
+      showResults();
 
-    if(ISMASTER)
-    {
-        TweenMax.delayedCall(2,gameOver);
+      if(ISMASTER)
+      {
+          TweenMax.delayedCall(2,gameOver);
 
-        updateUI();
-        // TweenMax.delayedCall(3,updateUI);
+          updateUI();
+          // TweenMax.delayedCall(3,updateUI);
 
-        //DAVID: This should really be called at the end of results. Not sure exactly how or when
-        // TweenMax.delayedCall(initResultsTime + 2,roomReset);
+          //DAVID: This should really be called at the end of results. Not sure exactly how or when
+          // TweenMax.delayedCall(initResultsTime + 2,roomReset);
+      }
+    } else {
+      console.log('|another room| end all games called');
     }
-  } else {
-    console.log('|another room| end all games called');
   }
 });
 
