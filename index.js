@@ -3,8 +3,8 @@
 var g_roomStates = Object.freeze({"ATTRACT": 0, "WAITING": 1, "GAMEPLAY": 2, "RESULTS": 3});
 var g_roomStates = Object.freeze({"INACTIVE": 0, "WAITING": 1, "GAMEPLAY": 2});
 // config stuff
-var initWaitTime = 5;
-var initGameTime = 20;
+var initWaitTime = 15;
+var initGameTime = 60;
 var initResultsTime = 10;
 //- END Config stuff
 
